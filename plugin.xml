@@ -1,0 +1,12 @@
+<plugin name='fixtures' version='0.1'>
+  <author>Luke Daley</author>
+  <authorEmail>ld@ldaley.com</authorEmail>
+  <title>fixtures</title>
+  <description>fixtures
+</description>
+  <documentation>http://grails.org/Fixtures+Plugin</documentation>
+  <resources>
+    <resource>DataSource</resource>
+    <resource>UrlMappings</resource>
+  </resources>
+</plugin>
