@@ -8,7 +8,7 @@ import org.springframework.context.support.GenericApplicationContext
 class FixtureLoaderRuntimeSpringConfiguration extends DefaultRuntimeSpringConfiguration {
 
     public FixtureLoaderRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
-        super(parent, classLoader);
+        super(parent, classLoader)
     }
     
     protected GenericApplicationContext createApplicationContext(ApplicationContext parent) {

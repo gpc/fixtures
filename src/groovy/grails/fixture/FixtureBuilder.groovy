@@ -9,22 +9,22 @@ import org.codehaus.groovy.grails.commons.spring.DefaultRuntimeSpringConfigurati
 class FixtureBuilder extends BeanBuilder {
     
     public FixtureBuilder() {
-		super(null,null);
-	}
+        super(null,null)
+    }
     
     public FixtureBuilder(ClassLoader classLoader) {
-		super(null, classLoader);
-	}    
-	
-	public FixtureBuilder(ApplicationContext parent) {
-        super(parent, null);
-	}
-	
-	public FixtureBuilder(ApplicationContext parent,ClassLoader classLoader) {
-		super(parent,classLoader);
+        super(null, classLoader)
+    }
+    
+    public FixtureBuilder(ApplicationContext parent) {
+        super(parent, null)
+    }
+    
+    public FixtureBuilder(ApplicationContext parent,ClassLoader classLoader) {
+        super(parent,classLoader)
     }
     
     protected RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
-        return new FixtureLoaderRuntimeSpringConfiguration(parent, classLoader);
+        new FixtureLoaderRuntimeSpringConfiguration(parent, classLoader)
     }
 }
