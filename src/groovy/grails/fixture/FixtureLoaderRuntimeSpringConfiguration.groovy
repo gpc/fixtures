@@ -12,7 +12,7 @@ class FixtureLoaderRuntimeSpringConfiguration extends DefaultRuntimeSpringConfig
     }
     
     protected GenericApplicationContext createApplicationContext(ApplicationContext parent) {
-        def ctx = super(parent)
+        def ctx = super.createApplicationContext(parent)
         ctx.beanFactory.addBeanPostProcessor(
             [
                 postProcessBeforeInitialization: { Object bean, String beanName ->
