@@ -9,7 +9,7 @@ import org.codehaus.groovy.grails.commons.spring.DefaultRuntimeSpringConfigurati
 class FixtureBuilder extends BeanBuilder {
     
     public FixtureBuilder() {
-        super(null,null)
+        super(null, null)
     }
     
     public FixtureBuilder(ClassLoader classLoader) {
@@ -21,7 +21,7 @@ class FixtureBuilder extends BeanBuilder {
     }
     
     public FixtureBuilder(ApplicationContext parent,ClassLoader classLoader) {
-        super(parent,classLoader)
+        super(parent, classLoader)
     }
     
     protected RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
