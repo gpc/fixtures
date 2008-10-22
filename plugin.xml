@@ -5,8 +5,5 @@
   <description>fixtures
 </description>
   <documentation>http://grails.org/Fixtures+Plugin</documentation>
-  <resources>
-    <resource>DataSource</resource>
-    <resource>UrlMappings</resource>
-  </resources>
+  <resources />
 </plugin>
