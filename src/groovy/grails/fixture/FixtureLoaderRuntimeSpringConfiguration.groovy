@@ -27,6 +27,7 @@ class FixtureLoaderRuntimeSpringConfiguration extends DefaultRuntimeSpringConfig
                     if (!bean.save(flush: true)) {
                         throw new Error("failed to save fixture bean '$beanName'")
                     }
+                    bean
                 },
             ] as BeanPostProcessor
         )
