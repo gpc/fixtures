@@ -1,9 +1,9 @@
-<plugin name='fixtures' version='0.4'>
+<plugin name='fixtures' version='0.5' grailsVersion='1.1-RC1 &gt; *'>
   <author>Luke Daley</author>
   <authorEmail>ld@ldaley.com</authorEmail>
   <title>fixtures</title>
-  <description>fixtures
-</description>
+  <description>Allows loading of data sets defined with the BeanBuilder DSL</description>
   <documentation>http://grails.org/Fixtures+Plugin</documentation>
   <resources />
+  <dependencies />
 </plugin>
