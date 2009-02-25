@@ -24,4 +24,8 @@ class FixtureLoader implements ApplicationContextAware {
         bb.beans(beans)
         bb.createApplicationContext()
     }
+    
+    def getProperty(name) {
+        applicationContext.getProperty(name) ?: super.getProperty(name)
+    }
 }
