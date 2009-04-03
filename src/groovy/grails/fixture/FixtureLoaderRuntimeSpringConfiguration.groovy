@@ -13,7 +13,7 @@ class FixtureLoaderRuntimeSpringConfiguration extends DefaultRuntimeSpringConfig
     
     protected GenericApplicationContext createApplicationContext(ApplicationContext parent) {
         def ctx = super.createApplicationContext(parent)
-        def messageSource = parent.getBean("messageSource")
+        def messageSource = parent?.getBean("messageSource")
         ctx.beanFactory.addBeanPostProcessor(
             [
                 postProcessBeforeInitialization: { Object bean, String beanName ->
@@ -21,7 +21,7 @@ class FixtureLoaderRuntimeSpringConfiguration extends DefaultRuntimeSpringConfig
                 },
                 postProcessAfterInitialization: { Object bean, String beanName ->
                     if (!bean.validate()) {
-                        def errorcodes = bean.errors.allErrors.collect { "'${messageSource.getMessage(it, null)}'" }
+                        def errorcodes = bean.errors.allErrors.collect { "'${messageSource?.getMessage(it, null)}'" }
                         throw new IllegalStateException("fixture bean '$beanName' has errors: ${errorcodes.join(', ')}")
                     }
                     if (!bean.save(flush: true)) {
