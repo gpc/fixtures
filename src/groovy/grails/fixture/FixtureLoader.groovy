@@ -7,7 +7,7 @@ class FixtureLoader implements ApplicationContextAware {
     ApplicationContext applicationContext
 
     def createBuilder() {
-        new FixtureBuilder(applicationContext, classLoader)
+        new FixtureBuilder(applicationContext)
     }
 
     void load(String[] fixtures) {
