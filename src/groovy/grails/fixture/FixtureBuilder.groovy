@@ -2,9 +2,7 @@ package grails.fixture
 
 import grails.spring.BeanBuilder
 import org.springframework.context.ApplicationContext
-import org.codehaus.groovy.grails.commons.spring.GrailsApplicationContext
 import org.codehaus.groovy.grails.commons.spring.RuntimeSpringConfiguration
-import org.codehaus.groovy.grails.commons.spring.DefaultRuntimeSpringConfiguration
 
 class FixtureBuilder extends BeanBuilder {
     
@@ -13,11 +11,11 @@ class FixtureBuilder extends BeanBuilder {
     }
     
     public FixtureBuilder(ClassLoader classLoader) {
-        super(null, classLoader)
+        super(classLoader)
     }
     
     public FixtureBuilder(ApplicationContext parent) {
-        super(parent, null)
+        super(parent)
     }
     
     public FixtureBuilder(ApplicationContext parent,ClassLoader classLoader) {
