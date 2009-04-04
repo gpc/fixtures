@@ -4,10 +4,12 @@ import org.springframework.context.ApplicationContext
 
 class FixtureLoader implements ApplicationContextAware {
 
+    def classLoader
     ApplicationContext applicationContext
 
     def createBuilder() {
-        new FixtureBuilder(applicationContext)
+
+		new FixtureBuilder(applicationContext, classLoader)
     }
 
     void load(String[] fixtures) {
