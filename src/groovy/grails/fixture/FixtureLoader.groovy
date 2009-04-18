@@ -8,25 +8,20 @@ class FixtureLoader implements ApplicationContextAware {
     ApplicationContext applicationContext
 
     def createBuilder() {
-
-		new FixtureBuilder(applicationContext, classLoader)
+        new FixtureBuilder(applicationContext, classLoader)
     }
 
-    void load(String[] fixtures) {
+    def load(String[] fixtures) {
         def bb = createBuilder()
         fixtures.each {
             bb.loadBeans("file:fixtures/${it}.groovy")
         }
-        applicationContext = bb.createApplicationContext()
+        new Fixture(applicationContext: bb.createApplicationContext())
     }
 
-    void load(Closure beans) {
+    def load(Closure beans) {
         def bb = createBuilder()
         bb.beans(beans)
-        applicationContext = bb.createApplicationContext()
-    }
-
-    def getProperty(name) {
-        applicationContext.getProperty(name) ?: super.getProperty(name)
+        new Fixture(applicationContext: bb.createApplicationContext())
     }
 }
