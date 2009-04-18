@@ -1,0 +1,107 @@
+<project name="grails-fixtures" default="build">
+
+	<property environment="env"/>
+
+	<property file="application.properties" />
+	<property name="build" value="out/production/Grails-fixtures" />
+	<property name="test" value="out/test/Grails-fixtures" />
+	<property name="src.groovy" value="src/groovy/" />
+	<property name="src.test" value="test/unit/groovy/" />
+
+	<condition property="grails.home" value="${env.GRAILS_HOME}">
+		<isset property="env.GRAILS_HOME" />
+	</condition>
+	<property name="grails.home" value="${user.home}/.grails" />
+
+	<path id="classpath">
+		<fileset dir="${grails.home}/lib" includes="*.jar"/>
+		<fileset dir="${grails.home}/dist" includes="*.jar"/>
+	</path>
+
+	<target name="package" depends="docs" description="create a distribution package">
+		<jar basedir="./"
+			destfile="grails-fixtures-${app.version}.zip"
+			includes="application.properties,plugin.xml,*.groovy,docs/**/*.*, src/**/*.groovy, scripts/*.groovy"
+			excludes="*.zip,build.xml,"
+        />
+	</target>
+
+	<target name="clean" description="Clean up build artifacts">
+		<delete dir="${build}"/>
+		<delete dir="${test}"/>
+	</target>
+
+	<!-- compile the groovy classes of the fixtures plugin -->
+	<target name="build" depends="clean" description="Compile the code">
+
+		<mkdir dir="${build}"/>
+		<mkdir dir="${test}"/>
+		<!--
+        <copy todir="${build}"  preservelastmodified="true">
+            <fileset dir="resources" />
+        </copy>
+        -->
+
+	    <taskdef name="groovyc"  classname="org.codehaus.groovy.ant.Groovyc">
+	        <classpath>
+				<path refid="classpath" />
+	        </classpath>
+	     </taskdef>
+        <groovyc srcdir="${src.groovy}" destdir="${build}">
+			<classpath>
+				<path refid="classpath" />
+			</classpath>
+        </groovyc>
+
+        <jar basedir="${build}" destfile="out/grails-fixtures.jar" />
+	</target>
+
+	<!-- run the groovy test cases -->
+	<target name="test" depends="build" description="Run the test code">
+		<taskdef name="groovyc"  classname="org.codehaus.groovy.ant.Groovyc">
+			<classpath>
+				<path refid="classpath" />
+			</classpath>
+		</taskdef>
+		<groovyc srcdir="${src.test}" destdir="${test}">
+			<classpath>
+				<path refid="classpath" />
+				<fileset dir="out"><include name="grails-fixtures.jar"/></fileset>
+			</classpath>
+		</groovyc>
+
+		<junit printsummary="true" showoutput="true" fork="true">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement location="${test}"/>
+				<fileset dir="out"><include name="grails-fixtures.jar"/></fileset>
+			</classpath>
+			<formatter type="xml"/>
+			<batchtest todir="./">
+				<fileset dir="${test}">
+					<include name="**/*Tests.class"/>
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="docs" depends="build" description="generate groovydocs">
+		<taskdef name="Groovydoc" classname="org.codehaus.groovy.ant.Groovydoc">
+			<classpath>
+				<path refid="classpath" />
+				<path path="${src.groovy}"/>
+				<path path="${build}"/>
+			</classpath>
+		</taskdef>
+
+		<delete dir="docs"/>
+		<mkdir dir="docs"/>
+		<Groovydoc
+			destdir="docs/gapi"
+			sourcepath="${src.groovy}"
+			packagenames="**.*" use="true"
+			windowtitle="Groovydoc" private="false"/>
+
+	</target>
+
+</project>

@@ -3,29 +3,37 @@ import org.springframework.context.ApplicationContextAware
 import org.springframework.context.ApplicationContext
 
 class FixtureLoader implements ApplicationContextAware {
-    
+
     def classLoader
     ApplicationContext applicationContext
-    
+
     def createBuilder() {
         new FixtureBuilder(applicationContext, classLoader)
     }
-    
-    void load(String[] fixtures) {
+
+    def load(String[] fixtures) {
         def bb = createBuilder()
-        fixtures.each {
-            bb.loadBeans("file:fixtures/${it}.groovy")
+        def binding = new Binding()
+        binding.setVariable("fixture") {
+            bb.beans(it)
         }
-        bb.createApplicationContext()
+        def shell = new GroovyShell(classLoader, binding)
+        
+        fixtures.each {
+            def fixture = new File("fixtures/${it}.groovy")
+            if (fixture.exists()) {
+                shell.evaluate(fixture)
+            } else {
+                throw new UnknownFixtureException(it)
+            }
+        }
+        
+        new Fixture(applicationContext: bb.createApplicationContext())
     }
-    
-    void load(Closure beans) {
+
+    def load(Closure beans) {
         def bb = createBuilder()
         bb.beans(beans)
-        bb.createApplicationContext()
-    }
-    
-    def getProperty(name) {
-        applicationContext.getProperty(name) ?: super.getProperty(name)
+        new Fixture(applicationContext: bb.createApplicationContext())
     }
 }
