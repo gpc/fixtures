@@ -13,9 +13,21 @@ class FixtureLoader implements ApplicationContextAware {
 
     def load(String[] fixtures) {
         def bb = createBuilder()
-        fixtures.each {
-            bb.loadBeans("file:fixtures/${it}.groovy")
+        def binding = new Binding()
+        binding.setVariable("fixture") {
+            bb.beans(it)
         }
+        def shell = new GroovyShell(classLoader, binding)
+        
+        fixtures.each {
+            def fixture = new File("fixtures/${it}.groovy")
+            if (fixture.exists()) {
+                shell.evaluate(fixture)
+            } else {
+                throw new UnknownFixtureException(it)
+            }
+        }
+        
         new Fixture(applicationContext: bb.createApplicationContext())
     }
 

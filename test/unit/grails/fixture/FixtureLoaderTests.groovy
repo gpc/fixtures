@@ -18,13 +18,22 @@ class FixtureLoaderTests extends GroovyTestCase  {
         testFixture << """
         
 package grails.fixture
-
-beans {
-    simpleAuthor(Author)
-}        
+fixture {
+    guillaume(Author) {
+        name = "Guillaume Laforge"
+        firstBook = ref("gina")
+    }
+    dierk(Author) {
+        name = "Dierk Koenig"
+    }
+    gina(Book) {
+        name = "Groovy In Action"
+        authors = [guillaume, dierk]
+    }
+}
 """
         def fixture = fixtureLoader.load("testFixture")
-        assertNotNull(fixture.simpleAuthor)
+        assertNotNull(fixture.guillaume)
         
         // clean up
         testFixture.delete()
@@ -32,11 +41,11 @@ beans {
     }
 
     void testLoadNonExistantFile() {
-        shouldFail(org.springframework.beans.factory.parsing.BeanDefinitionParsingException) {
+        shouldFail(UnknownFixtureException) {
             fixtureLoader.load("nonexistant")
         }
     }
-    
+
     void testLoadFromClosure() {
         def fixture = fixtureLoader.load {
             guillaume(Author) {
