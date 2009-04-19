@@ -1,14 +1,17 @@
 package grails.fixture
 import org.springframework.context.ApplicationContextAware
 import org.springframework.context.ApplicationContext
+import org.apache.commons.lang.StringUtils
+import grails.spring.BeanBuilder
 
 class FixtureLoader implements ApplicationContextAware {
 
     def classLoader
+    def grailsApplication
     ApplicationContext applicationContext
 
     def createBuilder() {
-        new FixtureBuilder(applicationContext, classLoader)
+        new BeanBuilder(applicationContext, classLoader)
     }
 
     def load(String[] fixtures) {
@@ -28,12 +31,12 @@ class FixtureLoader implements ApplicationContextAware {
             }
         }
         
-        new Fixture(applicationContext: bb.createApplicationContext())
+        new Fixture(bb.createApplicationContext())
     }
 
-    def load(Closure beans) {
+    def load(Closure fixture) {
         def bb = createBuilder()
         bb.beans(beans)
-        new Fixture(applicationContext: bb.createApplicationContext())
+        new Fixture(bb.createApplicationContext())
     }
 }
