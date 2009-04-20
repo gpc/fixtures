@@ -1,4 +1,4 @@
-<plugin name='fixtures' version='0.7-RC2' grailsVersion='1.1 &gt; *'>
+<plugin name='fixtures' version='0.7-RC3' grailsVersion='1.1 &gt; *'>
   <author>Luke Daley</author>
   <authorEmail>ld@ldaley.com</authorEmail>
   <title>fixtures</title>
