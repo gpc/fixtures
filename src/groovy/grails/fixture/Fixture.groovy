@@ -1,68 +1,50 @@
 package grails.fixture
 
-import org.apache.commons.collections.map.IdentityMap
-import org.springframework.context.ApplicationContext
-import org.springframework.beans.factory.NoSuchBeanDefinitionException
-import org.apache.commons.lang.StringUtils
-
 class Fixture {
 
-    def applicationContext
-    def messageSource
-    def grailsApplication
-    def beans = [:]
+    private applicationContext
+    private shell
     
     Fixture(applicationContext) {
         this.applicationContext = applicationContext
-        grailsApplication = applicationContext.parent.getBean("grailsApplication")
-        messageSource = applicationContext.parent.getBean("messageSource")
-        applicationContext.beanDefinitionNames.each {
-            beans[it] = applicationContext.getBean(it)
+        
+        def binding = new Binding()
+        binding.setVariable("fixture") {
+            load(it)
         }
-        save()
+        
+        this.shell = new GroovyShell(this.class.classLoader, binding)
     }
     
-    private save() {
-        def beansToSave = beans.clone()
-        
-        // Method to remove from the map by value
-        def removeValue = { map, value ->
-            map.find { k,v ->
-                if (value.is(v)) {
-                    map.remove(k)
-                    true
-                } else {
-                    false
-                }
-            }
+    def load(String[] fixtures) {
+        fixtures.each {
+            load(it)
         }
-        
-        beans.each { name, bean ->
-            def domainClass = grailsApplication.getDomainClass(bean.class.name)
-            domainClass.persistentProperties.each { p ->
-                if (p.association && p.owningSide) {
-                    def value = bean."${p.name}"
-                    if (value instanceof Set) {
-                        bean."${p.name}" = []
-                        value.each {
-                            removeValue(beansToSave, it)
-                            bean."addTo${StringUtils.capitalize(p.name)}"(it)
-                        }
-                    } else {
-                        removeValue(beansToSave, value)
-                    }
-                }
-            }
+        this
+    }
+    
+    def load(String fixture) {
+        def file = new File("fixtures/${fixture}.groovy")
+        if (file.exists()) {
+            shell.evaluate(file)
+        } else {
+            throw new UnknownFixtureException(it)
         }
-        
-        beansToSave.each { name, bean ->
-            if (!bean.validate()) {
-                def errorcodes = bean.errors.allErrors.collect { "'${messageSource?.getMessage(it, null)}'" }
-                throw new IllegalStateException("fixture bean '$name' has errors: ${errorcodes.join(', ')}")
-            }
-            if (!bean.save(flush: true)) {
-                throw new Error("failed to save fixture bean '$name'")
-            }                        
+        this
+    }
+    
+    def load(Closure fixture) {
+        fixtureBuilder = new FixtureBuilder(applicationContext, this.class.classLoader)
+        fixtureBuilder.beans(fixture)
+        this.applicationContext = fixtureBuilder.createApplicationContext()
+        this
+    }
+    
+    def propertyMissing(name) {
+        if (applicationContext.containsBean(name)) {
+            applicationContext.getBean(name)
+        } else {
+            super.getProperty(name)
         }
     }
 

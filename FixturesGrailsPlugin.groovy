@@ -1,7 +1,7 @@
 import grails.fixture.FixtureLoader
 
 class FixturesGrailsPlugin {
-    def version = "0.7-RC1"
+    def version = "0.7-RC2"
     def dependsOn = [:]
 
     def author = "Luke Daley"
@@ -11,9 +11,6 @@ class FixturesGrailsPlugin {
     def documentation = "http://grails.org/Fixtures+Plugin"
 
     def doWithSpring = {
-        fixtureLoader(FixtureLoader) {
-            classLoader = classLoader
-            grailsApplication = ref("grailsApplication")
-        }
+        fixtureLoader(FixtureLoader)
     }
 }
