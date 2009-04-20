@@ -34,7 +34,7 @@ class Fixture {
     }
     
     def load(Closure fixture) {
-        fixtureBuilder = new FixtureBuilder(applicationContext, this.class.classLoader)
+        def fixtureBuilder = new FixtureBuilder(applicationContext, this.class.classLoader)
         fixtureBuilder.beans(fixture)
         this.applicationContext = fixtureBuilder.createApplicationContext()
         this
