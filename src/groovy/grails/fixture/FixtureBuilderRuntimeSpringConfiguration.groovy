@@ -39,12 +39,13 @@ class FixtureBuilderRuntimeSpringConfiguration extends DefaultRuntimeSpringConfi
                                         bean."addTo${StringUtils.capitalize(p.name)}"(it)
                                     }
                                 }
-                            } else if (p.oneToOne) {
+                            } else if (p.bidirectional && p.oneToOne) {
                                 shouldSave = false
                             }
                         } 
                     }
                     
+                    println "will save $beanName: $shouldSave"
                     if (shouldSave) {
                         if (!bean.validate()) {
                             def errorcodes = bean.errors.allErrors.collect { "'${messageSource?.getMessage(it, null)}'" }
