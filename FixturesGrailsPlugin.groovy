@@ -1,7 +1,7 @@
 import grails.fixture.FixtureLoader
 
 class FixturesGrailsPlugin {
-    def version = "0.7-RC3"
+    def version = "0.7"
     def dependsOn = [:]
 
     def author = "Luke Daley"
@@ -9,6 +9,11 @@ class FixturesGrailsPlugin {
     def title = "fixtures"
     def description = "Allows loading of data sets defined with the BeanBuilder DSL"
     def documentation = "http://grails.org/Fixtures+Plugin"
+    def pluginExcludes = [
+        "grails-app/domain/*",
+        "grails-app/i18n/*",
+        "fixtures"
+    ]
 
     def doWithSpring = {
         fixtureLoader(FixtureLoader)
