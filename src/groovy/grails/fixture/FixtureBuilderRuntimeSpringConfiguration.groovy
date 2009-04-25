@@ -49,11 +49,11 @@ class FixtureBuilderRuntimeSpringConfiguration extends DefaultRuntimeSpringConfi
                     if (shouldSave) {
                         if (!bean.validate()) {
                             def errorcodes = bean.errors.allErrors.collect { "'${messageSource?.getMessage(it, null)}'" }
-                            throw new IllegalStateException("fixture bean '$beanName' has errors: ${errorcodes.join(', ')}")
+                            throw new FixtureException("fixture bean '$beanName' has errors: ${errorcodes.join(', ')}")
                         }
                         if (!bean.save(flush: true)) {
                             println "saving $name"
-                            throw new Error("failed to save fixture bean '$beanName'")
+                            throw new FixtureException("failed to save fixture bean '$beanName'")
                         }
                     }
                     bean
