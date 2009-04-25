@@ -4,6 +4,12 @@
   <title>fixtures</title>
   <description>Allows loading of data sets defined with the BeanBuilder DSL</description>
   <documentation>http://grails.org/Fixtures+Plugin</documentation>
-  <resources />
+  <resources>
+    <resource>DataSource</resource>
+    <resource>Child</resource>
+    <resource>Grandparent</resource>
+    <resource>Parent</resource>
+    <resource>Uncle</resource>
+  </resources>
   <dependencies />
 </plugin>
