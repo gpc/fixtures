@@ -1,23 +1,10 @@
 package grails.fixture
 
-import grails.spring.BeanBuilder
 import org.springframework.context.ApplicationContext
 import org.codehaus.groovy.grails.commons.spring.RuntimeSpringConfiguration
 import org.springframework.beans.factory.config.RuntimeBeanReference
 
-class FixtureBuilder extends BeanBuilder {
-    
-    public FixtureBuilder() {
-        super(null, null)
-    }
-    
-    public FixtureBuilder(ClassLoader classLoader) {
-        super(classLoader)
-    }
-    
-    public FixtureBuilder(ApplicationContext parent) {
-        super(parent)
-    }
+class FixtureBuilder extends AbstractFixtureBuilder {
     
     public FixtureBuilder(ApplicationContext parent,ClassLoader classLoader) {
         super(parent, classLoader)
@@ -38,14 +25,5 @@ class FixtureBuilder extends BeanBuilder {
             }
         }
         ctx
-    }
-    
-    public getProperty(String name) {
-        def parentCtx = getParentCtx()
-        if (parentCtx.containsBean(name)) {
-            new RuntimeBeanReference(name, true)
-        } else {
-            super.getProperty(name)
-        }
-    }
+    } 
 }
