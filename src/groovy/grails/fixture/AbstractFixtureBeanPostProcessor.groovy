@@ -29,7 +29,7 @@ abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
                             bean."addTo${MetaClassHelper.capitalize(p.name)}"(it)
                         }
                     }
-                } else if (p.bidirectional && p.oneToOne) {
+                } else if (p.bidirectional && (p.oneToOne || p.manyToOne)) {
                     shouldSave = false
                 }
             } 
