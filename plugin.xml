@@ -7,6 +7,8 @@
   <resources>
     <resource>DataSource</resource>
     <resource>Child</resource>
+    <resource>com.book.Author</resource>
+    <resource>com.book.Book</resource>
     <resource>Comment</resource>
     <resource>Grandparent</resource>
     <resource>Parent</resource>
