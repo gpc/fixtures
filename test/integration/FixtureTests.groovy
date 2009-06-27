@@ -15,6 +15,10 @@ class FixtureTests extends GroovyTestCase {
         }
     }
     
+    void testLoadPartial() {
+        fixtureLoader.load("books/grisham", "authors/grisham")
+    }
+    
     void testGetObjectsFromFixture() {
         def f = fixtureLoader.load {
             u3(Uncle, name: "u3")
