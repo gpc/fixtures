@@ -10,7 +10,7 @@ class FixtureBuilder extends AbstractFixtureBuilder {
         super(parent, classLoader)
     }
     
-    protected RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
+    public RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
         new FixtureBuilderRuntimeSpringConfiguration(parent, classLoader)
     }
     
