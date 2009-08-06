@@ -19,7 +19,7 @@ abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
         def shouldSave = true
 
         def domainClass = getDomainClass(bean.class)
-        domainClass.persistentProperties.each { p ->
+        domainClass?.persistentProperties?.each { p ->
             if (p.association && p.referencedDomainClass != null) {
                 if (p.owningSide) {
                     def value = bean."${p.name}"
@@ -35,7 +35,7 @@ abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
             } 
         }
 
-        if (shouldSave) {
+        if (domainClass && shouldSave) {
             if (!bean.validate()) {
                 def errorcodes = bean.errors.allErrors.collect { getErrorMessage(it) }
                 throw new FixtureException("fixture bean '$beanName' has errors: ${errorcodes.join(', ')}")

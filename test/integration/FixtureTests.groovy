@@ -48,4 +48,13 @@ class FixtureTests extends GroovyTestCase {
         assertEquals(2, f.c2.parents.size())
         assertNotNull(f.p1.parents.find { it.is(f.gp1) })
     }
+
+	void testAutowiring() {
+		def f = fixtureLoader.load {
+            partner(String, "value")
+            am(AutowireMe)
+        }
+        assertNotNull(f.am)
+        assertEquals(f.am.partner, "value")
+	}
 }

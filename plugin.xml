@@ -6,6 +6,7 @@
   <documentation>http://grails.org/Fixtures+Plugin</documentation>
   <resources>
     <resource>DataSource</resource>
+    <resource>AutowireMe</resource>
     <resource>Child</resource>
     <resource>com.book.Author</resource>
     <resource>com.book.Book</resource>

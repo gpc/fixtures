@@ -16,9 +16,12 @@ class FixtureBuilder extends AbstractFixtureBuilder {
     
     public ApplicationContext createApplicationContext() {
         def ctx = super.createApplicationContext()
+		def grailsApplication = ctx.getBean("grailsApplication")
         ctx.beanDefinitionNames.each {
             try {
-                ctx.getBean(it).refresh()
+                def bean = ctx.getBean(it)
+                if (grailsApplication.isDomainClass(bean.class))
+                    bean.refresh()
             }
             catch(Exception e) {
                 throw new FixtureException("Error refresh()ing bean '$it'", e)
