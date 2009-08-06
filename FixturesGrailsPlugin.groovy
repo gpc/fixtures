@@ -10,7 +10,7 @@ class FixturesGrailsPlugin {
     def description = "Allows loading of data sets defined with the BeanBuilder DSL"
     def documentation = "http://grails.org/Fixtures+Plugin"
     def pluginExcludes = [
-        "grails-app/domain/*",
+        "grails-app/domain/**",
         "grails-app/i18n/*",
         "fixtures"
     ]
