@@ -16,23 +16,27 @@ abstract class AbstractFixture {
         this.shell = new GroovyShell(this.class.classLoader, binding)
     }
     
-    def load(String[] fixtures) {
+    def load(String[] locationPatterns) {
         preLoad()
-        fixtures.each {
+        locationPatterns.each {
             load(it, true)
         }
         postLoad()
         this
     }
     
-    def load(String fixture, merging = false) {
-        def file = new File("fixtures/${fixture}.groovy")
-        if (file.exists()) {
-            if (!merging) preLoad() 
-            shell.evaluate(file)
-            if (!merging) postLoad()
+    abstract resolveLocationPattern(String locationPattern)
+    
+    def load(String locationPattern, merging = false) {
+        def resources = resolveLocationPattern(locationPattern)
+        if (resources) {
+            resources.each {
+                if (!merging) preLoad() 
+                shell.evaluate(it.inputStream)
+                if (!merging) postLoad()
+            }
         } else {
-            throw new UnknownFixtureException(it)
+            throw new UnknownFixtureException(fixture)
         }
         this
     }

@@ -11,4 +11,7 @@ class Fixture extends AbstractFixture {
         new FixtureBuilder(applicationContext, this.class.classLoader)
     }
 
+    def resolveLocationPattern(String locationPattern) {
+        applicationContext.getResources("file:fixtures/${locationPattern}.groovy")
+    }
 }

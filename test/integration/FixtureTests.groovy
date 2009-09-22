@@ -2,6 +2,12 @@ class FixtureTests extends GroovyTestCase {
     
     def fixtureLoader
 
+    void testPostProcess() {
+        fixtureLoader.load("postProcess").with {
+            assertEquals("changed", u.name)
+        }
+    }
+    
     void testLoadFixtureFiles() {
         fixtureLoader.load("testFixture1", "testFixture2")
     }
@@ -16,7 +22,7 @@ class FixtureTests extends GroovyTestCase {
     }
     
     void testLoadPartial() {
-        fixtureLoader.load("books/grisham", "authors/grisham")
+        fixtureLoader.load("books/*", "authors/*")
     }
     
     void testGetObjectsFromFixture() {
