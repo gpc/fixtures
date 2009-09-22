@@ -5,7 +5,9 @@ import org.codehaus.groovy.runtime.MetaClassHelper
 
 abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
     
-    def parentCtx
+	static log = org.slf4j.LoggerFactory.getLogger(AbstractFixtureBeanPostProcessor)    
+
+	def parentCtx
     
     abstract getDomainClass(clazz) 
     
@@ -17,20 +19,33 @@ abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
     
     def postProcessBeforeInitialization(Object bean, String beanName) {
         def shouldSave = true
-
+        log.debug("processing bean $beanName of type ${bean.class.name}")
+        
         def domainClass = getDomainClass(bean.class)
+        log.debug("domainClass: $domainClass")
+        
         domainClass?.persistentProperties?.each { p ->
+            log.debug("inpecting property $p")
+    
             if (p.association && p.referencedDomainClass != null) {
+                log.debug("is a domain association")
                 if (p.owningSide) {
+                    log.debug("is owning side")
                     def value = bean."${p.name}"
                     if (value instanceof Collection) {
+                        log.debug("is a collection")
                         bean."${p.name}" = []
                         value.each {
                             bean."addTo${MetaClassHelper.capitalize(p.name)}"(it)
                         }
                     }
-                } else if (p.bidirectional && (p.oneToOne || p.manyToOne)) {
-                    shouldSave = false
+                } else {
+                    log.debug("is NOT owning side")
+                    log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}")
+                    if (p.bidirectional && (p.oneToOne || p.manyToOne)) {
+                        log.info("not saving fixture bean $beanName")
+                        shouldSave = false
+                    }
                 }
             } 
         }
