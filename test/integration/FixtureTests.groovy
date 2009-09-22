@@ -2,6 +2,12 @@ class FixtureTests extends GroovyTestCase {
     
     def fixtureLoader
 
+    void testPostProcess() {
+        fixtureLoader.load("postProcess").with {
+            assertEquals("changed", u.name)
+        }
+    }
+    
     void testLoadFixtureFiles() {
         fixtureLoader.load("testFixture1", "testFixture2")
     }
@@ -16,7 +22,16 @@ class FixtureTests extends GroovyTestCase {
     }
     
     void testLoadPartial() {
-        fixtureLoader.load("books/grisham", "authors/grisham")
+        fixtureLoader.load("books/*", "authors/*")
+    }
+    
+    void testLoadUnknownFixtures() {
+        ["books", "xxx*"].each { pattern ->
+            shouldFail(grails.fixture.UnknownFixtureException) {
+                fixtureLoader.load(pattern)
+            }
+        }
+        
     }
     
     void testGetObjectsFromFixture() {
@@ -48,4 +63,13 @@ class FixtureTests extends GroovyTestCase {
         assertEquals(2, f.c2.parents.size())
         assertNotNull(f.p1.parents.find { it.is(f.gp1) })
     }
+
+	void testAutowiring() {
+		def f = fixtureLoader.load {
+            partner(String, "value")
+            am(AutowireMe)
+        }
+        assertNotNull(f.am)
+        assertEquals(f.am.partner, "value")
+	}
 }

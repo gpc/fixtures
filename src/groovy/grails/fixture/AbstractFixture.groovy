@@ -7,32 +7,40 @@ abstract class AbstractFixture {
     protected fixtureBuilder
     protected merge
     
+    protected postProcessors = []
+    
     AbstractFixture() {
         def binding = new Binding()
-        binding.setVariable("fixture") {
-            fixture(it)
-        }
-        
+        binding.setVariable("fixture", this.&fixture)
+        binding.setVariable("postProcess", this.&postProcess)
         this.shell = new GroovyShell(this.class.classLoader, binding)
     }
     
-    def load(String[] fixtures) {
+    def load(String[] locationPatterns) {
         preLoad()
-        fixtures.each {
+        locationPatterns.each {
             load(it, true)
         }
         postLoad()
         this
     }
     
-    def load(String fixture, merging = false) {
-        def file = new File("fixtures/${fixture}.groovy")
-        if (file.exists()) {
-            if (!merging) preLoad() 
-            shell.evaluate(file)
-            if (!merging) postLoad()
+    abstract resolveLocationPattern(String locationPattern)
+    
+    def load(String locationPattern, merging = false) {
+        def resources = resolveLocationPattern(locationPattern)
+        if (resources) {
+            resources.each {
+                if (it.exists()) {
+                    if (!merging) preLoad() 
+                    shell.evaluate(it.inputStream)
+                    if (!merging) postLoad()
+                } else {
+                    throw new UnknownFixtureException(locationPattern)
+                }
+            }
         } else {
-            throw new UnknownFixtureException(it)
+            throw new UnknownFixtureException(locationPattern)
         }
         this
     }
@@ -43,6 +51,14 @@ abstract class AbstractFixture {
     
     protected postLoad() {
         applicationContext = fixtureBuilder.createApplicationContext()
+        if (postProcessors) {
+            def d = new FixturePostProcessorDelegate(applicationContext)
+            postProcessors.each { 
+                it.delegate = d
+                it()
+            }
+            postProcessors.clear()
+        }
     }
     
     def load(Closure f) {
@@ -54,6 +70,10 @@ abstract class AbstractFixture {
     
     def fixture(Closure fixture) {
         fixtureBuilder.beans(fixture)
+    }
+    
+    def postProcess(Closure postProcess) {
+        postProcessors << postProcess.clone()
     }
     
     def propertyMissing(name) {

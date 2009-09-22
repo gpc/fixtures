@@ -10,15 +10,18 @@ class FixtureBuilder extends AbstractFixtureBuilder {
         super(parent, classLoader)
     }
     
-    protected RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
+    public RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
         new FixtureBuilderRuntimeSpringConfiguration(parent, classLoader)
     }
     
     public ApplicationContext createApplicationContext() {
         def ctx = super.createApplicationContext()
+		def grailsApplication = ctx.getBean("grailsApplication")
         ctx.beanDefinitionNames.each {
             try {
-                ctx.getBean(it).refresh()
+                def bean = ctx.getBean(it)
+                if (grailsApplication.isDomainClass(bean.class))
+                    bean.refresh()
             }
             catch(Exception e) {
                 throw new FixtureException("Error refresh()ing bean '$it'", e)

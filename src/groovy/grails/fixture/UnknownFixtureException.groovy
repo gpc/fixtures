@@ -3,7 +3,11 @@ package grails.fixture
 class UnknownFixtureException extends Exception {
 
     UnknownFixtureException(name) {
-        super("could not find fixture with name '${name}'" as String)
+        this(name, null)
     }
 
+    UnknownFixtureException(name, Throwable cause) {
+        super("could not load fixtures from pattern '${name}'" as String, cause)
+    }
+    
 }
