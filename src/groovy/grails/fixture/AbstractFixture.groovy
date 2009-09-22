@@ -9,9 +9,7 @@ abstract class AbstractFixture {
     
     AbstractFixture() {
         def binding = new Binding()
-        binding.setVariable("fixture") {
-            fixture(it)
-        }
+        binding.setVariable("fixture", this.&fixture)
         
         this.shell = new GroovyShell(this.class.classLoader, binding)
     }
