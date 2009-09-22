@@ -25,6 +25,15 @@ class FixtureTests extends GroovyTestCase {
         fixtureLoader.load("books/*", "authors/*")
     }
     
+    void testLoadUnknownFixtures() {
+        ["books", "xxx*"].each { pattern ->
+            shouldFail(grails.fixture.UnknownFixtureException) {
+                fixtureLoader.load(pattern)
+            }
+        }
+        
+    }
+    
     void testGetObjectsFromFixture() {
         def f = fixtureLoader.load {
             u3(Uncle, name: "u3")

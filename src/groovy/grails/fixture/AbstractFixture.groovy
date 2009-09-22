@@ -31,12 +31,16 @@ abstract class AbstractFixture {
         def resources = resolveLocationPattern(locationPattern)
         if (resources) {
             resources.each {
-                if (!merging) preLoad() 
-                shell.evaluate(it.inputStream)
-                if (!merging) postLoad()
+                if (it.exists()) {
+                    if (!merging) preLoad() 
+                    shell.evaluate(it.inputStream)
+                    if (!merging) postLoad()
+                } else {
+                    throw new UnknownFixtureException(locationPattern)
+                }
             }
         } else {
-            throw new UnknownFixtureException(fixture)
+            throw new UnknownFixtureException(locationPattern)
         }
         this
     }
