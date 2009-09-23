@@ -72,4 +72,10 @@ class FixtureTests extends GroovyTestCase {
         assertNotNull(f.am)
         assertEquals(f.am.partner, "value")
 	}
+	
+	void testIncludes() {
+	   fixtureLoader.load("includeTest").with {
+	       assertNotNull(u1)
+	   }
+	}
 }

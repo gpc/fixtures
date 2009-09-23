@@ -11,8 +11,11 @@ abstract class AbstractFixture {
     
     AbstractFixture() {
         def binding = new Binding()
+        
         binding.setVariable("fixture", this.&fixture)
         binding.setVariable("postProcess", this.&postProcess)
+        binding.setVariable("include", { String[] includes -> includes.each { load(it, true) } })
+        
         this.shell = new GroovyShell(this.class.classLoader, binding)
     }
     
