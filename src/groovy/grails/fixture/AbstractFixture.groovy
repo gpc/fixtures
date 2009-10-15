@@ -16,7 +16,7 @@ abstract class AbstractFixture {
         binding.setVariable("fixture", this.&fixture)
         binding.setVariable("preProcess", this.&preProcess)
         binding.setVariable("postProcess", this.&postProcess)
-        binding.setVariable("include", { String[] includes -> includes.each { load(it, true) } })
+        binding.setVariable("include", { String[] includes -> includes.each { doLoad(it, true) } })
         
         this.shell = new GroovyShell(this.class.classLoader, binding)
     }
@@ -24,7 +24,7 @@ abstract class AbstractFixture {
     def load(String[] locationPatterns) {
         preLoad()
         locationPatterns.each {
-            load(it, true)
+            doLoad(it, true)
         }
         postLoad()
         this
@@ -32,7 +32,7 @@ abstract class AbstractFixture {
     
     abstract resolveLocationPattern(String locationPattern)
     
-    def load(String locationPattern, merging = false) {
+    private doLoad(String locationPattern, merging = false) {
         def resources = resolveLocationPattern(locationPattern)
         if (resources) {
             resources.each {
