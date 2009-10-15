@@ -1,10 +1,10 @@
 package grails.fixture
  
-class FixturePostProcessorDelegate {
+class FixtureProcessorDelegate {
 
     final ctx
     
-    FixturePostProcessorDelegate(ctx) {
+    FixtureProcessorDelegate(ctx) {
         this.ctx = ctx
     }
 

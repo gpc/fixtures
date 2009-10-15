@@ -1,0 +1,3 @@
+preProcess {
+    preProcessTestService.v = "changed"
+}

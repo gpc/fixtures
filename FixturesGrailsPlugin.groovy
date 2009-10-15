@@ -1,7 +1,7 @@
 import grails.fixture.FixtureLoader
 
 class FixturesGrailsPlugin {
-    def version = "0.9-RC3"
+    def version = "0.9-RC4"
     def dependsOn = [:]
 
     def author = "Luke Daley"
@@ -11,6 +11,7 @@ class FixturesGrailsPlugin {
     def documentation = "http://grails.org/Fixtures+Plugin"
     def pluginExcludes = [
         "grails-app/domain/**",
+        "grails-app/services/**",
         "grails-app/i18n/*",
         "fixtures"
     ]
