@@ -7,12 +7,14 @@ abstract class AbstractFixture {
     protected fixtureBuilder
     protected merge
     
+    protected fixtures
     protected postProcessors = []
     
     AbstractFixture() {
         def binding = new Binding()
         
         binding.setVariable("fixture", this.&fixture)
+        binding.setVariable("preProcess", this.&preProcess)
         binding.setVariable("postProcess", this.&postProcess)
         binding.setVariable("include", { String[] includes -> includes.each { load(it, true) } })
         
@@ -55,7 +57,7 @@ abstract class AbstractFixture {
     protected postLoad() {
         applicationContext = fixtureBuilder.createApplicationContext()
         if (postProcessors) {
-            def d = new FixturePostProcessorDelegate(applicationContext)
+            def d = new FixtureProcessorDelegate(applicationContext)
             postProcessors.each { 
                 it.delegate = d
                 it()
@@ -77,6 +79,12 @@ abstract class AbstractFixture {
     
     def postProcess(Closure postProcess) {
         postProcessors << postProcess.clone()
+    }
+    
+    def preProcess(Closure p) {
+        def d = new FixtureProcessorDelegate(applicationContext)
+        p.delegate = d
+        p()
     }
     
     def propertyMissing(name) {

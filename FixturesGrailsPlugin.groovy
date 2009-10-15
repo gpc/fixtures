@@ -11,6 +11,7 @@ class FixturesGrailsPlugin {
     def documentation = "http://grails.org/Fixtures+Plugin"
     def pluginExcludes = [
         "grails-app/domain/**",
+        "grails-app/services/**",
         "grails-app/i18n/*",
         "fixtures"
     ]

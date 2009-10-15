@@ -1,7 +1,8 @@
 class FixtureTests extends GroovyTestCase {
     
     def fixtureLoader
-
+    def preProcessTestService
+    
     void testPostProcess() {
         fixtureLoader.load("postProcess").with {
             assertEquals("changed", u.name)
@@ -77,5 +78,10 @@ class FixtureTests extends GroovyTestCase {
 	   fixtureLoader.load("includeTest").with {
 	       assertNotNull(u1)
 	   }
+	}
+	
+	void testPreProcess() {
+	   fixtureLoader.load('preProcess')
+	   assertEquals("changed", preProcessTestService.v)
 	}
 }
