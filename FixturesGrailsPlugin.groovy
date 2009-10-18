@@ -1,4 +1,4 @@
-import grails.fixture.FixtureLoader
+import grails.plugin.fixtures.FixtureLoader
 
 class FixturesGrailsPlugin {
     def version = "0.9-RC4"
