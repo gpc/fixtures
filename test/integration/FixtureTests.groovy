@@ -1,3 +1,6 @@
+import grails.plugin.fixtures.exception.UnknownFixtureException
+import org.springframework.beans.factory.BeanCreationException
+
 class FixtureTests extends GroovyTestCase {
     
     def fixtureLoader
@@ -28,7 +31,7 @@ class FixtureTests extends GroovyTestCase {
     
     void testLoadUnknownFixtures() {
         ["books", "xxx*"].each { pattern ->
-            shouldFail(grails.plugin.fixtures.UnknownFixtureException) {
+            shouldFail(UnknownFixtureException) {
                 fixtureLoader.load(pattern)
             }
         }
@@ -44,7 +47,7 @@ class FixtureTests extends GroovyTestCase {
     }
     
     void testBadFixture() {
-        shouldFail(org.springframework.beans.factory.BeanCreationException) {
+        shouldFail(BeanCreationException) {
             fixtureLoader.load {
                 c(Child, name: "c") // no uncle property
             }
