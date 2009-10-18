@@ -1,4 +1,4 @@
-package grails.fixture
+package grails.plugin.fixtures
 
 import org.springframework.beans.factory.config.BeanPostProcessor
 import org.codehaus.groovy.runtime.MetaClassHelper

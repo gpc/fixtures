@@ -1,4 +1,4 @@
-package grails.fixture
+package grails.plugin.fixtures
 import org.springframework.context.ApplicationContextAware
 import org.springframework.context.ApplicationContext
 

@@ -1,4 +1,4 @@
-package grails.fixture
+package grails.plugin.fixtures
 
 import org.codehaus.groovy.grails.commons.spring.DefaultRuntimeSpringConfiguration
 import org.springframework.beans.factory.config.BeanPostProcessor

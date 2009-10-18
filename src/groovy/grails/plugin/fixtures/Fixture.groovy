@@ -1,4 +1,4 @@
-package grails.fixture
+package grails.plugin.fixtures
 
 class Fixture extends AbstractFixture {
     
