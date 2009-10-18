@@ -1,4 +1,9 @@
-package grails.plugin.fixtures
+package grails.plugin.fixtures.support
+
+import grails.plugin.fixtures.exception.FixtureException
+import grails.plugin.fixtures.exception.UnknownFixtureException
+
+import grails.plugin.fixtures.processor.FixtureProcessorDelegate
 
 abstract class AbstractFixture {
 

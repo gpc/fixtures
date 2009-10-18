@@ -1,7 +1,9 @@
-package grails.plugin.fixtures
+package grails.plugin.fixtures.support.builder
 
 import org.springframework.beans.factory.config.BeanPostProcessor
 import org.codehaus.groovy.runtime.MetaClassHelper
+
+import grails.plugin.fixtures.exception.FixtureException
 
 abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
     

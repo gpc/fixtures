@@ -1,4 +1,6 @@
-package grails.plugin.fixtures
+package grails.plugin.fixtures.builder
+
+import grails.plugin.fixtures.support.builder.AbstractFixtureBeanPostProcessor
 
 class FixtureBeanPostProcessor extends AbstractFixtureBeanPostProcessor {
 

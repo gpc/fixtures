@@ -1,4 +1,7 @@
-package grails.plugin.fixtures
+package grails.plugin.fixtures.builder
+
+import grails.plugin.fixtures.support.builder.AbstractFixtureBuilder
+import grails.plugin.fixtures.exception.FixtureException
 
 import org.springframework.context.ApplicationContext
 import org.codehaus.groovy.grails.commons.spring.RuntimeSpringConfiguration

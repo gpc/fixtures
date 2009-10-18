@@ -1,4 +1,4 @@
-package grails.plugin.fixtures
+package grails.plugin.fixtures.support.builder
 
 import grails.spring.BeanBuilder
 import org.springframework.context.ApplicationContext

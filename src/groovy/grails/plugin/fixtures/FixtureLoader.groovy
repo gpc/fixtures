@@ -1,4 +1,7 @@
 package grails.plugin.fixtures
+
+import grails.plugin.fixtures.support.AbstractFixtureLoader
+
 import org.springframework.context.ApplicationContextAware
 import org.springframework.context.ApplicationContext
 

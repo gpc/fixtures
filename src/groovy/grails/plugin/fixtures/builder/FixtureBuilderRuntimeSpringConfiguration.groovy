@@ -1,6 +1,8 @@
-package grails.plugin.fixtures
+package grails.plugin.fixtures.builder
 
 import org.springframework.context.ApplicationContext
+
+import grails.plugin.fixtures.support.builder.AbstractFixtureBuilderRuntimeSpringConfiguration
 
 class FixtureBuilderRuntimeSpringConfiguration extends AbstractFixtureBuilderRuntimeSpringConfiguration {
 

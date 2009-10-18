@@ -1,4 +1,4 @@
-package grails.plugin.fixtures
+package grails.plugin.fixtures.support
 
 abstract class AbstractFixtureLoader {
     

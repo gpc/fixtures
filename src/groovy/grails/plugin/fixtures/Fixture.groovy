@@ -1,5 +1,9 @@
 package grails.plugin.fixtures
 
+import grails.plugin.fixtures.support.AbstractFixture
+import grails.plugin.fixtures.builder.FixtureBuilder
+import grails.plugin.fixtures.exception.UnknownFixtureException
+
 class Fixture extends AbstractFixture {
     
     def grailsApplication
