@@ -43,7 +43,11 @@ abstract class AbstractFixture {
             resources.each {
                 if (it.exists()) {
                     if (!merging) preLoad() 
-                    shell.evaluate(it.inputStream)
+                    try {
+                        shell.evaluate(it.inputStream)
+                    } catch (Throwable e) {
+                        throw new FixtureException("Failed to evaluate ${it.filename} (pattern: '$locationPattern')", e)
+                    }
                     if (!merging) postLoad()
                 } else {
                     throw new UnknownFixtureException(locationPattern)
