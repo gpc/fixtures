@@ -5,9 +5,9 @@ import org.codehaus.groovy.runtime.MetaClassHelper
 
 import grails.plugin.fixtures.exception.FixtureException
 
+import org.slf4j.LoggerFactory
+
 abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
-    
-	static log = org.slf4j.LoggerFactory.getLogger(AbstractFixtureBeanPostProcessor)    
 
 	def parentCtx
     
@@ -21,6 +21,7 @@ abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
     
     def postProcessBeforeInitialization(Object bean, String beanName) {
         def shouldSave = true
+        def log = LoggerFactory.getLogger(AbstractFixtureBeanPostProcessor.name + '.' + beanName)
         log.debug("processing bean $beanName of type ${bean.class.name}")
         
         def domainClass = getDomainClass(bean.class)
