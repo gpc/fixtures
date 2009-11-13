@@ -2,7 +2,7 @@ fixture {
     u(Uncle, name: "a")
 }
 
-postProcess {
+post {
     u.name = "changed"
     u.save()
 }

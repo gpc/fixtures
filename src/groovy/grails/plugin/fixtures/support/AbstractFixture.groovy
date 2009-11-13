@@ -25,8 +25,8 @@ abstract class AbstractFixture {
         
         binding.setVariable("fixture", this.&fixture)
         binding.setVariable("require", this.&require)
-        binding.setVariable("preProcess", this.&preProcess)
-        binding.setVariable("postProcess", this.&postProcess)
+        binding.setVariable("pre", this.&preProcess)
+        binding.setVariable("post", this.&postProcess)
         binding.setVariable("include", { String[] includes -> includes.each { doLoad(it, true) } })
         binding.setVariable("load", this.&innerLoad)
         
@@ -79,7 +79,7 @@ abstract class AbstractFixture {
     protected postLoad() {
         applicationContext = fixtureBuilder.createApplicationContext()
         if (postProcessors) {
-            def d = new FixtureProcessorDelegate(applicationContext)
+            def d = new FixtureProcessorDelegate(this)
             postProcessors.each { 
                 it.delegate = d
                 it()
@@ -106,7 +106,7 @@ abstract class AbstractFixture {
     }
     
     def preProcess(Closure p) {
-        def d = new FixtureProcessorDelegate(applicationContext)
+        def d = new FixtureProcessorDelegate(this)
         p.delegate = d
         p()
     }
@@ -131,15 +131,31 @@ abstract class AbstractFixture {
     }
     
     def propertyMissing(name) {
-        getBeanOrDefinition(name) ?: super.getProperty(name)
+        getBean(name) ?: super.getProperty(name)
     }
-    
-    def getBeanOrDefinition(name) {
+        
+    def getBean(name) {
         if (applicationContext.containsBean(name)) {
            applicationContext.getBean(name) 
         } else {
-            innerFixtures.find { it.getBeanOrDefinition(name) } ?: fixtureBuilder.getBeanDefinition(name)
+            def bean
+            innerFixtures.find { bean = it.getBean(name) }
+            bean
         }
+    }
+    
+    def getBeanDefinition(name) {
+        def beanDefinition = fixtureBuilder.getBeanDefinition(name)
+        if (beanDefinition) {
+            beanDefinition
+        } else {
+            innerFixtures.find { beanDefinition = it.getBeanDefinition(name) }
+            beanDefinition
+        }
+    }
+
+    def getBeanOrDefinition(name) {
+        getBean(name) ?: getBeanDefinition(name)
     }
     
     abstract createBuilder()

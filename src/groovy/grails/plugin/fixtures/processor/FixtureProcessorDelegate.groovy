@@ -2,18 +2,14 @@ package grails.plugin.fixtures.processor
  
 class FixtureProcessorDelegate {
 
-    final ctx
+    final fixture
     
-    FixtureProcessorDelegate(ctx) {
-        this.ctx = ctx
+    FixtureProcessorDelegate(fixture) {
+        this.fixture = fixture
     }
 
     def propertyMissing(name) {
-        if (ctx.containsBean(name)) {
-            ctx.getBean(name)
-        } else {
-            super.getProperty(name)
-        }
+        fixture.getBean(name) ?: super.getProperty(name)
     }
 
 }
