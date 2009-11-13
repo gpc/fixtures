@@ -33,6 +33,10 @@ abstract class AbstractFixture {
         this.shell = new GroovyShell(this.class.classLoader, binding)
     }
     
+    def getApplicationContext() { 
+        applicationContext 
+    }
+    
     def load(String[] locationPatterns) {
         preLoad()
         locationPatterns.each {

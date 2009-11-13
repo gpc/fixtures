@@ -113,4 +113,8 @@ class FixtureTests extends GroovyTestCase {
             assertNotNull(inner)
         }
     }
+    
+    void testBeanInFixture() {
+        fixtureLoader.load("beanTest/outer")
+    }
 }

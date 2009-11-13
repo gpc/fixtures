@@ -1,5 +1,7 @@
 package grails.plugin.fixtures.builder
 
+import grails.plugin.fixtures.Fixture
+
 import grails.plugin.fixtures.support.builder.AbstractFixtureBuilder
 import grails.plugin.fixtures.exception.FixtureException
 
@@ -12,8 +14,8 @@ import org.hibernate.TransientObjectException
 
 class FixtureBuilder extends AbstractFixtureBuilder {
     
-    public FixtureBuilder(ApplicationContext parent,ClassLoader classLoader) {
-        super(parent, classLoader)
+    public FixtureBuilder(Fixture fixture) {
+        super(fixture)
     }
     
     public RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {

@@ -15,7 +15,7 @@ class Fixture extends AbstractFixture {
     }
     
     def createBuilder() {
-        new FixtureBuilder(applicationContext, this.class.classLoader)
+        new FixtureBuilder(this)
     }
 
     def resolveLocationPattern(String locationPattern) {

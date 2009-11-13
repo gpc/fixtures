@@ -1,0 +1,3 @@
+fixture {
+    inner(String, "inner")
+}
