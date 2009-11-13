@@ -129,7 +129,7 @@ abstract class AbstractFixture {
         try {
             innerFixture.load(*locationPatterns)
         } catch (Exception e) {
-            throw new FixtureException("Failed to load inner fixture for patterns $locationPatterns")
+            throw new FixtureException("Failed to load inner fixture for patterns $locationPatterns", e)
         }
         innerFixtures << innerFixture
     }

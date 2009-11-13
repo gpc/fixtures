@@ -48,6 +48,24 @@ abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
                     if (p.bidirectional && (p.oneToOne || p.manyToOne)) {
                         log.info("not saving fixture bean $beanName")
                         shouldSave = false
+                        
+                        def propValue = bean."${p.name}"
+                        if (propValue) {
+                            log.debug("non owning, but has value of $propValue")
+                            def otherSideName = p.otherSide.name
+                            log.debug("attempting to set owning side inversely (prop name: ${otherSideName})")
+                            def propValues = (propValue instanceof Collection) ? propValue : [propValue]
+                            def otherSideIsMultiValue = (Collection.isAssignableFrom(p.otherSide.type))
+                            log.debug("other side ${otherSideIsMultiValue ? 'IS' : 'IS NOT'} multi valued")
+                            propValues.each {
+                                if (otherSideIsMultiValue) {
+                                    it."addTo${MetaClassHelper.capitalize(otherSideName)}"(bean)
+                                } else {
+                                    it."$otherSideName" = bean
+                                }
+                                assert it.save()
+                            }
+                        }
                     }
                 }
             } 

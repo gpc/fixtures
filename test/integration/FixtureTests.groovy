@@ -117,4 +117,8 @@ class FixtureTests extends GroovyTestCase {
     void testBeanInFixture() {
         fixtureLoader.load("beanTest/outer")
     }
+    
+    void testSettingRelationshipsViaReverse() {
+        fixtureLoader.load("reverse/children")
+    }
 }
