@@ -63,7 +63,7 @@ abstract class AbstractFixtureBeanPostProcessor implements BeanPostProcessor {
                                 } else {
                                     it."$otherSideName" = bean
                                 }
-                                assert it.save()
+                                assert it.save(flush: true)
                             }
                         }
                     }
