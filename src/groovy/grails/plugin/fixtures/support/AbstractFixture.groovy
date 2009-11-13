@@ -2,6 +2,7 @@ package grails.plugin.fixtures.support
 
 import grails.plugin.fixtures.exception.FixtureException
 import grails.plugin.fixtures.exception.UnknownFixtureException
+import grails.plugin.fixtures.exception.UnsatisfiedFixtureRequirementException
 
 import grails.plugin.fixtures.processor.FixtureProcessorDelegate
 
@@ -15,10 +16,14 @@ abstract class AbstractFixture {
     protected fixtures
     protected postProcessors = []
     
+    protected fixtureResourceStack = []
+    protected currentLoadPattern
+    
     AbstractFixture() {
         def binding = new Binding()
         
         binding.setVariable("fixture", this.&fixture)
+        binding.setVariable("require", this.&require)
         binding.setVariable("preProcess", this.&preProcess)
         binding.setVariable("postProcess", this.&postProcess)
         binding.setVariable("include", { String[] includes -> includes.each { doLoad(it, true) } })
@@ -29,7 +34,9 @@ abstract class AbstractFixture {
     def load(String[] locationPatterns) {
         preLoad()
         locationPatterns.each {
+            currentLoadPattern = it
             doLoad(it, true)
+            currentLoadPattern = null
         }
         postLoad()
         this
@@ -38,10 +45,12 @@ abstract class AbstractFixture {
     abstract resolveLocationPattern(String locationPattern)
     
     private doLoad(String locationPattern, merging = false) {
+        
         def resources = resolveLocationPattern(locationPattern)
         if (resources) {
             resources.each {
                 if (it.exists()) {
+                    fixtureResourceStack.push(it)
                     if (!merging) preLoad() 
                     try {
                         shell.evaluate(it.inputStream)
@@ -49,6 +58,7 @@ abstract class AbstractFixture {
                         throw new FixtureException("Failed to evaluate ${it.filename} (pattern: '$locationPattern')", e)
                     }
                     if (!merging) postLoad()
+                    fixtureResourceStack.pop()
                 } else {
                     throw new UnknownFixtureException(locationPattern)
                 }
@@ -56,6 +66,7 @@ abstract class AbstractFixture {
         } else {
             throw new UnknownFixtureException(locationPattern)
         }
+        
         this
     }
     
@@ -95,15 +106,22 @@ abstract class AbstractFixture {
         p.delegate = d
         p()
     }
-    
-    def propertyMissing(name) {
-        if (applicationContext.containsBean(name)) {
-            applicationContext.getBean(name)
-        } else {
-            super.getProperty(name)
+
+    def require(String[] requirements) {
+        requirements.each {
+            if (!getBeanOrDefinition(it)) {
+                throw new UnsatisfiedFixtureRequirementException(it, fixtureResourceStack.last(), currentLoadPattern)
+            }
         }
     }
     
+    def propertyMissing(name) {
+        getBeanOrDefinition(name) ?: super.getProperty(name)
+    }
+    
+    def getBeanOrDefinition(name) {
+        applicationContext.containsBean(name) ? applicationContext.getBean(name) : fixtureBuilder.getBeanDefinition(name)
+    }
     abstract createBuilder()
 
 }
