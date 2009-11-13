@@ -18,6 +18,7 @@ abstract class AbstractFixture {
     
     protected fixtureResourceStack = []
     protected currentLoadPattern
+    protected innerFixtures = []
     
     AbstractFixture() {
         def binding = new Binding()
@@ -27,6 +28,7 @@ abstract class AbstractFixture {
         binding.setVariable("preProcess", this.&preProcess)
         binding.setVariable("postProcess", this.&postProcess)
         binding.setVariable("include", { String[] includes -> includes.each { doLoad(it, true) } })
+        binding.setVariable("load", this.&innerLoad)
         
         this.shell = new GroovyShell(this.class.classLoader, binding)
     }
@@ -93,6 +95,8 @@ abstract class AbstractFixture {
         this
     }
     
+
+    
     def fixture(Closure fixture) {
         fixtureBuilder.beans(fixture)
     }
@@ -115,13 +119,29 @@ abstract class AbstractFixture {
         }
     }
     
+    def innerLoad(String[] locationPatterns) {
+        // TODO this is bad, we are assuming that we are a Fixture, but not sure of a better way right now
+        def innerFixture = this.class.newInstance(applicationContext)
+        try {
+            innerFixture.load(*locationPatterns)
+        } catch (Exception e) {
+            throw new FixtureException("Failed to load inner fixture for patterns $locationPatterns")
+        }
+        innerFixtures << innerFixture
+    }
+    
     def propertyMissing(name) {
         getBeanOrDefinition(name) ?: super.getProperty(name)
     }
     
     def getBeanOrDefinition(name) {
-        applicationContext.containsBean(name) ? applicationContext.getBean(name) : fixtureBuilder.getBeanDefinition(name)
+        if (applicationContext.containsBean(name)) {
+           applicationContext.getBean(name) 
+        } else {
+            innerFixtures.find { it.getBeanOrDefinition(name) } ?: fixtureBuilder.getBeanDefinition(name)
+        }
     }
+    
     abstract createBuilder()
 
 }

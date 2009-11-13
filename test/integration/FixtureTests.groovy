@@ -107,4 +107,10 @@ class FixtureTests extends GroovyTestCase {
             fixtureLoader.load "requireTest/bad"
         }
     }
+    
+    void testInnerLoad() {
+        fixtureLoader.load("innerLoadTest/outer").with {
+            assertNotNull(inner)
+        }
+    }
 }
