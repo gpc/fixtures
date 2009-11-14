@@ -8,6 +8,8 @@ import grails.plugin.fixtures.exception.UnsatisfiedBeanDefinitionRequirementExce
 
 import grails.plugin.fixtures.processor.FixtureProcessorDelegate
 
+import org.springframework.beans.factory.config.RuntimeBeanReference
+
 abstract class AbstractFixture {
 
     protected shell
@@ -176,7 +178,14 @@ abstract class AbstractFixture {
     }
     
     def getBeanDefinition(name) {
-        fixtureBuilder.getBeanDefinition(name)
+        def definition = fixtureBuilder.getBeanDefinition(name)
+        if (definition) {
+            definition
+        } else {
+            if (applicationContext.containsBean(name)) {
+                new RuntimeBeanReference(name, true)
+            }
+        }
     }
 
     def getBeanOrDefinition(name) {
