@@ -2,6 +2,7 @@ package grails.plugin.fixtures.support
 
 import grails.plugin.fixtures.exception.FixtureException
 import grails.plugin.fixtures.exception.UnknownFixtureException
+import grails.plugin.fixtures.exception.UnsatisfiedFixtureRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanDefinitionRequirementException
 
@@ -26,6 +27,7 @@ abstract class AbstractFixture {
         
         binding.setVariable("fixture", this.&fixture)
         binding.setVariable("require", this.&require)
+        binding.setVariable("requireDefinitions", this.&requireDefinitions)
         binding.setVariable("requireBeans", this.&requireBeans)
         binding.setVariable("pre", this.&preProcess)
         binding.setVariable("post", this.&postProcess)
@@ -120,6 +122,19 @@ abstract class AbstractFixture {
     }
 
     def require(String[] requirements) {
+        requirements.each {
+            if (!getBeanOrDefinition(it)) {
+                throw new UnsatisfiedFixtureRequirementException(
+                    "Fixture '$currentlyLoadingFixtureName' requires '$it' which was not satisfied (load pattern: $currentLoadPattern)",
+                    it, 
+                    currentlyLoadingFixtureName, 
+                    currentLoadPattern
+                )
+            }
+        }
+    }
+
+    def requireDefinitions(String[] requirements) {
         requirements.each {
             if (!getBeanDefinition(it)) {
                 throw new UnsatisfiedBeanDefinitionRequirementException(it, currentlyLoadingFixtureName, currentLoadPattern)

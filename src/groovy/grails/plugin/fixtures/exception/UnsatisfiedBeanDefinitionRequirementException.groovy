@@ -4,7 +4,7 @@ class UnsatisfiedBeanDefinitionRequirementException extends UnsatisfiedFixtureRe
 
     UnsatisfiedBeanDefinitionRequirementException(requirement, fixture, pattern) {
         super(
-            "Fixture '$fixture' requires the bean definition '$requirement' which was not satisfied (load pattern: $pattern)" as String,
+            "Fixture '$fixture' requires the bean definition '$requirement' which was not satisfied (load pattern: $pattern)",
             requirement,
             fixture,
             pattern

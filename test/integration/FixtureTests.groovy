@@ -1,4 +1,5 @@
 import grails.plugin.fixtures.exception.UnknownFixtureException
+import grails.plugin.fixtures.exception.UnsatisfiedFixtureRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanDefinitionRequirementException
 import org.springframework.beans.factory.BeanCreationException
@@ -104,7 +105,7 @@ class FixtureTests extends GroovyTestCase {
     void testRequire() {
         fixtureLoader.load "requireTest/good"
         
-        shouldFailWithCause(UnsatisfiedBeanDefinitionRequirementException) {
+        shouldFailWithCause(UnsatisfiedFixtureRequirementException) {
             fixtureLoader.load "requireTest/bad"
         }
     }
@@ -114,6 +115,14 @@ class FixtureTests extends GroovyTestCase {
         
         shouldFailWithCause(UnsatisfiedBeanRequirementException) {
             fixtureLoader.load "requireBeansTest/bad"
+        }
+    }
+
+    void testRequireDefinitions() {
+        fixtureLoader.load "requireDefinitionsTest/good"
+        
+        shouldFailWithCause(UnsatisfiedBeanDefinitionRequirementException) {
+            fixtureLoader.load "requireDefinitionsTest/bad"
         }
     }
     

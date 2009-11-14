@@ -4,7 +4,7 @@ class UnsatisfiedBeanRequirementException extends UnsatisfiedFixtureRequirementE
 
     UnsatisfiedBeanRequirementException(requirement, fixture, pattern) {
         super(
-            "Fixture '$fixture' requires the bean '$requirement' which was not satisfied (load pattern: $pattern)" as String,
+            "Fixture '$fixture' requires the bean '$requirement' which was not satisfied (load pattern: $pattern)",
             requirement,
             fixture,
             pattern
