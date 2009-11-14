@@ -8,8 +8,8 @@ class UnsatisfiedFixtureRequirementException extends FixtureException {
     Resource fixture
     String pattern
     
-    UnsatisfiedFixtureRequirementException(requirement, fixture, pattern) {
-        super("Fixture '$fixture.filename' requires the bean '$requirement' which was not satisfied (load pattern: $pattern)" as String)
+    UnsatisfiedFixtureRequirementException(message, requirement, fixture, pattern) {
+        super(message)
         this.requirement = requirement
         this.fixture = fixture
         this.pattern = pattern
