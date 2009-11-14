@@ -7,7 +7,11 @@ import org.springframework.context.ApplicationContext
 import org.codehaus.groovy.grails.commons.spring.RuntimeSpringConfiguration
 import org.springframework.beans.factory.config.RuntimeBeanReference
 
+import org.slf4j.LoggerFactory
+
 abstract class AbstractFixtureBuilder extends BeanBuilder {
+
+    static log = LoggerFactory.getLogger(AbstractFixtureBuilder)
     
     protected fixture
     
@@ -17,11 +21,23 @@ abstract class AbstractFixtureBuilder extends BeanBuilder {
     }
     
     public getProperty(String name) {
+        def currentFixture = fixture.currentlyLoadingFixtureName
+        log.debug("dynamically resolving property '$name' in fixture '$currentFixture'")
         def parentCtx = getParentCtx()
         if (parentCtx?.containsBean(name)) {
+            log.debug("resolved property '$name' in fixture '$currentFixture' to bean definition in parent context")
             new RuntimeBeanReference(name, true)
         } else {
-            super.getProperty(name)
+            try {
+                def property = super.getProperty(name)
+                log.debug("resolved property '$name' in fixture '$currentFixture' to bean definition in current context")
+                property
+            } catch (MissingPropertyException e) {
+                def bean = bean(name)
+                if (!bean) throw e
+                log.debug("resolved property '$name' in fixture '$currentFixture' to bean '$bean'")
+                bean
+            }
         }
     }
     

@@ -17,7 +17,7 @@ abstract class AbstractFixture {
     protected fixtures
     protected postProcessors = []
     
-    protected fixtureResourceStack = []
+    protected fixtureNameStack = []
     protected currentLoadPattern
     protected innerFixtures = []
     
@@ -58,7 +58,7 @@ abstract class AbstractFixture {
         if (resources) {
             resources.each {
                 if (it.exists()) {
-                    fixtureResourceStack.push(it)
+                    fixtureNameStack.push(it.filename)
                     if (!merging) preLoad() 
                     try {
                         shell.evaluate(it.inputStream, it.filename)
@@ -66,7 +66,7 @@ abstract class AbstractFixture {
                         throw new FixtureException("Failed to evaluate ${it.filename} (pattern: '$locationPattern')", e)
                     }
                     if (!merging) postLoad()
-                    fixtureResourceStack.pop()
+                    fixtureNameStack.pop()
                 } else {
                     throw new UnknownFixtureException(locationPattern)
                 }
@@ -96,7 +96,9 @@ abstract class AbstractFixture {
     
     def load(Closure f) {
         preLoad()
+        fixtureNameStack.push(f.class.name)
         fixture(f)
+        fixtureNameStack.pop()
         postLoad()
         this
     }
@@ -120,7 +122,7 @@ abstract class AbstractFixture {
     def require(String[] requirements) {
         requirements.each {
             if (!getBeanDefinition(it)) {
-                throw new UnsatisfiedBeanDefinitionRequirementException(it, fixtureResourceStack.last(), currentLoadPattern)
+                throw new UnsatisfiedBeanDefinitionRequirementException(it, currentlyLoadingFixtureName, currentLoadPattern)
             }
         }
     }
@@ -128,7 +130,7 @@ abstract class AbstractFixture {
     def requireBeans(String[] requirements) {
         requirements.each {
             if (!getBean(it)) {
-                throw new UnsatisfiedBeanRequirementException(it, fixtureResourceStack.last(), currentLoadPattern)
+                throw new UnsatisfiedBeanRequirementException(it, currentlyLoadingFixtureName, currentLoadPattern)
             }
         }
     }
@@ -170,6 +172,10 @@ abstract class AbstractFixture {
 
     def getBeanOrDefinition(name) {
         getBean(name) ?: getBeanDefinition(name)
+    }
+    
+    def getCurrentlyLoadingFixtureName() {
+        fixtureNameStack ? fixtureNameStack.last() : null
     }
     
     abstract createBuilder()
