@@ -2,3 +2,4 @@ plugin.xml
 stacktrace.log
 web-app
 test/reports
+*.zip
