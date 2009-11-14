@@ -131,6 +131,12 @@ class FixtureTests extends GroovyTestCase {
             assertNotNull(inner)
         }
     }
+
+    void testInnerInlineLoad() {
+        fixtureLoader.load("innerLoadTest/inline").with {
+            assertNotNull(inner)
+        }
+    }
     
     void testBeanInFixture() {
         fixtureLoader.load("beanTest/outer")

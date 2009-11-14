@@ -152,16 +152,18 @@ abstract class AbstractFixture {
         }
     }
     
-    def innerLoad(String[] locationPatterns) {
-        if (!locationPatterns) {
+    def innerLoad(Object[] things) {
+        if (!things) {
             throw new IllegalArgumentException("load() inside a fixture file must have at least 1 argument")
         }
+
         // TODO this is bad, we are assuming that we are a Fixture, but not sure of a better way right now
         def innerFixture = this.class.newInstance(applicationContext)
+        
         try {
-            innerFixture.load(*locationPatterns)
+            innerFixture.load(*things)
         } catch (Exception e) {
-            throw new FixtureException("Failed to load inner fixture for patterns $locationPatterns", e)
+            throw new FixtureException("Failed to load inner fixture with $things", e)
         }
         innerFixtures << innerFixture
     }
