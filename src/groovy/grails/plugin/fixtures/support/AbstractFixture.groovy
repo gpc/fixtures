@@ -176,13 +176,7 @@ abstract class AbstractFixture {
     }
     
     def getBeanDefinition(name) {
-        def beanDefinition = fixtureBuilder.getBeanDefinition(name)
-        if (beanDefinition) {
-            beanDefinition
-        } else {
-            innerFixtures.find { beanDefinition = it.getBeanDefinition(name) }
-            beanDefinition
-        }
+        fixtureBuilder.getBeanDefinition(name)
     }
 
     def getBeanOrDefinition(name) {
