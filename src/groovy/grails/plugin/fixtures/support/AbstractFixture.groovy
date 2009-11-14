@@ -153,6 +153,9 @@ abstract class AbstractFixture {
     }
     
     def innerLoad(String[] locationPatterns) {
+        if (!locationPatterns) {
+            throw new IllegalArgumentException("load() inside a fixture file must have at least 1 argument")
+        }
         // TODO this is bad, we are assuming that we are a Fixture, but not sure of a better way right now
         def innerFixture = this.class.newInstance(applicationContext)
         try {
