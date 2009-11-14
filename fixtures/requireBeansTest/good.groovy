@@ -1,3 +1,3 @@
-load 'requireTest/goodInclude'
+load 'requireTest/goodLoad'
 
-requireBeans 'goodInclude'
+requireBeans 'goodLoad'

@@ -1,3 +1,0 @@
-fixture {
-    goodInclude(String, "blah")
-}
