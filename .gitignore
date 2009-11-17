@@ -3,3 +3,4 @@ stacktrace.log
 web-app
 test/reports
 *.zip
+target
