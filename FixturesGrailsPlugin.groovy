@@ -3,6 +3,7 @@ import grails.plugin.fixtures.FixtureLoader
 class FixturesGrailsPlugin {
     def version = "1.0-M1"
     def dependsOn = [:]
+    def grailsVersion = "1.1 > *"
 
     def author = "Luke Daley"
     def authorEmail = "ld@ldaley.com"
