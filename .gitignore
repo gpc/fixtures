@@ -4,3 +4,4 @@ web-app
 test/reports
 *.zip
 target
+docs
