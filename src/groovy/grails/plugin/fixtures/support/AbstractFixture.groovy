@@ -24,7 +24,7 @@ abstract class AbstractFixture {
     protected currentLoadPattern
     protected innerFixtures = []
     
-    AbstractFixture() {
+    AbstractFixture(innerFixtures = []) {
         def binding = new Binding()
         
         binding.setVariable("fixture", this.&fixture)
@@ -37,6 +37,7 @@ abstract class AbstractFixture {
         binding.setVariable("load", this.&innerLoad)
         
         this.shell = new GroovyShell(this.class.classLoader, binding)
+        this.innerFixtures = innerFixtures
     }
     
     def getApplicationContext() { 
@@ -158,7 +159,7 @@ abstract class AbstractFixture {
         }
 
         // TODO this is bad, we are assuming that we are a Fixture, but not sure of a better way right now
-        def innerFixture = this.class.newInstance(applicationContext)
+        def innerFixture = this.class.newInstance(applicationContext, innerFixtures.clone())
         
         try {
             innerFixture.load(*things)

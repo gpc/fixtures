@@ -8,8 +8,8 @@ class Fixture extends AbstractFixture {
     
     def grailsApplication
     
-    Fixture(applicationContext) {
-        super()
+    Fixture(applicationContext, innerFixtures = []) {
+        super(innerFixtures)
         this.applicationContext = applicationContext
         this.grailsApplication = applicationContext.getBean('grailsApplication')
     }
