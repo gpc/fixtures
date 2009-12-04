@@ -44,7 +44,7 @@ abstract class AbstractFixtureBuilder extends BeanBuilder {
     public bean(String name) {
         def bean = fixture.getBean(name)
         if (!bean) {
-            throw new IllegalArgumentException("Fixture does not have bean '$bean'")
+            throw new IllegalArgumentException("Fixture does not have bean '$name'")
         } 
         bean
     }
