@@ -7,12 +7,15 @@ import grails.plugin.fixtures.exception.*
 
 import org.springframework.beans.factory.config.RuntimeBeanReference
 
+import org.codehaus.groovy.grails.commons.GrailsApplication
+
 class Fixture {
     
+    final grailsApplication
     final applicationContext
-    protected innerFixtures = []
     
-    protected grailsApplication
+    protected innerFixtures = []
+
     protected shell
     protected fixtureBuilder
     protected merge
@@ -22,9 +25,13 @@ class Fixture {
     protected fixtureNameStack = []
     protected currentLoadPattern
 
-    Fixture(applicationContext, innerFixtures = []) {
-        def binding = new Binding()
+    Fixture(GrailsApplication grailsApplication, innerFixtures = []) {
+        this.grailsApplication = grailsApplication
+        this.innerFixtures = innerFixtures
         
+        this.applicationContext = grailsApplication.mainContext
+        
+        def binding = new Binding()
         binding.setVariable("fixture", this.&fixture)
         binding.setVariable("require", this.&require)
         binding.setVariable("requireDefinitions", this.&requireDefinitions)
@@ -35,10 +42,6 @@ class Fixture {
         binding.setVariable("load", this.&innerLoad)
         
         this.shell = new GroovyShell(this.class.classLoader, binding)
-        this.innerFixtures = innerFixtures
-        
-        this.applicationContext = applicationContext
-        this.grailsApplication = applicationContext.getBean('grailsApplication')
     }
     
     def createBuilder() {
@@ -164,7 +167,7 @@ class Fixture {
         }
 
         // TODO this is bad, we are assuming that we are a Fixture, but not sure of a better way right now
-        def innerFixture = this.class.newInstance(applicationContext, innerFixtures.clone())
+        def innerFixture = this.class.newInstance(grailsApplication, innerFixtures.clone())
         
         try {
             innerFixture.load(*things)

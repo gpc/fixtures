@@ -1,18 +1,18 @@
 package grails.plugin.fixtures
 
-import grails.plugin.fixtures.support.AbstractFixtureLoader
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
-import org.springframework.context.ApplicationContextAware
-import org.springframework.context.ApplicationContext
+class FixtureLoader  {
 
-class FixtureLoader implements ApplicationContextAware {
-
-    ApplicationContext applicationContext
+    protected grailsApplication
+    protected namedFixtures = [:]
     
-    private namedFixtures = [:]
-    
+    FixtureLoader(GrailsApplication grailsApplication) {
+        this.grailsApplication = grailsApplication
+    }
+
     def createFixture() {
-        new Fixture(applicationContext)
+        new Fixture(grailsApplication)
     }
     
     def load(String[] fixtures) {

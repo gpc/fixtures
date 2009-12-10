@@ -18,6 +18,6 @@ class FixturesGrailsPlugin {
     ]
 
     def doWithSpring = {
-        fixtureLoader(FixtureLoader)
+        fixtureLoader(FixtureLoader, application)
     }
 }
