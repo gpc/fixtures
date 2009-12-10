@@ -12,19 +12,65 @@ import org.springframework.beans.factory.config.RuntimeBeanReference
 import org.hibernate.LockMode
 import org.hibernate.TransientObjectException
 
-class FixtureBuilder extends AbstractFixtureBuilder {
+import grails.spring.BeanBuilder
+
+import org.apache.commons.logging.LogFactory
+
+class FixtureBuilder extends BeanBuilder {
     
-    public FixtureBuilder(Fixture fixture) {
-        super(fixture)
+    static log = LogFactory.getLog(FixtureBuilder)
+    
+    protected fixture
+
+    FixtureBuilder(Fixture fixture) {
+        super(fixture.applicationContext, fixture.class.classLoader)
+        this.fixture = fixture
+    }
+
+    def getProperty(String name) {
+        def currentFixture = fixture.currentlyLoadingFixtureName
+        log.debug("dynamically resolving property '$name' in fixture '$currentFixture'")
+        def parentCtx = getParentCtx()
+        if (parentCtx?.containsBean(name)) {
+            log.debug("resolved property '$name' in fixture '$currentFixture' to bean definition in parent context")
+            new RuntimeBeanReference(name, true)
+        } else {
+            try {
+                def property = super.getProperty(name)
+                log.debug("resolved property '$name' in fixture '$currentFixture' to bean definition in current context")
+                property
+            } catch (MissingPropertyException e) {
+                def bean = bean(name)
+                if (!bean) throw e
+                log.debug("resolved property '$name' in fixture '$currentFixture' to bean '$bean'")
+                bean
+            }
+        }
     }
     
-    public RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
+    def bean(String name) {
+        def bean = fixture.getBean(name)
+        if (!bean) {
+            throw new IllegalArgumentException("Fixture does not have bean '$name'")
+        } 
+        bean
+    }
+    
+    def invokeMethod(String name, arg) {
+        if (name == "bean") {
+            bean(*arg)
+        } else {
+            super.invokeMethod(name, arg)
+        }
+    }
+    
+    protected RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
         new FixtureBuilderRuntimeSpringConfiguration(parent, classLoader)
     }
     
-    public ApplicationContext createApplicationContext() {
+    def ApplicationContext createApplicationContext() {
         def ctx = super.createApplicationContext()
-		def grailsApplication = ctx.getBean("grailsApplication")
+        def grailsApplication = ctx.getBean("grailsApplication")
         def sessionFactory = ctx.getBean("sessionFactory")
         
         ctx.beanDefinitionNames.each {
