@@ -1,6 +1,5 @@
 package grails.plugin.fixtures
 
-import grails.plugin.fixtures.support.AbstractFixture
 import grails.plugin.fixtures.builder.FixtureBuilder
 import grails.plugin.fixtures.exception.UnknownFixtureException
 import grails.plugin.fixtures.processor.FixtureProcessorDelegate
@@ -8,7 +7,7 @@ import grails.plugin.fixtures.exception.*
 
 import org.springframework.beans.factory.config.RuntimeBeanReference
 
-class Fixture extends AbstractFixture {
+class Fixture {
     
     final applicationContext
     protected innerFixtures = []
