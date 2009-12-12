@@ -110,11 +110,7 @@ class Fixture {
     }
     
     def load(Closure f) {
-        preLoad()
-        fixtureNameStack.push(f.class.name)
-        fixture(f)
-        fixtureNameStack.pop()
-        postLoad()
+        applicationContext = createBuilder().beans(f).createApplicationContext()
         this
     }
     
