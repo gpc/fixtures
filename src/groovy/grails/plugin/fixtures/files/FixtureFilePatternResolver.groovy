@@ -5,7 +5,11 @@ import grails.plugin.fixtures.exception.UnknownFixtureException
 
 class FixtureFilePatternResolver {
     
-    def grailsApplication
+    protected grailsApplication
+    
+    private FixtureFilePatternResolver(grailsApplication) {
+        this.grailsApplication = grailsApplication
+    }
 
     Resource[] resolve(String locationPattern) {
         def prefix = (grailsApplication.warDeployed) ? "" : "file:"

@@ -27,7 +27,7 @@ class FixtureBuilder extends BeanBuilder {
     }
 
     def getProperty(String name) {
-        def currentFixture = fixture.currentlyLoadingFixtureName
+        def currentFixture = 'bob'
         log.debug("dynamically resolving property '$name' in fixture '$currentFixture'")
         def parentCtx = getParentCtx()
         if (parentCtx?.containsBean(name)) {
