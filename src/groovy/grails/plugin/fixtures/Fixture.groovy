@@ -4,6 +4,7 @@ import grails.plugin.fixtures.builder.FixtureBuilder
 import grails.plugin.fixtures.exception.UnknownFixtureException
 import grails.plugin.fixtures.processor.FixtureProcessorDelegate
 import grails.plugin.fixtures.exception.*
+import grails.plugin.fixtures.files.FixtureFilePatternResolver
 
 import org.springframework.beans.factory.config.RuntimeBeanReference
 
@@ -13,6 +14,8 @@ class Fixture {
     
     final grailsApplication
     final applicationContext
+    
+    protected fileResolver
     
     protected innerFixtures = []
 
@@ -30,6 +33,7 @@ class Fixture {
         this.innerFixtures = innerFixtures
         
         this.applicationContext = grailsApplication.mainContext
+        this.fileResolver = new FixtureFilePatternResolver(grailsApplication: grailsApplication)
         
         def binding = new Binding()
         binding.setVariable("fixture", this.&fixture)
@@ -47,15 +51,6 @@ class Fixture {
     def createBuilder() {
         new FixtureBuilder(this)
     }
-
-    def resolveLocationPattern(String locationPattern) {
-        def prefix = (grailsApplication.warDeployed) ? "" : "file:"
-        try {
-            applicationContext.getResources("${prefix}fixtures/${locationPattern}.groovy")
-        } catch(Exception e) {
-            throw new UnknownFixtureException(locationPattern, e)
-        }
-    }
     
     def load(String[] locationPatterns) {
         preLoad()
@@ -69,27 +64,17 @@ class Fixture {
     }
     
     private doLoad(String locationPattern, merging = false) {
-        def resources = resolveLocationPattern(locationPattern)
-        if (resources) {
-            resources.each {
-                if (it.exists()) {
-                    fixtureNameStack.push(it.filename)
-                    if (!merging) preLoad() 
-                    try {
-                        shell.evaluate(it.inputStream, it.filename)
-                    } catch (Throwable e) {
-                        throw new FixtureException("Failed to evaluate ${it.filename} (pattern: '$locationPattern')", e)
-                    }
-                    if (!merging) postLoad()
-                    fixtureNameStack.pop()
-                } else {
-                    throw new UnknownFixtureException(locationPattern)
-                }
+        fileResolver.resolve(locationPattern).each {
+            fixtureNameStack.push(it.filename)
+            if (!merging) preLoad() 
+            try {
+                shell.evaluate(it.inputStream, it.filename)
+            } catch (Throwable e) {
+                throw new FixtureException("Failed to evaluate ${it.filename} (pattern: '$locationPattern')", e)
             }
-        } else {
-            throw new UnknownFixtureException(locationPattern)
+            if (!merging) postLoad()
+            fixtureNameStack.pop()
         }
-        
         this
     }
     
