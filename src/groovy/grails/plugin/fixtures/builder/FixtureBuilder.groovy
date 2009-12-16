@@ -1,11 +1,10 @@
 package grails.plugin.fixtures.builder
 
 import grails.plugin.fixtures.Fixture
-
 import grails.plugin.fixtures.exception.FixtureException
+import grails.plugin.fixtures.builder.processor.*
 
 import org.springframework.context.ApplicationContext
-import org.codehaus.groovy.grails.commons.spring.RuntimeSpringConfiguration
 import org.springframework.beans.factory.config.RuntimeBeanReference
 
 import org.hibernate.LockMode
@@ -20,8 +19,16 @@ class FixtureBuilder extends BeanBuilder {
     FixtureBuilder(Fixture fixture) {
         super(fixture.applicationContext, fixture.class.classLoader)
         this.fixture = fixture
+        registerPostProcessors()
     }
 
+    protected registerPostProcessors() {
+        beans {
+            autoAutoWirer(FixtureBeanAutoAutowireConfigurer)
+            fixtureBeanPostProcessor(FixtureBeanPostProcessor)
+        }
+    }
+    
     def getProperty(String name) {
         def parentCtx = getParentCtx()
         if (parentCtx?.containsBean(name)) {
@@ -53,11 +60,7 @@ class FixtureBuilder extends BeanBuilder {
             super.invokeMethod(name, arg)
         }
     }
-    
-    protected RuntimeSpringConfiguration createRuntimeSpringConfiguration(ApplicationContext parent, ClassLoader classLoader) {
-        new FixtureBuilderRuntimeSpringConfiguration(parent, classLoader)
-    }
-    
+
     def ApplicationContext createApplicationContext() {
         def ctx = super.createApplicationContext()
         def grailsApplication = ctx.getBean("grailsApplication")

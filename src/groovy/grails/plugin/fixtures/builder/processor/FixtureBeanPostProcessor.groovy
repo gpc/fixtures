@@ -9,7 +9,8 @@ import org.apache.commons.logging.LogFactory
 
 class FixtureBeanPostProcessor implements BeanPostProcessor {
     
-    def parentCtx
+    def grailsApplication
+    def messageSource
         
     def postProcessAfterInitialization(Object bean, String beanName) {
         bean
@@ -80,14 +81,10 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
     }
     
     def getErrorMessage(error) {
-        getMessageSource().getMessage(error, null)
+        messageSource.getMessage(error, null)
     }
 
     def getDomainClass(clazz) {
-        this.parentCtx.getBean('grailsApplication').getDomainClass(clazz.name)
-    }
-    
-    def getMessageSource() {
-        this.parentCtx.getBean('messageSource')
+        grailsApplication.getDomainClass(clazz.name)
     }
 }
