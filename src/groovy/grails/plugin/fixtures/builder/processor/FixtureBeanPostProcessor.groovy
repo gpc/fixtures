@@ -2,6 +2,7 @@ package grails.plugin.fixtures.builder.processor
 
 import grails.plugin.fixtures.exception.*
 
+import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.config.BeanPostProcessor
 import org.codehaus.groovy.runtime.MetaClassHelper
 
@@ -12,11 +13,13 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
     def grailsApplication
     def messageSource
         
-    def postProcessAfterInitialization(Object bean, String beanName) {
+    def postProcessBeforeInitialization(Object bean, String beanName) {
         bean
     }
-    
-    def postProcessBeforeInitialization(Object bean, String beanName) {
+
+    def postProcessAfterInitialization(Object bean, String beanName) {
+        if (bean instanceof FactoryBean) return bean
+        
         def shouldSave = true
         def log = LogFactory.getLog(FixtureBeanPostProcessor.name + '.' + beanName)
         log.debug("processing bean $beanName of type ${bean.class.name}")

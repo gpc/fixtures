@@ -23,6 +23,11 @@ class Fixture {
         this
     }
 
+    def build(Closure f) {
+        applicationContext = createBuilder().build(f).createApplicationContext()
+        this
+    }
+
     def load(String[] patterns) {
         def fileLoader = new FixtureFileLoader(this, inners, createBuilder())
         applicationContext = fileLoader.load(*patterns)

@@ -12,16 +12,34 @@ import org.hibernate.TransientObjectException
 
 import grails.spring.BeanBuilder
 
-class FixtureBuilder extends BeanBuilder {
-    
-    protected fixture
+import org.codehaus.groovy.grails.commons.spring.BeanConfiguration
+import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 
+import grails.plugin.fixtures.buildtestdata.*
+
+class FixtureBuilder extends BeanBuilder {
+        
+    def build = false // controls whether build-test-data is used
+
+    protected fixture
+    
+    protected buildTestDataTranslator
+    protected buildTestDataPluginInstalled
+    
+    protected definining = false // are we in the middle of a call to beans() ?
+    
     FixtureBuilder(Fixture fixture) {
         super(fixture.applicationContext, fixture.class.classLoader)
         this.fixture = fixture
+        this.buildTestDataTranslator = new BuildTestDataBeanDefinitionTranslator(grailsApplication: fixture.grailsApplication)
         registerPostProcessors()
+        lookForBuildTestDataPlugin()
     }
 
+    protected lookForBuildTestDataPlugin() {
+        buildTestDataPluginInstalled = PluginManagerHolder.pluginManager.hasGrailsPlugin('build-test-data')
+    }
+    
     protected registerPostProcessors() {
         beans {
             autoAutoWirer(FixtureBeanAutoAutowireConfigurer)
@@ -45,12 +63,40 @@ class FixtureBuilder extends BeanBuilder {
         }
     }
     
+    def build(Closure definitions) {
+        def previousBuild = this.build
+        build = true
+        beans(definitions)
+        build = previousBuild
+        this
+    }
+    
+    def noBuild(Closure definitions) {
+        def previousBuild = this.build
+        build = false
+        beans(definitions)
+        build = previousBuild
+        this
+    }
+    
     def bean(String name) {
         def bean = fixture.getBean(name)
         if (!bean) {
             throw new IllegalArgumentException("Fixture does not have bean '$name'")
         } 
         bean
+    }
+
+    BeanBuilder beans(Closure definition) {
+        if (!definining) {
+            definining = true
+            super.beans(definition)
+            definining = false
+        } else {
+            definition.delegate = this
+            definition.call()
+        }
+        this
     }
     
     def invokeMethod(String name, arg) {
@@ -59,8 +105,21 @@ class FixtureBuilder extends BeanBuilder {
         } else {
             super.invokeMethod(name, arg)
         }
+    }    
+    
+    protected BeanConfiguration invokeBeanDefiningMethod(String name, Object[] args) {
+        if (!isBuildTestDataActive() || !buildTestDataTranslator.translate(this, name, *args)) {
+            super.invokeBeanDefiningMethod(name, *args)
+        } else {
+            null
+        }
     }
-
+    
+    protected isBuildTestDataActive() {
+        buildTestDataPluginInstalled && this.build
+    }
+    
+    
     def ApplicationContext createApplicationContext() {
         def ctx = super.createApplicationContext()
         def grailsApplication = ctx.getBean("grailsApplication")

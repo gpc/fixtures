@@ -22,6 +22,10 @@ class FixtureLoader  {
     def load(Closure fixture) {
         doLoad(fixture)
     }
+
+    def build(Closure fixture) {
+        createFixture().build(fixture)
+    }
     
     protected doLoad(Object[] fixtures) {
         createFixture().load(*fixtures)
