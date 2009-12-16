@@ -13,11 +13,7 @@ import org.hibernate.TransientObjectException
 
 import grails.spring.BeanBuilder
 
-import org.apache.commons.logging.LogFactory
-
 class FixtureBuilder extends BeanBuilder {
-    
-    static log = LogFactory.getLog(FixtureBuilder)
     
     protected fixture
 
@@ -27,21 +23,16 @@ class FixtureBuilder extends BeanBuilder {
     }
 
     def getProperty(String name) {
-        def currentFixture = 'bob'
-        log.debug("dynamically resolving property '$name' in fixture '$currentFixture'")
         def parentCtx = getParentCtx()
         if (parentCtx?.containsBean(name)) {
-            log.debug("resolved property '$name' in fixture '$currentFixture' to bean definition in parent context")
             new RuntimeBeanReference(name, true)
         } else {
             try {
                 def property = super.getProperty(name)
-                log.debug("resolved property '$name' in fixture '$currentFixture' to bean definition in current context")
                 property
             } catch (MissingPropertyException e) {
                 def bean = bean(name)
                 if (!bean) throw e
-                log.debug("resolved property '$name' in fixture '$currentFixture' to bean '$bean'")
                 bean
             }
         }
