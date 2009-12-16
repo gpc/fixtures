@@ -9,7 +9,6 @@ class FixtureHandler extends FixtureBuildingShellHandler {
     }
     
     def doCall(Closure f) {
-        println builder
         builder.beans(f)
     }
 
