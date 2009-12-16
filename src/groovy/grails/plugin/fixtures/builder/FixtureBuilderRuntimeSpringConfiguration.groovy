@@ -6,7 +6,7 @@ import org.codehaus.groovy.grails.commons.spring.DefaultRuntimeSpringConfigurati
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor
 import org.springframework.beans.factory.support.AbstractBeanDefinition
 import org.springframework.context.support.GenericApplicationContext
-
+import grails.plugin.fixtures.builder.processor.FixtureBeanPostProcessor
 
 class FixtureBuilderRuntimeSpringConfiguration extends DefaultRuntimeSpringConfiguration {
 

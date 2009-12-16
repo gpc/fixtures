@@ -1,4 +1,4 @@
-package grails.plugin.fixtures.builder
+package grails.plugin.fixtures.builder.processor
 
 import grails.plugin.fixtures.exception.*
 
