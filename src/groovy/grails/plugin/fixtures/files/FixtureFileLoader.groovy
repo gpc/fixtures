@@ -25,7 +25,7 @@ class FixtureFileLoader {
         this.inners = inners
         this.builder = builder
         
-        this.fileResolver = new FixtureFilePatternResolver(fixture.grailsApplication)
+        this.fileResolver = new FixtureFilePatternResolver(fixture.grailsApplication, fixture.applicationContext)
         this.shell = new FixtureBuildingShell(this)
     }
     

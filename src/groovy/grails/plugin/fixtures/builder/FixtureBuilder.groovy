@@ -99,20 +99,17 @@ class FixtureBuilder extends BeanBuilder {
         this
     }
     
-    def invokeMethod(String name, arg) {
-        if (name == "bean") {
-            bean(*arg)
+    def invokeMethod(String name, args) {
+        def mm = this.metaClass.getMetaMethod(name, *args)
+        if (mm) {
+            mm.invoke(this, *args)
         } else {
-            super.invokeMethod(name, arg)
+            translateToBuild(name, *args) ?: super.invokeMethod(name, args)
         }
     }    
     
-    protected BeanConfiguration invokeBeanDefiningMethod(String name, Object[] args) {
-        if (!isBuildTestDataActive() || !buildTestDataTranslator.translate(this, name, *args)) {
-            super.invokeBeanDefiningMethod(name, *args)
-        } else {
-            null
-        }
+    protected translateToBuild(String name, Object[] args) {
+        isBuildTestDataActive() ? buildTestDataTranslator.translate(this, name, *args) : null
     }
     
     protected isBuildTestDataActive() {

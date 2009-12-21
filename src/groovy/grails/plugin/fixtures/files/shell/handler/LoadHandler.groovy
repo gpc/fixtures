@@ -12,7 +12,7 @@ class LoadHandler extends FixtureBuildingShellHandler {
     }
     
     def doCall(patternsOrClosures) {
-        def inner = new Fixture(fixture.grailsApplication, inners.clone())
+        def inner = new Fixture(fixture.grailsApplication, fixture.applicationContext, inners.clone())
         
         if (patternsOrClosures instanceof Closure) {
             inner.load(patternsOrClosures)

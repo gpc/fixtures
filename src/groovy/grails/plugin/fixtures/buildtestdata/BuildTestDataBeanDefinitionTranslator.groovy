@@ -11,16 +11,11 @@ class BuildTestDataBeanDefinitionTranslator {
     static protected BEAN_DEFINING_MAP_CONSTRUCTOR_AND_CLOSURE_SIGNATURE = [Map, Class, Closure]
     static protected BEAN_DEFINING_LITERAL_MAP_CONSTRUCTOR_AND_CLOSURE_SIGNATURE = [Class, Map, Closure]
      
-    boolean translate(builder, name, Object[] args) {
+    def translate(builder, name, Object[] args) {
         def signature = args*.getClass()
         
         def isSignature = { targetSignature ->
-            println "checking signature of $name($args) $targetSignature matches $signature"
-            if (signature.size() == targetSignature.size()) {
-                (0..(targetSignature.size() - 1)).every { targetSignature[it].isAssignableFrom(signature[it]) }
-            } else {
-                false
-            }
+            (signature.size() == targetSignature.size()) && (0..(targetSignature.size() - 1)).every { targetSignature[it].isAssignableFrom(signature[it]) }
         }
 
         if (isSignature(BEAN_DEFINING_NO_PROPERTIES_SIGNATURE)) {
@@ -36,7 +31,7 @@ class BuildTestDataBeanDefinitionTranslator {
         } else if (isSignature(BEAN_DEFINING_LITERAL_MAP_CONSTRUCTOR_AND_CLOSURE_SIGNATURE)) {
             translate(builder, name, args[0], args[1], args[2])
         } else {
-            false
+            null
         }
     }
 
@@ -57,10 +52,8 @@ class BuildTestDataBeanDefinitionTranslator {
                     }
                 }
             }
-            
-            true
         } else {
-            false
+            null
         }
     }
 }

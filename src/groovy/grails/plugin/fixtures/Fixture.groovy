@@ -4,6 +4,7 @@ import grails.plugin.fixtures.builder.FixtureBuilder
 import grails.plugin.fixtures.files.FixtureFileLoader
 import org.springframework.beans.factory.config.RuntimeBeanReference
 import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.springframework.context.ApplicationContext
 
 class Fixture {
     
@@ -12,10 +13,10 @@ class Fixture {
     
     protected inners = []
 
-    Fixture(GrailsApplication grailsApplication, inners = []) {
+    Fixture(GrailsApplication grailsApplication, ApplicationContext applicationContext, inners = []) {
         this.grailsApplication = grailsApplication
+        this.applicationContext = applicationContext
         this.inners = inners
-        this.applicationContext = grailsApplication.mainContext
     }
     
     def load(Closure f) {
