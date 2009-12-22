@@ -88,6 +88,7 @@ class FixtureBuilder extends BeanBuilder {
     }
 
     BeanBuilder beans(Closure definition) {
+        assertBuildTestDataPluginInstalledIfNeeded()
         if (!definining) {
             definining = true
             super.beans(definition)
@@ -112,10 +113,15 @@ class FixtureBuilder extends BeanBuilder {
         isBuildTestDataActive() ? buildTestDataTranslator.translate(this, name, *args) : null
     }
     
-    protected isBuildTestDataActive() {
-        buildTestDataPluginInstalled && this.build
+    protected boolean isBuildTestDataActive() {
+        this.build
     }
     
+    protected assertBuildTestDataPluginInstalledIfNeeded() {
+        if (isBuildTestDataActive() && !buildTestDataPluginInstalled) {
+            throw new FixtureException("build feature is unavailable as build-test-data plugin is not installed")
+        }
+    }
     
     def ApplicationContext createApplicationContext() {
         def ctx = super.createApplicationContext()
