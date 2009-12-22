@@ -50,7 +50,7 @@ class FixtureBuilder extends BeanBuilder {
     def getProperty(String name) {
         def parentCtx = getParentCtx()
         if (parentCtx?.containsBean(name)) {
-            new RuntimeBeanReference(name, true)
+            parentCtx.getBean(name)
         } else {
             try {
                 def property = super.getProperty(name)
