@@ -44,11 +44,12 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
                     }
                 } else {
                     log.debug("is NOT owning side")
-                    log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}")
-                    if (p.bidirectional && (p.oneToOne || p.manyToOne)) {
-                        log.info("not saving fixture bean $beanName")
-                        shouldSave = false
-                        
+                    log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}, oneToMany = ${p.oneToMany},")
+                    if (p.bidirectional) {
+                        if (p.oneToOne || p.manyToOne) {
+                            log.info("not saving fixture bean $beanName")
+                            shouldSave = false
+                        }
                         def propValue = bean."${p.name}"
                         if (propValue) {
                             log.debug("non owning, but has value of $propValue")
