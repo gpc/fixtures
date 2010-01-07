@@ -88,6 +88,8 @@ class FixtureBuilder extends BeanBuilder {
     }
 
     BeanBuilder beans(Closure definition) {
+        definition.resolveStrategy = Closure.DELEGATE_FIRST
+
         assertBuildTestDataPluginInstalledIfNeeded()
         if (!definining) {
             definining = true
