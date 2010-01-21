@@ -64,6 +64,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
                                 value."$otherSideName" = bean
                             }
                             value.save(flush: true)
+                            value.refresh()
                         }
                     }
                 }
