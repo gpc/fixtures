@@ -32,43 +32,46 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
     
             if (p.association && p.referencedDomainClass != null) {
                 log.debug("is a domain association")
-                if (p.owningSide) {
-                    log.debug("is owning side")
-                    def value = bean."${p.name}"
-                    if (value instanceof Collection) {
-                        log.debug("is a collection")
-                        bean."${p.name}" = []
+                log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}, oneToMany = ${p.oneToMany}")
+                def owningSide = p.owningSide
+                log.debug("${owningSide ? 'IS' : 'IS NOT'} owning side")
+                def value = bean."${p.name}"
+                if (value) {
+                    if (p.oneToMany || p.manyToMany) {
+                        log.debug("is to many")
+                        value = value.clone()
+                        bean."${p.name}".clear() 
                         value.each {
+                            log.debug("adding value $it")
                             bean."addTo${MetaClassHelper.capitalize(p.name)}"(it)
-                        }
-                    }
-                } else {
-                    log.debug("is NOT owning side")
-                    log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}, oneToMany = ${p.oneToMany},")
-                    if (p.bidirectional) {
-                        if (p.oneToOne || p.manyToOne) {
-                            log.info("not saving fixture bean $beanName")
-                            shouldSave = false
-                        }
-                        def propValue = bean."${p.name}"
-                        if (propValue) {
-                            log.debug("non owning, but has value of $propValue")
-                            def otherSideName = p.otherSide.name
-                            log.debug("attempting to set owning side inversely (prop name: ${otherSideName})")
-                            def propValues = (propValue instanceof Collection) ? propValue : [propValue]
-                            def otherSideIsMultiValue = (Collection.isAssignableFrom(p.otherSide.type))
-                            log.debug("other side ${otherSideIsMultiValue ? 'IS' : 'IS NOT'} multi valued")
-                            propValues.each {
-                                if (otherSideIsMultiValue) {
-                                    it."addTo${MetaClassHelper.capitalize(otherSideName)}"(bean)
-                                } else {
-                                    it."$otherSideName" = bean
-                                }
-                                assert it.save(flush: true)
+                            if (!owningSide) {
+                                log.debug("saving $it (owning side)")
+                                it.save(flush: true)
+                                it.refresh()
                             }
+                        }
+                    } else {
+                        log.debug('is not to many')
+                        if (p.bidirectional && !owningSide) {
+                            log.debug("setting this on $value (owning side)")
+                            def otherSideName = p.otherSide.name
+                            if (p.manyToOne) {
+                                def addMethodName = "addTo${MetaClassHelper.capitalize(otherSideName)}"
+                                log.debug("Calling $addMethodName on $value")
+                                value."$addMethodName"(bean)
+                            } else {
+                                log.debug("Setting $otherSideName on $value")
+                                value."$otherSideName" = bean
+                            }
+                            value.save(flush: true)
                         }
                     }
                 }
+                if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne)) {
+                    log.info("not saving fixture bean $beanName")
+                    shouldSave = false
+                }
+                
             } 
         }
 
