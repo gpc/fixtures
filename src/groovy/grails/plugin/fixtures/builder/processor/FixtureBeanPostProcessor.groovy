@@ -39,7 +39,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
                 if (value) {
                     if (p.oneToMany || p.manyToMany) {
                         log.debug("is to many")
-                        value = value.clone()
+                        value = value.toList()
                         bean."${p.name}".clear() 
                         value.each {
                             log.debug("adding value $it")
