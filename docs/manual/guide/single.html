@@ -21,7 +21,7 @@
 		
 		<div id="toc">  
 			<h2>Table of Contents</h2>
-			<div class="tocItem" style="margin-left:0px"><a href="#1. Introduction">1. Introduction</a></div>
+			<div class="tocItem" style="margin-left:0px"><a href="#1. Introduction">1. Introduction</a></div><div class="tocItem" style="margin-left:0px"><a href="#2. Defining The Data">2. Defining The Data</a></div><div class="tocItem" style="margin-left:10px"><a href="#2.1 Basics">2.1 Basics</a></div><div class="tocItem" style="margin-left:10px"><a href="#2.2 Advanced Techniques">2.2 Advanced Techniques</a></div><div class="tocItem" style="margin-left:10px"><a href="#2.3 Build-Test-Data Integration">2.3 Build-Test-Data Integration</a></div><div class="tocItem" style="margin-left:0px"><a href="#3. Loading Fixtures">3. Loading Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="#3.1 Inline Fixtures">3.1 Inline Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="#3.2 Fixture Files">3.2 Fixture Files</a></div><div class="tocItem" style="margin-left:10px"><a href="#3.3 Named Fixtures">3.3 Named Fixtures</a></div><div class="tocItem" style="margin-left:0px"><a href="#4. Fixture Objects">4. Fixture Objects</a></div><div class="tocItem" style="margin-left:0px"><a href="#5. Pre & Post Processing">5. Pre & Post Processing</a></div><div class="tocItem" style="margin-left:0px"><a href="#6. Includes">6. Includes</a></div>
 		</div>     
 		<div id="content">
 			<h1><a name="1. Introduction">1. Introduction</a></h1>The fixtures plugin allows you to use a convenient DSL to easily define a graph of persisted domain objects, typically for testing.<p class="paragraph"/>Here's an example…<p class="paragraph"/><div class="code"><pre>class MyTest <span class="java&#45;keyword">extends</span> GroovyTestCase &#123;<p class="paragraph"/>  def fixtureLoader<p class="paragraph"/>  void testGuillaumeAuthoredGina() &#123;<p class="paragraph"/>    def fixture = fixtureLoader.load &#123;
@@ -36,7 +36,7 @@
     gina.addToAuthors(guillaume)
     gina.addToAuthors(dierk)
     assert gina.save()<p class="paragraph"/>    assert guillaume in gina.authors 
-  &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>The domain objects are created using <a href="http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained" target="blank">Grails' own BeanBuilder</a> (i.e. it's the exact same DSL).         			
+  &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>The domain objects are created using <a href="http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained" target="blank">Grails' own BeanBuilder</a> (i.e. it's the exact same DSL).<h1><a name="2. Defining The Data">2. Defining The Data</a></h1><h2><a name="2.1 Basics">2.1 Basics</a></h2><h2><a name="2.2 Advanced Techniques">2.2 Advanced Techniques</a></h2><h2><a name="2.3 Build-Test-Data Integration">2.3 Build-Test-Data Integration</a></h2><h1><a name="3. Loading Fixtures">3. Loading Fixtures</a></h1><h2><a name="3.1 Inline Fixtures">3.1 Inline Fixtures</a></h2><h2><a name="3.2 Fixture Files">3.2 Fixture Files</a></h2><h2><a name="3.3 Named Fixtures">3.3 Named Fixtures</a></h2><h1><a name="4. Fixture Objects">4. Fixture Objects</a></h1><h1><a name="5. Pre & Post Processing">5. Pre & Post Processing</a></h1><h1><a name="6. Includes">6. Includes</a></h1>         			
 		</div>
 		<div id="footer">
 			  
