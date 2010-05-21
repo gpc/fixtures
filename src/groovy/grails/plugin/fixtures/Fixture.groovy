@@ -8,8 +8,8 @@ import org.springframework.context.ApplicationContext
 
 class Fixture {
     
-    final grailsApplication
-    final applicationContext
+    def grailsApplication
+    def applicationContext
     
     protected inners = []
 
