@@ -1,0 +1,45 @@
+<html>
+	<head>
+		  <title>fixtures 1.0.RC1.SNAPSHOT - Reference Documentation</title>
+		  <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Style" charset="utf-8">	
+	</head>
+    <body class="body">
+		<div id="header">
+				<div class="images"><br><br>
+				   <a href="http://grails.org"  target="_blank"><img alt="The Grails Framework" src="../img/grails.png" border="0"></a>
+				   <span style="right:30px; top:20px; position:absolute;">
+					<a href="../index.html" target="_top">Frames</a> | <a href="index.html" target="_top">No Frames</a><br><br>
+                     <a alt="SpringSource - A Division of VMware" href="http://springsource.com" target="_blank"><img src="../img/springsource-logo.png" border="0"></a>					
+					</span>					
+				</div>
+				<div class="message">fixtures</div>
+				<h1>fixtures - Reference Documentation</h1>
+				<p><strong>Authors:</strong> </p>
+				<p><strong>Version:</strong> 1.0.RC1.SNAPSHOT</p>				
+				<em></em>
+		</div>                       
+		
+		<div id="toc">  
+			<h2>Table of Contents</h2>
+			<div class="tocItem" style="margin-left:0px"><a href="#1. Introduction">1. Introduction</a></div>
+		</div>     
+		<div id="content">
+			<h1><a name="1. Introduction">1. Introduction</a></h1>The fixtures plugin allows you to use a convenient DSL to easily define a graph of persisted domain objects, typically for testing.<p class="paragraph"/>Here's an example…<p class="paragraph"/><div class="code"><pre>class MyTest <span class="java&#45;keyword">extends</span> GroovyTestCase &#123;<p class="paragraph"/>  def fixtureLoader<p class="paragraph"/>  void testGuillaumeAuthoredGina() &#123;<p class="paragraph"/>    def fixture = fixtureLoader.load &#123;
+      guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
+      dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
+      gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+    &#125;<p class="paragraph"/>    assert fixture.guillaume in fixture.gina.authors<p class="paragraph"/>  &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>The equivalent without using fixtures would be…<p class="paragraph"/><div class="code"><pre>class MyTest <span class="java&#45;keyword">extends</span> GroovyTestCase &#123;<p class="paragraph"/>  void testGuillaumeAuthoredGina() &#123;<p class="paragraph"/>    def guillaume = <span class="java&#45;keyword">new</span> Author(name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
+    assert guillaume.save()
+    def dierk = <span class="java&#45;keyword">new</span> Author(name: <span class="java&#45;quote">"Dierk Konig"</span>)
+    assert dierk.save()
+    def gina = <span class="java&#45;keyword">new</span> Book(title: <span class="java&#45;quote">"Groovy In Action"</span>)
+    gina.addToAuthors(guillaume)
+    gina.addToAuthors(dierk)
+    assert gina.save()<p class="paragraph"/>    assert guillaume in gina.authors 
+  &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>The domain objects are created using <a href="http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained" target="blank">Grails' own BeanBuilder</a> (i.e. it's the exact same DSL).         			
+		</div>
+		<div id="footer">
+			  
+		</div>	
+	</body>
+</html>
