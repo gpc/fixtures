@@ -7,9 +7,9 @@ class FixturesGrailsPlugin {
 
     def author = "Luke Daley"
     def authorEmail = "ld@ldaley.com"
-    def title = "fixtures"
-    def description = "Allows loading of data sets defined with the BeanBuilder DSL"
-    def documentation = "http://grails.org/Fixtures+Plugin"
+    def title = "Grails Fixtures Plugin"
+    def description = "Load complex domain data via a simple DSL"
+    def documentation = "http://alkemist.github.com/grails-fixtures/"
     def pluginExcludes = [
         "grails-app/domain/**",
         "grails-app/services/**",
