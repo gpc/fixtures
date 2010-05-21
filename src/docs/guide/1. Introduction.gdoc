@@ -1,0 +1,47 @@
+The fixtures plugin allows you to use a convenient DSL to easily define a graph of persisted domain objects, typically for testing. 
+
+Here's an example…
+
+{code}
+class MyTest extends GroovyTestCase {
+  
+  def fixtureLoader
+  
+  void testGuillaumeAuthoredGina() {
+
+    def fixture = fixtureLoader.load {
+      guillaume(Author, name: "Guillaume Laforge")
+      dierk(Author, name: "Dierk Koenig")
+      gina(Book, title: "Groovy In Action", authors: [guillaume, dierk])
+    }
+
+    assert fixture.guillaume in fixture.gina.authors 
+
+  }
+  
+}
+{code}
+
+The equivalent without using fixtures would be…
+
+{code}
+class MyTest extends GroovyTestCase {
+  
+  void testGuillaumeAuthoredGina() {
+
+    def guillaume = new Author(name: "Guillaume Laforge")
+    assert guillaume.save()
+    def dierk = new Author(name: "Dierk Konig")
+    assert dierk.save()
+    def gina = new Book(title: "Groovy In Action")
+    gina.addToAuthors(guillaume)
+    gina.addToAuthors(dierk)
+    assert gina.save()
+
+    assert guillaume in gina.authors 
+  }
+  
+}
+{code}
+
+The domain objects are created using "Grails' own BeanBuilder":http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained (i.e. it's the exact same DSL).
