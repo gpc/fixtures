@@ -45,3 +45,11 @@ class MyTest extends GroovyTestCase {
 {code}
 
 The domain objects are created using "Grails' own BeanBuilder":http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained (i.e. it's the exact same DSL).
+
+h3. Build-Test-Data integration
+
+A key feature of the plugin is the integration with the "build-test-data plugin":http://www.grails.org/plugin/build-test-data. This excellent plugin takes care of populating required domain properties that you don't care about for you, making your tests more focussed and readable.
+
+If the build-test-data plugin is installed, you can use the @build()@ method on the @fixtureLoader@ to create your instances via the build-test-data's @build()@ method thereby combining the DSL features of the fixtures plugin (i.e. expressing networks of objects) with the convenient instantiation features of build-test-data.
+
+See the section on [build-test-data integration|guide:btd] for more info.
