@@ -1,7 +1,7 @@
 class Post {
 
-    String text
+	String text
 
-    static hasMany = [comments:Comment]
+	static hasMany = [comments:Comment]
 
 }

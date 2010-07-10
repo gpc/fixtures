@@ -1,5 +1,5 @@
 class Uncle {
 
-    String name
+	String name
 
 }

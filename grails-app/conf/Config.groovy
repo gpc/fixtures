@@ -1,3 +1,3 @@
 log4j = {
-    debug 'grails.plugin.fixtures'
+	debug 'grails.plugin.fixtures'
 }

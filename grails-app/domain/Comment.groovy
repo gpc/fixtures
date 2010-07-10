@@ -1,7 +1,7 @@
 class Comment {
 
-    String comment
+	String comment
 
-    static belongsTo = [post: Post]
+	static belongsTo = [post: Post]
 
 }

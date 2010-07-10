@@ -4,17 +4,17 @@ import org.springframework.beans.factory.FactoryBean
 
 class BuildTestDataUtilisingFactoryBean implements FactoryBean {
 
-    boolean singleton = true
+	boolean singleton = true
 
-    def domainClass
-    def overrideProperties
-    
-    def getObject() {
-        domainClass.buildWithoutSave(overrideProperties)
-    }
+	def domainClass
+	def overrideProperties
+	
+	def getObject() {
+		domainClass.buildWithoutSave(overrideProperties)
+	}
 
-    Class getObjectType() {
-        domainClass
-    }
+	Class getObjectType() {
+		domainClass
+	}
 
 }

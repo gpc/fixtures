@@ -4,18 +4,18 @@ import grails.plugin.fixtures.exception.*
 
 class RequireBeansHandler extends FixtureBuildingShellHandler {
 
-    final name = 'requireBeans'
+	final name = 'requireBeans'
 
-    RequireBeansHandler(fileLoader) {
-        super(fileLoader)
-    }
-    
-    def doCall(String[] requirements) {
-        requirements.each {
-            if (!fixture.getBean(it)) {
-                throw new UnsatisfiedBeanRequirementException(it, currentlyLoadingFixtureName, currentLoadPattern)
-            }
-        }
-    }
+	RequireBeansHandler(fileLoader) {
+		super(fileLoader)
+	}
+	
+	def doCall(String[] requirements) {
+		requirements.each {
+			if (!fixture.getBean(it)) {
+				throw new UnsatisfiedBeanRequirementException(it, currentlyLoadingFixtureName, currentLoadPattern)
+			}
+		}
+	}
 
 }

@@ -1,5 +1,5 @@
 class Eye {
 
-    static belongsTo = [face: Face]
+	static belongsTo = [face: Face]
 
 }

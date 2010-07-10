@@ -2,12 +2,12 @@ package grails.plugin.fixtures.exception
 
 class UnknownFixtureException extends Exception {
 
-    UnknownFixtureException(name) {
-        this(name, null)
-    }
+	UnknownFixtureException(name) {
+		this(name, null)
+	}
 
-    UnknownFixtureException(name, Throwable cause) {
-        super("could not load fixtures from pattern '${name}'" as String, cause)
-    }
-    
+	UnknownFixtureException(name, Throwable cause) {
+		super("could not load fixtures from pattern '${name}'" as String, cause)
+	}
+	
 }

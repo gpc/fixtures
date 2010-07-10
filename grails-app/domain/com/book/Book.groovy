@@ -2,13 +2,13 @@ package com.book
 
 class Book {
 
-    String title
+	String title
 
-    static belongsTo = [author: Author]
+	static belongsTo = [author: Author]
 
-    static constraints = {
-        title(blank: false, maxSize: 50)
-    }
+	static constraints = {
+		title(blank: false, maxSize: 50)
+	}
 
-    String toString() { title }
+	String toString() { title }
 }
