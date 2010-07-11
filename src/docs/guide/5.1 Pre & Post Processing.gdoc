@@ -22,7 +22,7 @@ pre {
 }
 {code}
 
-Additionally, any object loaded in the fixture is available in the _post_ processor by name...
+Additionally, any object loaded in the fixture is available in the _post_ processor by name…
 
 {code}
 fixture {

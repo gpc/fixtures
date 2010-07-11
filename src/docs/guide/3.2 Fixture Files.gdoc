@@ -4,7 +4,7 @@ You can load fixtured from a file by passing the file name to the @load(String)@
 def fixture = fixtureLoader.load("gina")
 {code}
 
-You can load multiple fixtures at once by passing more than one fixture file name...
+You can load multiple fixtures at once by passing more than one fixture file name…
 
 {code}
 def fixture = fixtureLoader.load("gina", "otherfixture")
