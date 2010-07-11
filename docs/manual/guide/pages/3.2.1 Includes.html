@@ -1,0 +1,12 @@
+<html>
+     <head>
+     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+     	<title>3.2.1 Includes</title>
+     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
+     </head>
+	<body class="body">
+		Fixture files can include other fixture files via the <code>include()</code> method that takes one or more file patterns like the <code>fixtureLoader.load()</code> method.<p class="paragraph"/><div class="code"><pre>include <span class="java&#45;quote">"authors"</span><p class="paragraph"/>fixture &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;</pre></div><p class="paragraph"/>This will cause the <code>authors</code> fixtures file to be <em class="italic">executed</em> and <em class="italic">merged</em> into the current fixture.
+	</body>
+</html>

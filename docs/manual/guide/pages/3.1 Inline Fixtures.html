@@ -5,7 +5,7 @@
      	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
      </head>
 	<body class="body">
-		The <code>fixtureLoader.load()</code> method can also be used to define a one time fixute inline...<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load &#123;
+		<div class="code"><pre>def fixture = fixtureLoader.load &#123;
 	guillaume(Author) &#123;
 		name = <span class="java&#45;quote">"Guillaume Laforge"</span>
 	&#125;
@@ -16,15 +16,6 @@
 		title = <span class="java&#45;quote">"Groovy In Action"</span>
 		authors = &#91;guillaume, dierk&#93;
 	&#125;
-&#125;</pre></div><p class="paragraph"/>You can post-process inline fixutres with Groovy's <code>with</code> mechanism...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load &#123;
-	log(LogMessage) &#123;
-		message = <span class="java&#45;quote">"something happened"</span>
-	&#125;
-&#125;.with &#123;
-	// change the creation date of the log message
-	log.dateCreated &#45;= 1
-	log.save()
 &#125;</pre></div>
-
 	</body>
 </html>
