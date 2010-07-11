@@ -7,7 +7,7 @@ fixtureLoader['myFixture'].load('someFixtureFile')
 fixtureLoader['myFixture'].someObjectFromTheFixture
 {code}
 
-Property access notation also works…
+Property access notation also works...
 
 {code}
 // load it and name it 'myFixture'

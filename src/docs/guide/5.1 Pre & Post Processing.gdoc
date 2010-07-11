@@ -14,7 +14,7 @@ post {
 }
 {code}
 
-All beans in your application (and any parent fixtures, see [stacking|guide:stacking]) are available in both pre and post processors…
+All beans in your application (and any parent fixtures, see [stacking|guide:stacking]) are available in both pre and post processors...
 
 {code}
 pre {
@@ -22,7 +22,7 @@ pre {
 }
 {code}
 
-Additionally, any object loaded in the fixture is available in the _post_ processor by name…
+Additionally, any object loaded in the fixture is available in the _post_ processor by name...
 
 {code}
 fixture {

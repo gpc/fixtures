@@ -1,13 +1,13 @@
 The @fixtureLoader.load()@ methods (and [build-test-data @build()@ methods:|guide:btd]) return an object of type @Fixture@. 
 
-These objects hold all of the loaded domain objects which can then be referenced by name…
+These objects hold all of the loaded domain objects which can then be referenced by name...
 
 {code}
 def fixture = fixtureLoader.load("gina")
 assert fixture.gina.title == "Groovy In Action"
 {code}
 
-A convenient pattern is to use Groovy's @with()@ method on the @Fixture@ object returned to allow a more convenient syntax…
+A convenient pattern is to use Groovy's @with()@ method on the @Fixture@ object returned to allow a more convenient syntax...
 
 {code}
 fixtureLoader.load("gina").with {

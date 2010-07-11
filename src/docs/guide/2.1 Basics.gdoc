@@ -1,4 +1,4 @@
-A single object is defined as follows…
+A single object is defined as follows...
 
 {code}
 gina(Book, title: "Groovy In Action")
@@ -6,7 +6,7 @@ gina(Book, title: "Groovy In Action")
 
 This is defining an object named @gina@, of type @Book@ with the @title@ property set to @"Groovy In Action"@.
 
-An alternative syntax is…
+An alternative syntax is...
 
 {code}
 gina(Book) {
@@ -14,20 +14,20 @@ gina(Book) {
 }
 {code}
 
-These two syntaxes effectively achieve the same thing. The difference is that the first example is equivalent to…
+These two syntaxes effectively achieve the same thing. The difference is that the first example is equivalent to...
 
 {code}
 def gina = new Book(title: "Groovy In Action")
 {code}
 
-While the second (alternative) syntax is equivalent to…
+While the second (alternative) syntax is equivalent to...
 
 {code}
 def gina = new Book()
 gina.title = "Groovy In Action"
 {code}
 
-The two can even be mixed…
+The two can even be mixed...
 
 {code}
 gina(Book, title: "Groovy In Action") {
@@ -51,21 +51,21 @@ class Book {
 }
 {code}
 
-We can specify an Author/Book relationship like so…
+We can specify an Author/Book relationship like so...
 
 {code}
 b(Book, title: "The Fellowship of the Ring")
 a(Author, name: "J.R.R. Tolkien", books: [b])
 {code}
 
-In this example, @b@ must be defined before it is referenced by @a@. To reference @b@ before it is defined, the special @ref(«name»)@ method can be used…
+In this example, @b@ must be defined before it is referenced by @a@. To reference @b@ before it is defined, the special @ref(«name»)@ method can be used...
 
 {code}
 a(Author, name: "J.R.R. Tolkien", books: [ref("b")])
 b(Book, title: "The Fellowship of the Ring")
 {code}
 
-If the relationship is bidirectional, it can be set on either side…
+If the relationship is bidirectional, it can be set on either side...
 
 {code}
 a(Author, name: "J.R.R. Tolkien")

@@ -2,7 +2,7 @@
 def fixture = fixtureLoader.load("gina")
 {code}
 
-You can load multiple fixtures at once by passing more than one fixture file name…
+You can load multiple fixtures at once by passing more than one fixture file name...
 
 {code}
 def fixture = fixtureLoader.load("gina", "otherfixture")
@@ -12,7 +12,7 @@ Beans in different fixture files can reference each other. As long as the necess
 
 h4. Loading via patterns
 
-Ant style path patterns are supported…
+Ant style path patterns are supported...
 
 {code}
 fixtureLoader.load("books/*")

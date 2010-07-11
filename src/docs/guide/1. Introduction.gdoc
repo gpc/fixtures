@@ -1,6 +1,6 @@
 The fixtures plugin allows you to use a convenient DSL to easily define a graph of persisted domain objects, typically for testing. 
 
-Here's an example…
+Here's an example...
 
 {code}
 class MyTest extends GroovyTestCase {
@@ -22,7 +22,7 @@ class MyTest extends GroovyTestCase {
 }
 {code}
 
-The equivalent without using fixtures would be…
+The equivalent without using fixtures would be...
 
 {code}
 class MyTest extends GroovyTestCase {

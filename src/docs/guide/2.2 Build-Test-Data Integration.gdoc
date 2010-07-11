@@ -1,6 +1,6 @@
 The "build-test-data plugin":http://www.grails.org/plugin/build-test-data is a great plugin that simplifies specifying test data by populating required properties for you that you don't care about in your particular test.
 
-Consider the following class…
+Consider the following class...
 
 {code}
 // Book.groovy
@@ -19,7 +19,7 @@ Whenever an instance of Book is created for a test, the @isbn@ property has to b
 
 The fixtures plugin integrates with build-test-data by providing a @build()@ method that has the same behaviour as @load()@ except that objects are created via the build-test-data static @build()@ method.
 
-Which means that the following test will pass…
+Which means that the following test will pass...
 
 {code}
 def fixture = fixtureLoader.build {
@@ -28,7 +28,7 @@ def fixture = fixtureLoader.build {
 assert fixture.gina.isbn != null
 {code}
  
-And is equivalent to…
+And is equivalent to...
 
 {code}
 def gina = Book.build(title: "Groovy In Action")
