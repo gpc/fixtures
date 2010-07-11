@@ -1,0 +1,17 @@
+Sometimes you want to have the fixture object that you load stick around. For this you can use "named fixtures"...
+
+{code}
+// load it and name it 'myFixture'
+fixtureLoader['myFixture'].load('someFixtureFile')
+// access it
+fixtureLoader['myFixture'].someObjectFromTheFixture
+{code}
+
+Property access notation also works…
+
+{code}
+// load it and name it 'myFixture'
+fixtureLoader.myFixture.load('someFixtureFile')
+// access it
+fixtureLoader.myFixture.someObjectFromTheFixture
+{code}
