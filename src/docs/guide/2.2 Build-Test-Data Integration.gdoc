@@ -1,0 +1,23 @@
+The @fixtureLoader@ bean also provides a @build@ method, which integrates with the "build-test-data plugin":http://www.grails.org/plugin/build-test-data and behaves in a similar fashion.
+
+{code}
+// Book.groovy
+class Book {
+	String title
+	String isbn
+
+	static constraints = {
+		title(required: true)
+		isbn(required: true)  // build-test-data will provide this property
+	}
+}
+
+// fixtures/gina.groovy
+def fixture = fixtureLoader.build {
+	gina(Book) {
+		title = "Groovy In Action"
+	}
+}
+
+assert gina.validate()
+{code}

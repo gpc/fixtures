@@ -5,3 +5,5 @@ test/reports
 *.zip
 target
 docs
+*.iml
+.idea
