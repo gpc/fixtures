@@ -1,23 +1,62 @@
-The @fixtureLoader@ bean also provides a @build@ method, which integrates with the "build-test-data plugin":http://www.grails.org/plugin/build-test-data and behaves in a similar fashion.
+The "build-test-data plugin":http://www.grails.org/plugin/build-test-data is a great plugin that simplifies specifying test data by populating required properties for you that you don't care about in your particular test.
+
+Consider the following class…
 
 {code}
 // Book.groovy
 class Book {
-	String title
-	String isbn
+  String title
+  String isbn
 
-	static constraints = {
-		title(required: true)
-		isbn(required: true)  // build-test-data will provide this property
-	}
+  static constraints = {
+    title(required: true)
+    isbn(required: true)
+  }
 }
-
-// fixtures/gina.groovy
-def fixture = fixtureLoader.build {
-	gina(Book) {
-		title = "Groovy In Action"
-	}
-}
-
-assert gina.validate()
 {code}
+
+Whenever an instance of Book is created for a test, the @isbn@ property has to be populated for the object to pass validation which can be distracting if your test does not care about the @isbn@ property. The build-test-data plugin provides a static @build()@ method on all domain classes that creates an instance with all non-specified, mandatory properties filled in with placeholder values that pass constrain tests. For more information, see the documentation on the plugin.
+
+The fixtures plugin integrates with build-test-data by providing a @build()@ method that has the same behaviour as @load()@ except that objects are created via the build-test-data static @build()@ method.
+
+Which means that the following test will pass…
+
+{code}
+def fixture = fixtureLoader.build {
+  gina(Book, title: "Groovy In Action")
+}
+assert fixture.gina.isbn != null
+{code}
+ 
+And is equivalent to…
+
+{code}
+def gina = Book.build(title: "Groovy In Action")
+assert gina.isbn != null
+{code}
+
+In fixture files, you can specify that build-test-data integration should be used by using the @build()@ method instead of the usual @fixture()@ method.
+
+h4. Switching it on/off
+
+You may only want to define part of your fixture with build-test-data integration, or conversely you may want to define part of it without it. You can do this via the @build()@ and @noBuild()@ methods inside a fixture definition.
+
+{code}
+fixtureLoader.load {
+  build {
+    gina(Book, title: "Groovy In Action")
+  }
+}
+{code}
+
+{code}
+fixtureLoader.build {
+  noBuild {
+    gina(Book, title: "Groovy In Action", isbn: "12345678")
+  }
+}
+{code}
+
+h4. Installing build-test-data
+
+Note that build-test-data integration only works if you have installed the build-test-data plugin yourself. The fixtures plugin does not attempt to install it for you.
