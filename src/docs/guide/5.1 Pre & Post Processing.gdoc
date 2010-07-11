@@ -4,6 +4,7 @@ Sometimes it's necessary to do something before or after your fixture is loaded.
 pre {
 	/* do things before loading fixture */
 }
+
 fixture {
 	/* fixture definition */
 }
@@ -13,7 +14,7 @@ post {
 }
 {code}
 
-All beans in the application context are available in both pre and post processors...
+All beans in your application (and any parent fixtures, see [stacking|guide:stacking]) are available in both pre and post processors…
 
 {code}
 pre {
