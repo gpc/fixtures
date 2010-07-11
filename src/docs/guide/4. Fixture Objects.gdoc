@@ -1,38 +1,18 @@
-The @fixtureLoader.load()@ method returns a fixture object. This object can be used to load more fixtures or to get at any of the loaded objects.
+The @fixtureLoader.load()@ methods (and [build-test-data @build()@ methods:|guide:btd]) return an object of type @Fixture@. 
 
-
-h4. Loading subsequent fixtures
+These objects hold all of the loaded domain objects which can then be referenced by name…
 
 {code}
 def fixture = fixtureLoader.load("gina")
-fixture.load("otherFixture")
+assert fixture.gina.title == "Groovy In Action"
 {code}
 
-Any subsequently loaded fixtures can reference objects from the previous fixture by name…
+A convenient pattern is to use Groovy's @with()@ method on the @Fixture@ object returned to allow a more convenient syntax…
 
 {code}
-fixtureLoader.load {
-	me(Author) {
-		name = "Luke Daley"
-	}
-}.load {
-	book(Book) {
-		title = "Grails Fixtures for Dummies"
-		authors = [me]
-	}
+fixtureLoader.load("gina").with {
+  assert gina.title == "Groovy In Action"
 }
 {code}
 
-h4. Accessing loaded objects
-
-Loaded objects can be retrieved from the fixture as properties…
-
-{code}
-def f = fixtureLoader.load {
-	me(Author) {
-		name = "Luke Daley"
-	}
-}
-assertEquals("Luke Daley", f.me.name)
-{code}
-
+The @fixtureLoader@ @load()@ and @build()@ methods are also available on @Fixture@ objects. This can be used to _stack_ fixtures. See the section on [stacking|guide:stacking] for more info.

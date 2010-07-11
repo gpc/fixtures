@@ -28,6 +28,7 @@ grails {
 			intro = "1. Introduction"
 			btd = "2.2 Build-Test-Data Integration"
 			loading = "3. Loading Fixtures"
+			stacking = "5.2 Stacking"
 		}
 	}
 }

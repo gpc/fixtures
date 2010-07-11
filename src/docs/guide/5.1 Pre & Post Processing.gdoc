@@ -1,23 +1,24 @@
-Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding @preProcess@ and/or @postProcess@ handler.
+Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding @pre@ and/or @post@ handler.
 
 {code}
-preProcess {
-	/* do things before loading fixture */
+pre {
+  /* do things before loading fixture */
 }
+
 fixture {
-	/* fixture definition */
+  /* fixture definition */
 }
 
-postProcess {
-	/* do things after loading fixture */
+post {
+  /* do things after loading fixture */
 }
 {code}
 
-All beans in the application context are available in both pre and post processors...
+All beans in your application (and any parent fixtures, see [stacking|guide:stacking]) are available in both pre and post processors…
 
 {code}
-preProcess {
-	someService.someMethod()
+pre {
+  someService.someMethod()
 }
 {code}
 
@@ -25,14 +26,14 @@ Additionally, any object loaded in the fixture is available in the _post_ proces
 
 {code}
 fixture {
-	log(LogMessage) {
-		message = "something happened"
-	}
+  log(LogMessage) {
+    message = "something happened"
+  }
 }
-postProcess {
-	// change the creation date of the log message
-	log.dateCreated -= 1
-	log.save()
+post {
+  // change the creation date of the log message
+  log.dateCreated -= 1
+  log.save()
 }
 {code}
 
