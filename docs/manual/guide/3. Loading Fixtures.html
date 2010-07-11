@@ -6,17 +6,17 @@
      </head>
 	<body class="body">
 		<h1><a name="3. Loading Fixtures">3. Loading Fixtures</a></h1>Fixtures are loaded via the <code>fixtureLoader</code> bean which is available by autowiring in integration tests. It provides a <code>load(String)</code> method that will load fixtures from the given filenames, and a <code>load(Closure)</code> method that takes inline DSL definition as a closure.<h2><a name="3.1 Inline Fixtures">3.1 Inline Fixtures</a></h2><div class="code"><pre>def fixture = fixtureLoader.load &#123;
-	guillaume(Author) &#123;
-		name = <span class="java&#45;quote">"Guillaume Laforge"</span>
-	&#125;
-	dierk(Author) &#123;
-		name = <span class="java&#45;quote">"Dierk Koenig"</span>
-	&#125;
-	gina(Book) &#123;
-		title = <span class="java&#45;quote">"Groovy In Action"</span>
-		authors = &#91;guillaume, dierk&#93;
-	&#125;
-&#125;</pre></div><h2><a name="3.2 Fixture Files">3.2 Fixture Files</a></h2><div class="code"><pre>def fixture = fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)</pre></div><p class="paragraph"/>You can load multiple fixtures at once by passing more than one fixture file name...<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load(<span class="java&#45;quote">"gina"</span>, <span class="java&#45;quote">"otherfixture"</span>)</pre></div><p class="paragraph"/>Beans in different fixture files can reference each other. As long as the necessary fixtures are loaded, the references will resolve.<p class="paragraph"/><h4>Loading via patterns</h4><p class="paragraph"/>Ant style path patterns are supported...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"books/&#42;"</span>)</pre></div><h2><a name="3.2.1 Includes">3.2.1 Includes</a></h2>Fixture files can include other fixture files via the <code>include()</code> method that takes one or more file patterns like the <code>fixtureLoader.load()</code> method.<p class="paragraph"/><div class="code"><pre>include <span class="java&#45;quote">"authors"</span><p class="paragraph"/>fixture &#123;
+  guillaume(Author) &#123;
+    name = <span class="java&#45;quote">"Guillaume Laforge"</span>
+  &#125;
+  dierk(Author) &#123;
+    name = <span class="java&#45;quote">"Dierk Koenig"</span>
+  &#125;
+  gina(Book) &#123;
+    title = <span class="java&#45;quote">"Groovy In Action"</span>
+    authors = &#91;guillaume, dierk&#93;
+  &#125;
+&#125;</pre></div><h2><a name="3.2 Fixture Files">3.2 Fixture Files</a></h2><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)</pre></div><p class="paragraph"/>You can load multiple fixtures at once by passing more than one fixture file name...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"gina"</span>, <span class="java&#45;quote">"otherfixture"</span>)</pre></div><p class="paragraph"/>Beans in different fixture files can reference each other. As long as the necessary fixtures are loaded, the references will resolve.<p class="paragraph"/><h4>Loading via patterns</h4><p class="paragraph"/>Ant style path patterns are supported...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"books/&#42;"</span>)</pre></div><h2><a name="3.2.1 Includes">3.2.1 Includes</a></h2>Fixture files can include other fixture files via the <code>include()</code> method that takes one or more file patterns like the <code>fixtureLoader.load()</code> method.<p class="paragraph"/><div class="code"><pre>include <span class="java&#45;quote">"authors"</span><p class="paragraph"/>fixture &#123;
   gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
 &#125;</pre></div><p class="paragraph"/>This will cause the <code>authors</code> fixtures file to be <em class="italic">executed</em> and <em class="italic">merged</em> into the current fixture.<h2><a name="3.2.2 Inners">3.2.2 Inners</a></h2>Fixture files can load other fixture files as <em class="italic">parents</em> via the <code>load()</code> method that takes one or more file patterns like the <code>fixtureLoader.load()</code> method.<p class="paragraph"/><div class="code"><pre>load <span class="java&#45;quote">"authors"</span><p class="paragraph"/>fixture &#123;
   gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
