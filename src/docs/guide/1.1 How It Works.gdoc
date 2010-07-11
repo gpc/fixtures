@@ -1,0 +1,5 @@
+The plugin works by creating each fixture as a Spring application context via "Grails' own BeanBuilder":http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained (i.e. it's the exact same DSL).
+
+When you are defining a fixture, you are _declaring_ an object graph just like a Spring XML file or in @resources.groovy@ in a Grails application. Therefore, a fixture is a definition of an object graph and not the actual instantiation of the objects. Once the graph has been defined, the objects are instantiated and wired together. The fixtures plugin adds some smarts to this process to wire domain objects up appropriately using the @addTo*@ GORM methods and to call the @save()@ method where appropriate.
+
+There are some extra features/functions that go beyond normal bean loading via Spring that you can learn about in this documentation.
