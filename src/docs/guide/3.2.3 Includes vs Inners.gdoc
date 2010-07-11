@@ -1,0 +1,5 @@
+The use of @load()@ vs. @include()@ in a fixture file may seem confusing and it may not be clear when to use one over the other. 
+
+The use of @include()@ is generally preferred as it avoids the creation and processing overhead of another Spring application context. All including fixtures are merged into on fixture definition and the processed. However some domain models and object graphs cannot be saved atomically, and therefore require a subset of domain objects to be persisted before other objects can be defined.
+
+If you are experiencing @TransientObjectException@s occurring when you try to load a fixture file, you may be in a situation where your fixture cannot be saved in one go. This can often be resolved by loading the _owning_ objects in your fixture first via a @load()@ call, and then building the _owned_ objects on top of that inner fixture.

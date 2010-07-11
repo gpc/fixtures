@@ -1,0 +1,11 @@
+Fixture files can include other fixture files via the @include()@ method that takes one or more file patterns like the @fixtureLoader.load()@ method.
+
+{code}
+include "authors"
+
+fixture {
+  gina(Book, title: "Groovy In Action", authors: [guillaume, dierk])
+}
+{code}
+
+This will cause the @authors@ fixtures file to be _executed_ and _merged_ into the current fixture.

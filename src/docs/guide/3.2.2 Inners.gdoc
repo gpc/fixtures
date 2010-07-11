@@ -1,0 +1,24 @@
+Fixture files can load other fixture files as _parents_ via the @load()@ method that takes one or more file patterns like the @fixtureLoader.load()@ method.
+
+{code}
+load "authors"
+
+fixture {
+  gina(Book, title: "Groovy In Action", authors: [guillaume, dierk])
+}
+{code}
+
+This will cause the @authors@ fixtures file to be _executed_ and _loaded_, with it then being the parent of the fixture defined in the file. In other words, the objects in the _inner_ fixture (@authors@ in this example) are instantiated and saved at the point where the @load()@ call occurs.
+
+The @load()@ method in a fixture file can also define a fixture inline, which has the same effect.
+
+{code}
+load { 
+  guillaume(Author, name: "Guillaume Laforge")
+  dierk(Author, name: "Dierk Koenig")
+}
+
+fixture {
+  gina(Book, title: "Groovy In Action", authors: [guillaume, dierk])
+}
+{code}
