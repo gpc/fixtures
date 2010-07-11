@@ -1,0 +1,1 @@
+The fixtures plugin creates a bean called @fixtureLoader@ that exposes a @load(String[])@ method and a @load(Closure)@ method, which will load fixtures from either files or an inline DSL passed as a closure.
