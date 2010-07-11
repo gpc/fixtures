@@ -125,7 +125,29 @@ fixtureLoader&#91;'myFixture'&#93;.someObjectFromTheFixture</pre></div><p class=
 fixtureLoader.myFixture.load('someFixtureFile')
 // access it
 fixtureLoader.myFixture.someObjectFromTheFixture</pre></div>
-<h1><a name="4. Fixture Objects">4. Fixture Objects</a></h1><h1><a name="5. Advanced Techniques">5. Advanced Techniques</a></h1><h2><a name="5.1 Pre & Post Processing">5.1 Pre & Post Processing</a></h2><h2><a name="5.2 Stacking">5.2 Stacking</a></h2>Fixtures can stack on each other which can be an effective technique for creating complex fixtures out of simpler building blocks. This is best illustrated by an example…<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
+<h1><a name="4. Fixture Objects">4. Fixture Objects</a></h1>The <code>fixtureLoader.load()</code> methods (and <a href="../guide/single.html#2.2 Build-Test-Data Integration" class="guide">build-test-data <code>build()</code> methods:</a>) return an object of type <code>Fixture</code>.<p class="paragraph"/>These objects hold all of the loaded domain objects which can then be referenced by name…<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)
+assert fixture.gina.title == <span class="java&#45;quote">"Groovy In Action"</span></pre></div><p class="paragraph"/>A convenient pattern is to use Groovy's <code>with()</code> method on the <code>Fixture</code> object returned to allow a more convenient syntax…<p class="paragraph"/><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"gina"</span>).with &#123;
+  assert gina.title == <span class="java&#45;quote">"Groovy In Action"</span>
+&#125;</pre></div><p class="paragraph"/>The <code>fixtureLoader</code> <code>load()</code> and <code>build()</code> methods are also available on <code>Fixture</code> objects. This can be used to <em class="italic">stack</em> fixtures. See the section on <a href="../guide/single.html#5.2 Stacking" class="guide">stacking</a> for more info.<h1><a name="5. Advanced Techniques">5. Advanced Techniques</a></h1><h2><a name="5.1 Pre & Post Processing">5.1 Pre & Post Processing</a></h2>Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding <code>preProcess</code> and/or <code>postProcess</code> handler.<p class="paragraph"/><div class="code"><pre>preProcess &#123;
+	/&#42; <span class="java&#45;keyword">do</span> things before loading fixture &#42;/
+&#125;
+fixture &#123;
+	/&#42; fixture definition &#42;/
+&#125;<p class="paragraph"/>postProcess &#123;
+	/&#42; <span class="java&#45;keyword">do</span> things after loading fixture &#42;/
+&#125;</pre></div><p class="paragraph"/>All beans in the application context are available in both pre and post processors...<p class="paragraph"/><div class="code"><pre>preProcess &#123;
+	someService.someMethod()
+&#125;</pre></div><p class="paragraph"/>Additionally, any object loaded in the fixture is available in the <em class="italic">post</em> processor by name...<p class="paragraph"/><div class="code"><pre>fixture &#123;
+	log(LogMessage) &#123;
+		message = <span class="java&#45;quote">"something happened"</span>
+	&#125;
+&#125;
+postProcess &#123;
+	// change the creation date of the log message
+	log.dateCreated &#45;= 1
+	log.save()
+&#125;</pre></div><p class="paragraph"/>Pre process handlers are executed as soon as they are encountered. However, post processors are <strong class="bold">not</strong> executed until all fixtures have been loaded (e.g load patterns that match multiple files or fixtures with includes).
+<h2><a name="5.2 Stacking">5.2 Stacking</a></h2>Fixtures can stack on each other which can be an effective technique for creating complex fixtures out of simpler building blocks. This is best illustrated by an example…<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
 fixture &#123;
   guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
   dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
