@@ -1,4 +1,4 @@
-Sometimes you want to have the fixture object that you load stick around. For this you can use "named fixtures"...
+A fixture can be loaded with a name, which allows the same fixture to be referenced via the same name later on.
 
 {code}
 // load it and name it 'myFixture'
