@@ -26,7 +26,7 @@ grails {
 		footer = "Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>"
 		alias {
 			intro = "1. Introduction"
-			btd = "2.3 Build-Test-Data Integration"
+			btd = "2.2 Build-Test-Data Integration"
 			loading = "3. Loading Fixtures"
 		}
 	}
