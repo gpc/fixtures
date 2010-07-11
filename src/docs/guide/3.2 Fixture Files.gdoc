@@ -1,5 +1,3 @@
-You can load fixtured from a file by passing the file name to the @load(String)@ method of the @fixtureLoader@ bean.
-
 {code}
 def fixture = fixtureLoader.load("gina")
 {code}
@@ -12,7 +10,6 @@ def fixture = fixtureLoader.load("gina", "otherfixture")
 
 Beans in different fixture files can reference each other. As long as the necessary fixtures are loaded, the references will resolve.
 
-
 h4. Loading via patterns
 
 Ant style path patterns are supported…
@@ -20,21 +17,3 @@ Ant style path patterns are supported…
 {code}
 fixtureLoader.load("books/*")
 {code}
-
-h4. Integration Tests
-
-The fixtures plugin creates a bean called @fixtureLoader@ in your grails app which you can use to load fixtures.
-
-{code}
-class GinaTests extends GroovyTestCase {
-	def fixtureLoader
-
-	void TestIt() {
-		fixtureLoader.load("gina")
-		def gina = Book.findByTitle("Groovy In Action")
-		assertNotNull(gina)
-		assertEquals(2, gina.authors.size())
-	}
-}
-{code}
-
