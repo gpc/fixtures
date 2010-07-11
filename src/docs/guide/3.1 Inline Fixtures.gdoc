@@ -1,4 +1,4 @@
-The @fixtureLoader.load()@ method can also be used to define a one time fixute inline...
+The @fixtureLoader.load()@ method can also be used to define a one time fixute inline…
 
 {code}
 def fixture = fixtureLoader.load {
