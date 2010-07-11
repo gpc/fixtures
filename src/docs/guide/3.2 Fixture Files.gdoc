@@ -1,11 +1,11 @@
 {code}
-def fixture = fixtureLoader.load("gina")
+fixtureLoader.load("gina")
 {code}
 
 You can load multiple fixtures at once by passing more than one fixture file name...
 
 {code}
-def fixture = fixtureLoader.load("gina", "otherfixture")
+fixtureLoader.load("gina", "otherfixture")
 {code}
 
 Beans in different fixture files can reference each other. As long as the necessary fixtures are loaded, the references will resolve.

@@ -1,14 +1,14 @@
 {code}
 def fixture = fixtureLoader.load {
-	guillaume(Author) {
-		name = "Guillaume Laforge"
-	}
-	dierk(Author) {
-		name = "Dierk Koenig"
-	}
-	gina(Book) {
-		title = "Groovy In Action"
-		authors = [guillaume, dierk]
-	}
+  guillaume(Author) {
+    name = "Guillaume Laforge"
+  }
+  dierk(Author) {
+    name = "Dierk Koenig"
+  }
+  gina(Book) {
+    title = "Groovy In Action"
+    authors = [guillaume, dierk]
+  }
 }
 {code}
