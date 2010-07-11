@@ -1,0 +1,38 @@
+The @fixtureLoader.load()@ method returns a fixture object. This object can be used to load more fixtures or to get at any of the loaded objects.
+
+
+h4. Loading subsequent fixtures
+
+{code}
+def fixture = fixtureLoader.load("gina")
+fixture.load("otherFixture")
+{code}
+
+Any subsequently loaded fixtures can reference objects from the previous fixture by name…
+
+{code}
+fixtureLoader.load {
+	me(Author) {
+		name = "Luke Daley"
+	}
+}.load {
+	book(Book) {
+		title = "Grails Fixtures for Dummies"
+		authors = [me]
+	}
+}
+{code}
+
+h4. Accessing loaded objects
+
+Loaded objects can be retrieved from the fixture as properties…
+
+{code}
+def f = fixtureLoader.load {
+	me(Author) {
+		name = "Luke Daley"
+	}
+}
+assertEquals("Luke Daley", f.me.name)
+{code}
+
