@@ -1,0 +1,54 @@
+Fixtures can stack on each other which can be an effective technique for creating complex fixtures out of simpler building blocks. This is best illustrated by an example…
+
+{code}
+// fixtures/authors.groovy
+fixture {
+  guillaume(Author, name: "Guillaume Laforge")
+  dierk(Author, name: "Dierk Koenig")
+}
+
+// fixtures/books.groovy
+fixture {
+  gina(Book, title: "Groovy In Action", authors: [guillaume, dierk])
+}
+
+fixtureLoader.load("authors").load("books")
+{code}
+
+The fixture contained in @authors@ is created and persisted, then the fixture in @books@ is created and persisted independently. Note that the @books@ fixture can refer to any objects loaded in a _parent_ fixture by name.
+
+This can also be done with inline fixtures…
+
+{code}
+// fixtures/authors.groovy
+fixture {
+}
+
+// fixtures/books.groovy
+fixture {
+  gina(Book, title: "Groovy In Action", authors: [guillaume, dierk])
+}
+
+fixtureLoader.load {
+  guillaume(Author, name: "Guillaume Laforge")
+  dierk(Author, name: "Dierk Koenig")  
+}.load {
+  gina(Book, title: "Groovy In Action", authors: [guillaume, dierk])
+}
+{code}
+ 
+While this is possible, it's not overly useful. What can be useful however is to build on a fixture inline…
+
+{code}
+// fixtures/authors.groovy
+fixture {
+  guillaume(Author, name: "Guillaume Laforge")
+  dierk(Author, name: "Dierk Koenig")
+}
+
+fixtureLoader.load("authors").load {
+  gina(Book, title: "Groovy In Action", authors: [guillaume, dierk])
+}
+{code}
+
+In a real work scenario, @authors@ could contain common bean definitions that are used across many tests. Using this technique, you can reuse these common definitions and then conveniently augment/extend them in individual tests.
