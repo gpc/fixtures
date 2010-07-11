@@ -1,4 +1,4 @@
-Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding @pre@ and/or @post@ handler.
+Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding @pre@ and/or @post@ handler in your fixture files.
 
 {code}
 pre {
