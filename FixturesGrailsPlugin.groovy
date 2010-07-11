@@ -20,8 +20,8 @@ class FixturesGrailsPlugin {
 	def dependsOn = [:]
 	def grailsVersion = "1.1 > *"
 
-	def author = "Luke Daley"
-	def authorEmail = "ld@ldaley.com"
+	def author = "Grails Plugin Collective"
+	def authorEmail = "grails.plugin.collective@gmail.com"
 	def title = "Grails Fixtures Plugin"
 	def description = "Load complex domain data via a simple DSL"
 	def documentation = "http://alkemist.github.com/grails-fixtures/"
