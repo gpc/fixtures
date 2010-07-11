@@ -5,6 +5,42 @@
      	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
      </head>
 	<body class="body">
-		<h1><a name="3. Loading Fixtures">3. Loading Fixtures</a></h1><h2><a name="3.1 Inline Fixtures">3.1 Inline Fixtures</a></h2><h2><a name="3.2 Fixture Files">3.2 Fixture Files</a></h2><h2><a name="3.3 Named Fixtures">3.3 Named Fixtures</a></h2>
+		<h1><a name="3. Loading Fixtures">3. Loading Fixtures</a></h1>The fixtures plugin creates a bean called <code>fixtureLoader</code> that exposes a <code>load(String)</code> method and a <code>load(Closure)</code> method, which will load fixtures from either files or an inline DSL passed as a closure.
+<h2><a name="3.1 Inline Fixtures">3.1 Inline Fixtures</a></h2>The <code>fixtureLoader.load()</code> method can also be used to define a one time fixute inline...<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load &#123;
+	guillaume(Author) &#123;
+		name = <span class="java&#45;quote">"Guillaume Laforge"</span>
+	&#125;
+	dierk(Author) &#123;
+		name = <span class="java&#45;quote">"Dierk Koenig"</span>
+	&#125;
+	gina(Book) &#123;
+		title = <span class="java&#45;quote">"Groovy In Action"</span>
+		authors = &#91;guillaume, dierk&#93;
+	&#125;
+&#125;</pre></div><p class="paragraph"/>You can post-process inline fixutres with Groovy's <code>with</code> mechanism...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load &#123;
+	log(LogMessage) &#123;
+		message = <span class="java&#45;quote">"something happened"</span>
+	&#125;
+&#125;.with &#123;
+	// change the creation date of the log message
+	log.dateCreated &#45;= 1
+	log.save()
+&#125;</pre></div>
+<h2><a name="3.2 Fixture Files">3.2 Fixture Files</a></h2>You can load fixtured from a file by passing the file name to the <code>load(String)</code> method of the <code>fixtureLoader</code> bean.<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)</pre></div><p class="paragraph"/>You can load multiple fixtures at once by passing more than one fixture file name...<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load(<span class="java&#45;quote">"gina"</span>, <span class="java&#45;quote">"otherfixture"</span>)</pre></div><p class="paragraph"/>Beans in different fixture files can reference each other. As long as the necessary fixtures are loaded, the references will resolve.<p class="paragraph"/>
+<h4>Loading via patterns</h4><p class="paragraph"/>Ant style path patterns are supported…<p class="paragraph"/><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"books/&#42;"</span>)</pre></div><p class="paragraph"/><h4>Integration Tests</h4><p class="paragraph"/>The fixtures plugin creates a bean called <code>fixtureLoader</code> in your grails app which you can use to load fixtures.<p class="paragraph"/><div class="code"><pre>class GinaTests <span class="java&#45;keyword">extends</span> GroovyTestCase &#123;
+	def fixtureLoader<p class="paragraph"/>	void TestIt() &#123;
+		fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)
+		def gina = Book.findByTitle(<span class="java&#45;quote">"Groovy In Action"</span>)
+		assertNotNull(gina)
+		assertEquals(2, gina.authors.size())
+	&#125;
+&#125;</pre></div><p class="paragraph"/><h2><a name="3.3 Named Fixtures">3.3 Named Fixtures</a></h2>Sometimes you want to have the fixture object that you load stick around. For this you can use "named fixtures"...<p class="paragraph"/><div class="code"><pre>// load it and name it 'myFixture'
+fixtureLoader&#91;'myFixture'&#93;.load('someFixtureFile')
+// access it
+fixtureLoader&#91;'myFixture'&#93;.someObjectFromTheFixture</pre></div><p class="paragraph"/>Property access notation also works…<p class="paragraph"/><div class="code"><pre>// load it and name it 'myFixture'
+fixtureLoader.myFixture.load('someFixtureFile')
+// access it
+fixtureLoader.myFixture.someObjectFromTheFixture</pre></div>
+
 	</body>
 </html>

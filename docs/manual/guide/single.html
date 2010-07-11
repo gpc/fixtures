@@ -1,6 +1,6 @@
 <html>
 	<head>
-		  <title>Grails Fixtures Plugin 1.0.RC1.SNAPSHOT - Reference Documentation</title>
+		  <title>Grails Fixtures Plugin 1.0-SNAPSHOT - Reference Documentation</title>
 		  <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Style" charset="utf-8">	
 	</head>
     <body class="body">
@@ -15,13 +15,13 @@
 				<div class="message">Load complex domain data via a convenient DSL</div>
 				<h1>Grails Fixtures Plugin - Reference Documentation</h1>
 				<p><strong>Authors:</strong> Grails Plugin Collective</p>
-				<p><strong>Version:</strong> 1.0.RC1.SNAPSHOT</p>				
+				<p><strong>Version:</strong> 1.0-SNAPSHOT</p>				
 				<em>Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.</em>
 		</div>                       
 		
 		<div id="toc">  
 			<h2>Table of Contents</h2>
-			<div class="tocItem" style="margin-left:0px"><a href="#1. Introduction">1. Introduction</a></div><div class="tocItem" style="margin-left:10px"><a href="#1.1 How It Works">1.1 How It Works</a></div><div class="tocItem" style="margin-left:10px"><a href="#1.2 Changelog">1.2 Changelog</a></div><div class="tocItem" style="margin-left:0px"><a href="#2. Defining The Data">2. Defining The Data</a></div><div class="tocItem" style="margin-left:10px"><a href="#2.1 Basics">2.1 Basics</a></div><div class="tocItem" style="margin-left:10px"><a href="#2.2 Advanced Techniques">2.2 Advanced Techniques</a></div><div class="tocItem" style="margin-left:10px"><a href="#2.3 Build-Test-Data Integration">2.3 Build-Test-Data Integration</a></div><div class="tocItem" style="margin-left:0px"><a href="#3. Loading Fixtures">3. Loading Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="#3.1 Inline Fixtures">3.1 Inline Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="#3.2 Fixture Files">3.2 Fixture Files</a></div><div class="tocItem" style="margin-left:10px"><a href="#3.3 Named Fixtures">3.3 Named Fixtures</a></div><div class="tocItem" style="margin-left:0px"><a href="#4. Fixture Objects">4. Fixture Objects</a></div><div class="tocItem" style="margin-left:0px"><a href="#5. Pre & Post Processing">5. Pre & Post Processing</a></div><div class="tocItem" style="margin-left:0px"><a href="#6. Includes">6. Includes</a></div>
+			<div class="tocItem" style="margin-left:0px"><a href="#1. Introduction">1. Introduction</a></div><div class="tocItem" style="margin-left:10px"><a href="#1.1 How It Works">1.1 How It Works</a></div><div class="tocItem" style="margin-left:10px"><a href="#1.2 Changelog">1.2 Changelog</a></div><div class="tocItem" style="margin-left:0px"><a href="#2. Defining The Data">2. Defining The Data</a></div><div class="tocItem" style="margin-left:10px"><a href="#2.1 Basics">2.1 Basics</a></div><div class="tocItem" style="margin-left:10px"><a href="#2.2 Build-Test-Data Integration">2.2 Build-Test-Data Integration</a></div><div class="tocItem" style="margin-left:0px"><a href="#3. Loading Fixtures">3. Loading Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="#3.1 Inline Fixtures">3.1 Inline Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="#3.2 Fixture Files">3.2 Fixture Files</a></div><div class="tocItem" style="margin-left:10px"><a href="#3.3 Named Fixtures">3.3 Named Fixtures</a></div><div class="tocItem" style="margin-left:0px"><a href="#4. Fixture Objects">4. Fixture Objects</a></div><div class="tocItem" style="margin-left:0px"><a href="#5. Advanced Techniques">5. Advanced Techniques</a></div><div class="tocItem" style="margin-left:10px"><a href="#5.1 Pre & Post Processing">5.1 Pre & Post Processing</a></div><div class="tocItem" style="margin-left:10px"><a href="#5.2 Stacking">5.2 Stacking</a></div><div class="tocItem" style="margin-left:10px"><a href="#5.3. Includes">5.3. Includes</a></div>
 		</div>     
 		<div id="content">
 			<h1><a name="1. Introduction">1. Introduction</a></h1>The fixtures plugin allows you to use a convenient DSL to easily define a graph of persisted domain objects, typically for testing.<p class="paragraph"/>Here's an example…<p class="paragraph"/><div class="code"><pre>class MyTest <span class="java&#45;keyword">extends</span> GroovyTestCase &#123;<p class="paragraph"/>  def fixtureLoader<p class="paragraph"/>  void testGuillaumeAuthoredGina() &#123;<p class="paragraph"/>    def fixture = fixtureLoader.load &#123;
@@ -37,7 +37,7 @@
     gina.addToAuthors(dierk)
     assert gina.save()<p class="paragraph"/>    assert guillaume in gina.authors 
   &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>
-<h3>Build-Test-Data integration</h3><p class="paragraph"/>A key feature of the plugin is the integration with the <a href="http://www.grails.org/plugin/build-test-data." target="blank">build-test-data plugin</a> This excellent plugin takes care of populating required domain properties that you don't care about for you, making your tests more focussed and readable.<p class="paragraph"/>If the build-test-data plugin is installed, you can use the <code>build()</code> method on the <code>fixtureLoader</code> to create your instances via the build-test-data's <code>build()</code> method thereby combining the DSL features of the fixtures plugin (i.e. expressing networks of objects) with the convenient instantiation features of build-test-data.<p class="paragraph"/>See the section on <a href="../guide/single.html#2.3 Build-Test-Data Integration" class="guide">build-test-data integration</a> for more info.
+<h3>Build-Test-Data integration</h3><p class="paragraph"/>A key feature of the plugin is the integration with the <a href="http://www.grails.org/plugin/build-test-data." target="blank">build-test-data plugin</a> This excellent plugin takes care of populating required domain properties that you don't care about for you, making your tests more focussed and readable.<p class="paragraph"/>If the build-test-data plugin is installed, you can use the <code>build()</code> method on the <code>fixtureLoader</code> to create your instances via the build-test-data's <code>build()</code> method thereby combining the DSL features of the fixtures plugin (i.e. expressing networks of objects) with the convenient instantiation features of build-test-data.<p class="paragraph"/>See the section on <a href="../guide/single.html#2.2 Build-Test-Data Integration" class="guide">build-test-data integration</a> for more info.
 <h2><a name="1.1 How It Works">1.1 How It Works</a></h2>The plugin works by creating each fixture as a Spring application context via <a href="http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained" target="blank">Grails' own BeanBuilder</a> (i.e. it's the exact same DSL).<p class="paragraph"/>When you are defining a fixture, you are <em class="italic">declaring</em> an object graph just like a Spring XML file or in <code>resources.groovy</code> in a Grails application. Therefore, a fixture is a definition of an object graph and not the actual instantiation of the objects. Once the graph has been defined, the objects are instantiated and wired together. The fixtures plugin adds some smarts to this process to wire domain objects up appropriately using the <code>addTo*</code> GORM methods and to call the <code>save()</code> method where appropriate.<p class="paragraph"/>There are some extra features/functions that go beyond normal bean loading via Spring that you can learn about in this documentation.<h2><a name="1.2 Changelog">1.2 Changelog</a></h2><h4>0.5</h4>
 <ul class="star">
 <li>Loading of inline and file fixtures</li>
@@ -89,7 +89,66 @@ class Book &#123;
 &#125;</pre></div><p class="paragraph"/>We can specify an Author/Book relationship like so…<p class="paragraph"/><div class="code"><pre>b(Book, title: <span class="java&#45;quote">"The Fellowship of the Ring"</span>)
 a(Author, name: <span class="java&#45;quote">"J.R.R. Tolkien"</span>, books: &#91;b&#93;)</pre></div><p class="paragraph"/>In this example, <code>b</code> must be defined before it is referenced by <code>a</code>. To reference <code>b</code> before it is defined, the special <code>ref(«name»)</code> method can be used…<p class="paragraph"/><div class="code"><pre>a(Author, name: <span class="java&#45;quote">"J.R.R. Tolkien"</span>, books: &#91;ref(<span class="java&#45;quote">"b"</span>)&#93;)
 b(Book, title: <span class="java&#45;quote">"The Fellowship of the Ring"</span>)</pre></div><p class="paragraph"/>If the relationship is bidirectional, it can be set on either side…<p class="paragraph"/><div class="code"><pre>a(Author, name: <span class="java&#45;quote">"J.R.R. Tolkien"</span>)
-b(Book, title: <span class="java&#45;quote">"The Fellowship of the Ring"</span>, author: a)</pre></div><p class="paragraph"/><h2><a name="2.2 Advanced Techniques">2.2 Advanced Techniques</a></h2><h2><a name="2.3 Build-Test-Data Integration">2.3 Build-Test-Data Integration</a></h2><h1><a name="3. Loading Fixtures">3. Loading Fixtures</a></h1><h2><a name="3.1 Inline Fixtures">3.1 Inline Fixtures</a></h2><h2><a name="3.2 Fixture Files">3.2 Fixture Files</a></h2><h2><a name="3.3 Named Fixtures">3.3 Named Fixtures</a></h2><h1><a name="4. Fixture Objects">4. Fixture Objects</a></h1><h1><a name="5. Pre & Post Processing">5. Pre & Post Processing</a></h1><h1><a name="6. Includes">6. Includes</a></h1>         			
+b(Book, title: <span class="java&#45;quote">"The Fellowship of the Ring"</span>, author: a)</pre></div><p class="paragraph"/><h2><a name="2.2 Build-Test-Data Integration">2.2 Build-Test-Data Integration</a></h2><h1><a name="3. Loading Fixtures">3. Loading Fixtures</a></h1>The fixtures plugin creates a bean called <code>fixtureLoader</code> that exposes a <code>load(String)</code> method and a <code>load(Closure)</code> method, which will load fixtures from either files or an inline DSL passed as a closure.
+<h2><a name="3.1 Inline Fixtures">3.1 Inline Fixtures</a></h2>The <code>fixtureLoader.load()</code> method can also be used to define a one time fixute inline...<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load &#123;
+	guillaume(Author) &#123;
+		name = <span class="java&#45;quote">"Guillaume Laforge"</span>
+	&#125;
+	dierk(Author) &#123;
+		name = <span class="java&#45;quote">"Dierk Koenig"</span>
+	&#125;
+	gina(Book) &#123;
+		title = <span class="java&#45;quote">"Groovy In Action"</span>
+		authors = &#91;guillaume, dierk&#93;
+	&#125;
+&#125;</pre></div><p class="paragraph"/>You can post-process inline fixutres with Groovy's <code>with</code> mechanism...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load &#123;
+	log(LogMessage) &#123;
+		message = <span class="java&#45;quote">"something happened"</span>
+	&#125;
+&#125;.with &#123;
+	// change the creation date of the log message
+	log.dateCreated &#45;= 1
+	log.save()
+&#125;</pre></div>
+<h2><a name="3.2 Fixture Files">3.2 Fixture Files</a></h2>You can load fixtured from a file by passing the file name to the <code>load(String)</code> method of the <code>fixtureLoader</code> bean.<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)</pre></div><p class="paragraph"/>You can load multiple fixtures at once by passing more than one fixture file name...<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load(<span class="java&#45;quote">"gina"</span>, <span class="java&#45;quote">"otherfixture"</span>)</pre></div><p class="paragraph"/>Beans in different fixture files can reference each other. As long as the necessary fixtures are loaded, the references will resolve.<p class="paragraph"/>
+<h4>Loading via patterns</h4><p class="paragraph"/>Ant style path patterns are supported…<p class="paragraph"/><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"books/&#42;"</span>)</pre></div><p class="paragraph"/><h4>Integration Tests</h4><p class="paragraph"/>The fixtures plugin creates a bean called <code>fixtureLoader</code> in your grails app which you can use to load fixtures.<p class="paragraph"/><div class="code"><pre>class GinaTests <span class="java&#45;keyword">extends</span> GroovyTestCase &#123;
+	def fixtureLoader<p class="paragraph"/>	void TestIt() &#123;
+		fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)
+		def gina = Book.findByTitle(<span class="java&#45;quote">"Groovy In Action"</span>)
+		assertNotNull(gina)
+		assertEquals(2, gina.authors.size())
+	&#125;
+&#125;</pre></div><p class="paragraph"/><h2><a name="3.3 Named Fixtures">3.3 Named Fixtures</a></h2>Sometimes you want to have the fixture object that you load stick around. For this you can use "named fixtures"...<p class="paragraph"/><div class="code"><pre>// load it and name it 'myFixture'
+fixtureLoader&#91;'myFixture'&#93;.load('someFixtureFile')
+// access it
+fixtureLoader&#91;'myFixture'&#93;.someObjectFromTheFixture</pre></div><p class="paragraph"/>Property access notation also works…<p class="paragraph"/><div class="code"><pre>// load it and name it 'myFixture'
+fixtureLoader.myFixture.load('someFixtureFile')
+// access it
+fixtureLoader.myFixture.someObjectFromTheFixture</pre></div>
+<h1><a name="4. Fixture Objects">4. Fixture Objects</a></h1><h1><a name="5. Advanced Techniques">5. Advanced Techniques</a></h1><h2><a name="5.1 Pre & Post Processing">5.1 Pre & Post Processing</a></h2><h2><a name="5.2 Stacking">5.2 Stacking</a></h2>Fixtures can stack on each other which can be an effective technique for creating complex fixtures out of simpler building blocks. This is best illustrated by an example…<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
+fixture &#123;
+  guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
+  dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
+&#125;<p class="paragraph"/>// fixtures/books.groovy
+fixture &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;<p class="paragraph"/>fixtureLoader.load(<span class="java&#45;quote">"authors"</span>).load(<span class="java&#45;quote">"books"</span>)</pre></div><p class="paragraph"/>The fixture contained in <code>authors</code> is created and persisted, then the fixture in <code>books</code> is created and persisted independently. Note that the <code>books</code> fixture can refer to any objects loaded in a <em class="italic">parent</em> fixture by name.<p class="paragraph"/>This can also be done with inline fixtures…<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
+fixture &#123;
+&#125;<p class="paragraph"/>// fixtures/books.groovy
+fixture &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;<p class="paragraph"/>fixtureLoader.load &#123;
+  guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
+  dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)  
+&#125;.load &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;</pre></div><p class="paragraph"/>While this is possible, it's not overly useful. What can be useful however is to build on a fixture inline…<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
+fixture &#123;
+  guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
+  dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
+&#125;<p class="paragraph"/>fixtureLoader.load(<span class="java&#45;quote">"authors"</span>).load &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;</pre></div><p class="paragraph"/>In a real work scenario, <code>authors</code> could contain common bean definitions that are used across many tests. Using this technique, you can reuse these common definitions and then conveniently augment/extend them in individual tests.<h2><a name="5.3. Includes">5.3. Includes</a></h2>         			
 		</div>
 		<div id="footer">
 			  Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>

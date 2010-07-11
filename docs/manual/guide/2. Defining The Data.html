@@ -19,6 +19,6 @@ class Book &#123;
 &#125;</pre></div><p class="paragraph"/>We can specify an Author/Book relationship like so…<p class="paragraph"/><div class="code"><pre>b(Book, title: <span class="java&#45;quote">"The Fellowship of the Ring"</span>)
 a(Author, name: <span class="java&#45;quote">"J.R.R. Tolkien"</span>, books: &#91;b&#93;)</pre></div><p class="paragraph"/>In this example, <code>b</code> must be defined before it is referenced by <code>a</code>. To reference <code>b</code> before it is defined, the special <code>ref(«name»)</code> method can be used…<p class="paragraph"/><div class="code"><pre>a(Author, name: <span class="java&#45;quote">"J.R.R. Tolkien"</span>, books: &#91;ref(<span class="java&#45;quote">"b"</span>)&#93;)
 b(Book, title: <span class="java&#45;quote">"The Fellowship of the Ring"</span>)</pre></div><p class="paragraph"/>If the relationship is bidirectional, it can be set on either side…<p class="paragraph"/><div class="code"><pre>a(Author, name: <span class="java&#45;quote">"J.R.R. Tolkien"</span>)
-b(Book, title: <span class="java&#45;quote">"The Fellowship of the Ring"</span>, author: a)</pre></div><p class="paragraph"/><h2><a name="2.2 Advanced Techniques">2.2 Advanced Techniques</a></h2><h2><a name="2.3 Build-Test-Data Integration">2.3 Build-Test-Data Integration</a></h2>
+b(Book, title: <span class="java&#45;quote">"The Fellowship of the Ring"</span>, author: a)</pre></div><p class="paragraph"/><h2><a name="2.2 Build-Test-Data Integration">2.2 Build-Test-Data Integration</a></h2>
 	</body>
 </html>
