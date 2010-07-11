@@ -2,15 +2,15 @@ Sometimes it's necessary to do something before or after your fixture is loaded.
 
 {code}
 pre {
-	/* do things before loading fixture */
+  /* do things before loading fixture */
 }
 
 fixture {
-	/* fixture definition */
+  /* fixture definition */
 }
 
 post {
-	/* do things after loading fixture */
+  /* do things after loading fixture */
 }
 {code}
 
@@ -18,7 +18,7 @@ All beans in your application (and any parent fixtures, see [stacking|guide:stac
 
 {code}
 pre {
-	someService.someMethod()
+  someService.someMethod()
 }
 {code}
 
@@ -26,14 +26,14 @@ Additionally, any object loaded in the fixture is available in the _post_ proces
 
 {code}
 fixture {
-	log(LogMessage) {
-		message = "something happened"
-	}
+  log(LogMessage) {
+    message = "something happened"
+  }
 }
 post {
-	// change the creation date of the log message
-	log.dateCreated -= 1
-	log.save()
+  // change the creation date of the log message
+  log.dateCreated -= 1
+  log.save()
 }
 {code}
 
