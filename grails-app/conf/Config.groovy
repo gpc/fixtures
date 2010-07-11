@@ -12,6 +12,7 @@ grails {
 		alias {
 			intro = "1. Introduction"
 			btd = "2.3 Build-Test-Data Integration"
+			loading = "3. Loading Fixtures"
 		}
 	}
 }

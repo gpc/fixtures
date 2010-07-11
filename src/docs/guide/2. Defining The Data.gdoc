@@ -1,0 +1,5 @@
+Fixture data is defined using a simple DSL that expresses objects, their properties and their relationships. This is the same DSL used by Grails' "Spring BeanBuilder"::http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained as underneath the covers a BeanBuilder is being used to create the fixture data. 
+
+See the section on [loading data|guide:loading] for information on how to load these definitions.
+
+Here is an overview of the DSL, focussing on features useful for fixture definition.

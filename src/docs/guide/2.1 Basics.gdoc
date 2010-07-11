@@ -1,0 +1,74 @@
+A single object is defined as follows…
+
+{code}
+gina(Book, title: "Groovy In Action")
+{code}
+
+This is defining an object named @gina@, of type @Book@ with the @title@ property set to @"Groovy In Action"@.
+
+An alternative syntax is…
+
+{code}
+gina(Book) {
+    title =  "Groovy In Action"
+}
+{code}
+
+These two syntaxes effectively achieve the same thing. The difference is that the first example is equivalent to…
+
+{code}
+def gina = new Book(title: "Groovy In Action")
+{code}
+
+While the second (alternative) syntax is equivalent to…
+
+{code}
+def gina = new Book()
+gina.title = "Groovy In Action"
+{code}
+
+The two can even be mixed…
+
+{code}
+gina(Book, title: "Groovy In Action") {
+    isbn = "123456778"
+}
+{code}
+
+h4. Specifying Relationships
+
+A key benefit to using the fixtures plugin is that it makes specifying related objects simple and concise.
+
+Consider the following GORM domain classes:
+
+{code}
+class Author {
+    static hasMany = [books: Book]
+    String name
+}
+class Book {
+    String title
+}
+{code}
+
+We can specify an Author/Book relationship like so…
+
+{code}
+b(Book, title: "The Fellowship of the Ring")
+a(Author, name: "J.R.R. Tolkien", books: [b])
+{code}
+
+In this example, @b@ must be defined before it is referenced by @a@. To reference @b@ before it is defined, the special @ref(«name»)@ method can be used…
+
+{code}
+a(Author, name: "J.R.R. Tolkien", books: [ref("b")])
+b(Book, title: "The Fellowship of the Ring")
+{code}
+
+If the relationship is bidirectional, it can be set on either side…
+
+{code}
+a(Author, name: "J.R.R. Tolkien")
+b(Book, title: "The Fellowship of the Ring", author: a)
+{code}
+
