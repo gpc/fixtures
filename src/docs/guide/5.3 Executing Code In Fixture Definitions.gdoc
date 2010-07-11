@@ -1,0 +1,14 @@
+You may need to execute a piece of code in a fixture definition. The most common use case for this is encoding some piece of data, e.g. a password.
+
+Any bean defined in your application can be accessed by name…
+
+{code}
+fixtureLoader.load {
+    user(User) {
+        username = 'username'
+        password = passwordEncodingService.encode('password')
+    }
+}
+{code}
+
+In this example, @passwordEncodingService@ is a service defined in the application.
