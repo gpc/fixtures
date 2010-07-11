@@ -1,0 +1,30 @@
+The @fixtureLoader.load()@ method can also be used to define a one time fixute inline...
+
+{code}
+def fixture = fixtureLoader.load {
+	guillaume(Author) {
+		name = "Guillaume Laforge"
+	}
+	dierk(Author) {
+		name = "Dierk Koenig"
+	}
+	gina(Book) {
+		title = "Groovy In Action"
+		authors = [guillaume, dierk]
+	}
+}
+{code}
+
+You can post-process inline fixutres with Groovy's @with@ mechanism...
+
+{code}
+fixtureLoader.load {
+	log(LogMessage) {
+		message = "something happened"
+	}
+}.with {
+	// change the creation date of the log message
+	log.dateCreated -= 1
+	log.save()
+}
+{code}
