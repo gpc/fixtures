@@ -12,17 +12,3 @@ def fixture = fixtureLoader.load {
 	}
 }
 {code}
-
-You can post-process inline fixutres with Groovy's @with@ mechanism...
-
-{code}
-fixtureLoader.load {
-	log(LogMessage) {
-		message = "something happened"
-	}
-}.with {
-	// change the creation date of the log message
-	log.dateCreated -= 1
-	log.save()
-}
-{code}
