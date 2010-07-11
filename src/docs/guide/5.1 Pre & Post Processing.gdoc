@@ -1,14 +1,14 @@
-Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding @preProcess@ and/or @postProcess@ handler.
+Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding @pre@ and/or @post@ handler.
 
 {code}
-preProcess {
+pre {
 	/* do things before loading fixture */
 }
 fixture {
 	/* fixture definition */
 }
 
-postProcess {
+post {
 	/* do things after loading fixture */
 }
 {code}
@@ -16,7 +16,7 @@ postProcess {
 All beans in the application context are available in both pre and post processors...
 
 {code}
-preProcess {
+pre {
 	someService.someMethod()
 }
 {code}
@@ -29,7 +29,7 @@ fixture {
 		message = "something happened"
 	}
 }
-postProcess {
+post {
 	// change the creation date of the log message
 	log.dateCreated -= 1
 	log.save()
