@@ -1,0 +1,39 @@
+Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding @preProcess@ and/or @postProcess@ handler.
+
+{code}
+preProcess {
+	/* do things before loading fixture */
+}
+fixture {
+	/* fixture definition */
+}
+
+postProcess {
+	/* do things after loading fixture */
+}
+{code}
+
+All beans in the application context are available in both pre and post processors...
+
+{code}
+preProcess {
+	someService.someMethod()
+}
+{code}
+
+Additionally, any object loaded in the fixture is available in the _post_ processor by name...
+
+{code}
+fixture {
+	log(LogMessage) {
+		message = "something happened"
+	}
+}
+postProcess {
+	// change the creation date of the log message
+	log.dateCreated -= 1
+	log.save()
+}
+{code}
+
+Pre process handlers are executed as soon as they are encountered. However, post processors are *not* executed until all fixtures have been loaded (e.g load patterns that match multiple files or fixtures with includes).
