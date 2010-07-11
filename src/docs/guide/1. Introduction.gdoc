@@ -44,7 +44,6 @@ class MyTest extends GroovyTestCase {
 }
 {code}
 
-The domain objects are created using "Grails' own BeanBuilder":http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained (i.e. it's the exact same DSL).
 
 h3. Build-Test-Data integration
 
