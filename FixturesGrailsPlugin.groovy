@@ -24,7 +24,7 @@ class FixturesGrailsPlugin {
 	def authorEmail = "grails.plugin.collective@gmail.com"
 	def title = "Grails Fixtures Plugin"
 	def description = "Load complex domain data via a simple DSL"
-	def documentation = "http://alkemist.github.com/grails-fixtures/"
+	def documentation = "http://gpc.github.com/grails-fixtures/"
 	def pluginExcludes = [
 		"grails-app/domain/**",
 		"grails-app/services/**",
