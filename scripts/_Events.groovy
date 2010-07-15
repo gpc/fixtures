@@ -1,5 +1,3 @@
-import grails.doc.DocEngine
-
 eventWarStart = { warName ->
 	
 	def stagingFixtures
@@ -19,6 +17,6 @@ eventWarStart = { warName ->
 eventRefdocsStart = {
 	if (grailsAppName == 'grails-fixtures') {
 		createConfig()
-		DocEngine.ALIAS.putAll(config.grails.doc.alias)
+		classLoader.loadClass('grails.doc.DocEngine').ALIAS.putAll(config.grails.doc.alias)
 	}
 }
