@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import grails.plugin.fixtures.exception.UnknownFixtureException
+import grails.plugin.fixtures.exception.UnknownFixtureBeanException
 import grails.plugin.fixtures.exception.UnsatisfiedFixtureRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanDefinitionRequirementException
@@ -165,4 +166,9 @@ class FixtureTests extends GroovyTestCase {
 		fixtureLoader.load("reverse2")
 	}
 	
+	void testRetrievingUnknownBeanShouldThrowUnknownFixtureBeanException() {
+		shouldFail(UnknownFixtureBeanException) {
+			fixtureLoader.load({}).someUnknownThing
+		}
+	}
 }

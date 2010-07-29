@@ -20,6 +20,7 @@ import grails.plugin.fixtures.files.FixtureFileLoader
 import org.springframework.beans.factory.config.RuntimeBeanReference
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.context.ApplicationContext
+import grails.plugin.fixtures.exception.UnknownFixtureBeanException
 
 class Fixture {
 	
@@ -53,7 +54,11 @@ class Fixture {
 	}
 	
 	def propertyMissing(name) {
-		getBean(name) ?: super.getProperty(name)
+		def bean = getBean(name)
+		if (!bean) {
+			throw new UnknownFixtureBeanException(name)
+		}
+		bean
 	}
 		
 	def getBean(name) {
