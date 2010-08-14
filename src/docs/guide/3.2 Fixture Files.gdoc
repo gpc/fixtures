@@ -1,6 +1,9 @@
+Fixture files can be loaded from your project's 'fixtures' directory. So
 {code}
 fixtureLoader.load("gina")
 {code}
+
+will load fixtures from the file 'fixtures/gina.groovy'.
 
 You can load multiple fixtures at once by passing more than one fixture file name...
 
@@ -17,3 +20,5 @@ Ant style path patterns are supported...
 {code}
 fixtureLoader.load("books/*")
 {code}
+
+This would load all the *.groovy files in the 'fixtures/books' directory.

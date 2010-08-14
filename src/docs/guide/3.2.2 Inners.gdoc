@@ -8,7 +8,7 @@ fixture {
 }
 {code}
 
-This will cause the @authors@ fixtures file to be _executed_ and _loaded_, with it then being the parent of the fixture defined in the file. In other words, the objects in the _inner_ fixture (@authors@ in this example) are instantiated and saved at the point where the @load()@ call occurs.
+This will cause the @authors@ fixtures file to be _executed_ and _loaded_\, with it then being the parent of the fixture defined in the file. In other words, the objects in the _inner_ fixture (@authors@ in this example) are instantiated and saved at the point where the @load()@ call occurs.
 
 The @load()@ method in a fixture file can also define a fixture inline, which has the same effect.
 

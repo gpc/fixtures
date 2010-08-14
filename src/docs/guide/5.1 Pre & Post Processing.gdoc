@@ -37,4 +37,4 @@ post {
 }
 {code}
 
-Pre process handlers are executed as soon as they are encountered. However, post processors are *not* executed until all fixtures have been loaded (e.g load patterns that match multiple files or fixtures with includes).
+Pre process handlers are executed as soon as they are encountered. However, post processors are *not* executed until all fixtures have been loaded (e.g. load patterns that match multiple files or fixtures with includes).
