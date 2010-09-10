@@ -49,7 +49,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 			if (p.association && p.referencedDomainClass != null) {
 				log.debug("is a domain association")
 				log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}, oneToMany = ${p.oneToMany}")
-				def owningSide = p.owningSide
+				def owningSide = isOwningSide(p)
 				log.debug("${owningSide ? 'IS' : 'IS NOT'} owning side")
 				def value = bean."${p.name}"
 				if (value) {
@@ -104,6 +104,17 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		bean
 	}
 	
+	// Workaround for GRAILS-6714
+	private isOwningSide(property) {
+		def isOwning = property.owningSide
+		if (isOwning || !property.inherited) {
+			isOwning
+		} else {
+			def superDomainClass = getDomainClass(property.domainClass.clazz.superclass)
+			isOwningSide(superDomainClass.getPropertyByName(property.name))
+		}
+	}
+
 	def getErrorMessage(error) {
 		messageSource.getMessage(error, null)
 	}
