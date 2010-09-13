@@ -68,8 +68,11 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 						}
 					} else {
 						log.debug('is not to many')
-						if (p.bidirectional && !owningSide) {
-							log.debug("setting this on $value (owning side)")
+						if (p.bidirectional && (!owningSide || p.manyToOne)) {
+							if (log.debugEnabled) {
+								def reason = !owningSide ? 'owning side' : 'is many side'
+								log.debug("setting this on $value ($reason)")
+							}
 							def otherSideName = p.otherSide.name
 							if (p.manyToOne) {
 								def addMethodName = "addTo${MetaClassHelper.capitalize(otherSideName)}"
