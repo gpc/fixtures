@@ -35,7 +35,7 @@ class LoadHandler extends FixtureBuildingShellHandler {
 			try {
 				inner.load(patternsOrClosures)
 			} catch (Exception e) {
-				throw new FixtureException("Failed to load inner fixture with $patterns", e)
+				throw new FixtureException("Failed to load inner fixture with $patternsOrClosures", e)
 			}
 		}
 		
