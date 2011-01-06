@@ -8,9 +8,12 @@ eventWarStart = { warName ->
 	}
 	stagingFixtures += '/fixtures'
 	
-	ant.mkdir(dir: stagingFixtures)
-	ant.copy(todir: stagingFixtures) {
-		fileset(dir: "${grailsSettings.baseDir}/fixtures")
+	def fixturesDir = new File(grailsSettings.baseDir, "fixtures")
+	if (fixturesDir.exists()) {
+		ant.mkdir(dir: stagingFixtures)
+		ant.copy(todir: stagingFixtures) {
+			fileset(dir: fixturesDir)
+		}
 	}
 }
 
