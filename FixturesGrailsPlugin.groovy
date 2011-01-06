@@ -16,7 +16,7 @@
 import grails.plugin.fixtures.FixtureLoader
 
 class FixturesGrailsPlugin {
-	def version = "1.0.2-SNAPSHOT"
+	def version = "1.0.2"
 	def dependsOn = [:]
 	def grailsVersion = "1.1 > *"
 
