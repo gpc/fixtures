@@ -40,3 +40,13 @@ h4. 1.0
 * Introduced build-test-data plugin integration
 * Utilise Grails' 1.2's @failOnError@ to give better error messages on failure
 * More fixes for complex bidirectional relationships
+
+h4. 1.0.1
+
+* Fixed compile issues on older versions of Grails
+
+h4. 1.0.2
+
+* Workaround for GRAILS-6714
+* Fixes for List types on the owned side of the relationship
+* Don't try and copy the fixtures dir to the war if it doesn't exist
