@@ -87,7 +87,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 						}
 					}
 				}
-				if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne)) {
+				if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne) && (value || !p.optional)) {
 					log.info("not saving fixture bean $beanName")
 					shouldSave = false
 				}
