@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 grails.project.dependency.resolution = {
-	inherits( "global" )
+	inherits("global")
 	log "warn"
 	repositories {
 		grailsCentral()
@@ -23,9 +23,12 @@ grails.project.dependency.resolution = {
 		mavenRepo "http://download.java.net/maven/2/"
 	}
 	plugins {
-		compile ":tomcat:1.3.6"
-		compile ":hibernate:1.3.6"
-		compile ":build-test-data:0.2.3"
-		compile ":spock:0.5-groovy-1.7"
+		compile (
+			":hibernate:$grailsVersion",
+			":build-test-data:0.2.3",
+			":spock:0.5-groovy-1.7"
+		) {
+			export = false
+		}
 	}
 }
