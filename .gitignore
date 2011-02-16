@@ -1,0 +1,5 @@
+*.zip
+target
+*.xml
+web-app
+*.log
