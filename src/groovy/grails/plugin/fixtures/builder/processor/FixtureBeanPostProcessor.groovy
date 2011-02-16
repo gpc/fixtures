@@ -96,13 +96,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		}
 
 		if (domainClass && shouldSave) {
-			if (!bean.validate()) {
-				def errorcodes = bean.errors.allErrors.collect { getErrorMessage(it) }
-				throw new FixtureException("fixture bean '$beanName' has errors: ${errorcodes.join(', ')}")
-			}
-			if (!bean.save(flush: true)) {
-				throw new FixtureException("failed to save fixture bean '$beanName'")
-			}
+			bean.save(flush: true, failOnError: true)
 		}
 		bean
 	}
