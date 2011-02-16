@@ -1,33 +1,34 @@
 <html>
-	<head>
-		  <title>Grails Fixtures Plugin 1.0.1 - Reference Documentation</title>
-		  <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Style" charset="utf-8">	
-	</head>
+    <head>
+        <title>Grails Fixtures Plugin 1.0.5 - Reference Documentation</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Style" charset="utf-8"/>
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    </head>
     <body class="body">
-		<div id="header">
-				<div class="images"><br><br>
-				   <a href="http://grails.org"  target="_blank"><img alt="The Grails Framework" src="../img/grails.png" border="0"></a>
-				   <span style="right:30px; top:20px; position:absolute;">
-					<a href="../index.html" target="_top">Frames</a> | <a href="index.html" target="_top">No Frames</a><br><br>
-                     <a alt="SpringSource - A Division of VMware" href="http://springsource.com" target="_blank"><img src="../img/springsource-logo.png" border="0"></a>					
-					</span>					
-				</div>
-				<div class="message">Load complex domain data via a convenient DSL</div>
-				<h1>Grails Fixtures Plugin - Reference Documentation</h1>
-				<p><strong>Authors:</strong> Grails Plugin Collective</p>
-				<p><strong>Version:</strong> 1.0.1</p>				
-				<em>Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.</em>
-		</div>                       
-		
-		<div id="toc">  
-			<h2>Table of Contents</h2>
-			<div class="tocItem" style="margin-left:0px"><a href="1. Introduction.html">1. Introduction</a></div><div class="tocItem" style="margin-left:10px"><a href="1. Introduction.html#1.1 How It Works">1.1 How It Works</a></div><div class="tocItem" style="margin-left:10px"><a href="1. Introduction.html#1.2 Changelog">1.2 Changelog</a></div><div class="tocItem" style="margin-left:10px"><a href="1. Introduction.html#1.3 Contributors">1.3 Contributors</a></div><div class="tocItem" style="margin-left:0px"><a href="2. Defining The Data.html">2. Defining The Data</a></div><div class="tocItem" style="margin-left:10px"><a href="2. Defining The Data.html#2.1 Basics">2.1 Basics</a></div><div class="tocItem" style="margin-left:10px"><a href="2. Defining The Data.html#2.2 Build-Test-Data Integration">2.2 Build-Test-Data Integration</a></div><div class="tocItem" style="margin-left:0px"><a href="3. Loading Fixtures.html">3. Loading Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="3. Loading Fixtures.html#3.1 Inline Fixtures">3.1 Inline Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="3. Loading Fixtures.html#3.2 Fixture Files">3.2 Fixture Files</a></div><div class="tocItem" style="margin-left:20px"><a href="3. Loading Fixtures.html#3.2.1 Includes">3.2.1 Includes</a></div><div class="tocItem" style="margin-left:20px"><a href="3. Loading Fixtures.html#3.2.2 Inners">3.2.2 Inners</a></div><div class="tocItem" style="margin-left:20px"><a href="3. Loading Fixtures.html#3.2.3 Includes vs Inners">3.2.3 Includes vs Inners</a></div><div class="tocItem" style="margin-left:10px"><a href="3. Loading Fixtures.html#3.3 Named Fixtures">3.3 Named Fixtures</a></div><div class="tocItem" style="margin-left:0px"><a href="4. Fixture Objects.html">4. Fixture Objects</a></div><div class="tocItem" style="margin-left:0px"><a href="5. Advanced Techniques.html">5. Advanced Techniques</a></div><div class="tocItem" style="margin-left:10px"><a href="5. Advanced Techniques.html#5.1 Pre & Post Processing">5.1 Pre & Post Processing</a></div><div class="tocItem" style="margin-left:10px"><a href="5. Advanced Techniques.html#5.2 Stacking">5.2 Stacking</a></div><div class="tocItem" style="margin-left:10px"><a href="5. Advanced Techniques.html#5.3 Executing Code In Fixture Definitions">5.3 Executing Code In Fixture Definitions</a></div>
-		</div>     
-		<div id="content">
-			         			
-		</div>
-		<div id="footer">
-			  Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>
-		</div>	
-	</body>
+        <div id="header">
+            <div class="images"><br/><br/>
+                <a href="http://grails.org" target="_blank"><img alt="The Grails Framework" src="../img/grails.png" border="0"/></a>
+                <span style="right:30px; top:20px; position:absolute;">
+                    <a href="../index.html" target="_top">Frames</a> | <a href="index.html" target="_top">No Frames</a><br/><br/>
+                    <a href="http://springsource.com" target="_blank"><img alt="SpringSource - A Division of VMware" src="../img/springsource-logo.png" border="0"/></a>
+                </span>
+            </div>
+            <div class="message">Load complex domain data via a convenient DSL</div>
+            <h1>Grails Fixtures Plugin - Reference Documentation</h1>
+            <p><strong>Authors:</strong> Grails Plugin Collective</p>
+            <p><strong>Version:</strong> 1.0.5</p>
+            <em>Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.</em>
+        </div>
+
+        <div id="toc">
+            <h2>Table of Contents</h2>
+            <div class="tocItem" style="margin-left:0px"><a href="1. Introduction.html">1. Introduction</a></div><div class="tocItem" style="margin-left:10px"><a href="1. Introduction.html#1.1 How It Works">1.1 How It Works</a></div><div class="tocItem" style="margin-left:10px"><a href="1. Introduction.html#1.2 Changelog">1.2 Changelog</a></div><div class="tocItem" style="margin-left:10px"><a href="1. Introduction.html#1.3 Contributors">1.3 Contributors</a></div><div class="tocItem" style="margin-left:0px"><a href="2. Defining The Data.html">2. Defining The Data</a></div><div class="tocItem" style="margin-left:10px"><a href="2. Defining The Data.html#2.1 Basics">2.1 Basics</a></div><div class="tocItem" style="margin-left:10px"><a href="2. Defining The Data.html#2.2 Build-Test-Data Integration">2.2 Build-Test-Data Integration</a></div><div class="tocItem" style="margin-left:0px"><a href="3. Loading Fixtures.html">3. Loading Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="3. Loading Fixtures.html#3.1 Inline Fixtures">3.1 Inline Fixtures</a></div><div class="tocItem" style="margin-left:10px"><a href="3. Loading Fixtures.html#3.2 Fixture Files">3.2 Fixture Files</a></div><div class="tocItem" style="margin-left:20px"><a href="3. Loading Fixtures.html#3.2.1 Includes">3.2.1 Includes</a></div><div class="tocItem" style="margin-left:20px"><a href="3. Loading Fixtures.html#3.2.2 Inners">3.2.2 Inners</a></div><div class="tocItem" style="margin-left:20px"><a href="3. Loading Fixtures.html#3.2.3 Includes vs Inners">3.2.3 Includes vs Inners</a></div><div class="tocItem" style="margin-left:10px"><a href="3. Loading Fixtures.html#3.3 Named Fixtures">3.3 Named Fixtures</a></div><div class="tocItem" style="margin-left:0px"><a href="4. Fixture Objects.html">4. Fixture Objects</a></div><div class="tocItem" style="margin-left:0px"><a href="5. Advanced Techniques.html">5. Advanced Techniques</a></div><div class="tocItem" style="margin-left:10px"><a href="5. Advanced Techniques.html#5.1 Pre & Post Processing">5.1 Pre & Post Processing</a></div><div class="tocItem" style="margin-left:10px"><a href="5. Advanced Techniques.html#5.2 Stacking">5.2 Stacking</a></div><div class="tocItem" style="margin-left:10px"><a href="5. Advanced Techniques.html#5.3 Executing Code In Fixture Definitions">5.3 Executing Code In Fixture Definitions</a></div>
+        </div>
+        <div id="content">
+            
+        </div>
+        <div id="footer">
+             Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>
+        </div>
+    </body>
 </html>

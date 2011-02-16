@@ -1,10 +1,10 @@
 <html>
-     <head>
-     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-     	<title>3.2.3 Includes vs Inners</title>
-     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
-     </head>
-	<body class="body">
-		The use of <code>load()</code> vs. <code>include()</code> in a fixture file may seem confusing and it may not be clear when to use one over the other.<p class="paragraph"/>The use of <code>include()</code> is generally preferred as it avoids the creation and processing overhead of another Spring application context. All including fixtures are merged into on fixture definition and the processed. However some domain models and object graphs cannot be saved atomically, and therefore require a subset of domain objects to be persisted before other objects can be defined.<p class="paragraph"/>If you are experiencing <code>TransientObjectException</code>s occurring when you try to load a fixture file, you may be in a situation where your fixture cannot be saved in one go. This can often be resolved by loading the <em class="italic">owning</em> objects in your fixture first via a <code>load()</code> call, and then building the <em class="italic">owned</em> objects on top of that inner fixture.
-	</body>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>3.2.3 Includes vs Inners</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    The use of <code>load()</code> vs. <code>include()</code> in a fixture file may seem confusing and it may not be clear when to use one over the other.<p class="paragraph"/>The use of <code>include()</code> is generally preferred as it avoids the creation and processing overhead of another Spring application context. All including fixtures are merged into on fixture definition and the processed. However some domain models and object graphs cannot be saved atomically, and therefore require a subset of domain objects to be persisted before other objects can be defined.<p class="paragraph"/>If you are experiencing <code>TransientObjectException</code>s occurring when you try to load a fixture file, you may be in a situation where your fixture cannot be saved in one go. This can often be resolved by loading the <em class="italic">owning</em> objects in your fixture first via a <code>load()</code> call, and then building the <em class="italic">owned</em> objects on top of that inner fixture.
+    </body>
 </html>

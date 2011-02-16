@@ -1,11 +1,11 @@
 <html>
-     <head>
-     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-     	<title>1. Introduction</title>
-     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
-     </head>
-	<body class="body">
-		<h1><a name="1. Introduction">1. Introduction</a></h1>The fixtures plugin allows you to use a convenient DSL to easily define a graph of persisted domain objects, typically for testing.<p class="paragraph"/>Here's an example...<p class="paragraph"/><div class="code"><pre>class MyTest <span class="java&#45;keyword">extends</span> GroovyTestCase &#123;<p class="paragraph"/>  def fixtureLoader<p class="paragraph"/>  void testGuillaumeAuthoredGina() &#123;<p class="paragraph"/>    def fixture = fixtureLoader.load &#123;
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>1. Introduction</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    <h1><a name="1. Introduction">1. Introduction</a></h1>The fixtures plugin allows you to use a convenient DSL to easily define a graph of persisted domain objects, typically for testing.<p class="paragraph"/>Here's an example...<p class="paragraph"/><div class="code"><pre>class MyTest <span class="java&#45;keyword">extends</span> GroovyTestCase &#123;<p class="paragraph"/>  def fixtureLoader<p class="paragraph"/>  void testGuillaumeAuthoredGina() &#123;<p class="paragraph"/>    def fixture = fixtureLoader.load &#123;
       guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
       dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
       gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
@@ -56,9 +56,17 @@
 <li>Introduced build-test-data plugin integration</li>
 <li>Utilise Grails' 1.2's <code>failOnError</code> to give better error messages on failure</li>
 <li>More fixes for complex bidirectional relationships</li>
+</ul><p class="paragraph"/><h4>1.0.1</h4>
+<ul class="star">
+<li>Fixed compile issues on older versions of Grails</li>
+</ul><p class="paragraph"/><h4>1.0.2</h4>
+<ul class="star">
+<li>Workaround for GRAILS-6714</li>
+<li>Fixes for List types on the owned side of the relationship</li>
+<li>Don't try and copy the fixtures dir to the war if it doesn't exist</li>
 </ul><p class="paragraph"/><h2><a name="1.3 Contributors">1.3 Contributors</a></h2><ul class="star">
 <li><a href="http://github.com/alkemist/" target="blank">Luke Daley</a></li>
 <li><a href="http://github.com/danklynn/" target="blank">Dan Lynn</a></li>
 </ul><p class="paragraph"/>
-	</body>
+    </body>
 </html>

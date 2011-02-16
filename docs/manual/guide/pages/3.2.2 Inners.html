@@ -1,17 +1,18 @@
 <html>
-     <head>
-     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-     	<title>3.2.2 Inners</title>
-     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
-     </head>
-	<body class="body">
-		Fixture files can load other fixture files as <em class="italic">parents</em> via the <code>load()</code> method that takes one or more file patterns like the <code>fixtureLoader.load()</code> method.<p class="paragraph"/><div class="code"><pre>load <span class="java&#45;quote">"authors"</span><p class="paragraph"/>fixture &#123;
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>3.2.2 Inners</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    Fixture files can load other fixture files as <em class="italic">parents</em> via the <code>load()</code> method that takes one or more file patterns like the <code>fixtureLoader.load()</code> method.<p class="paragraph"/><div class="code"><pre>load <span class="java&#45;quote">"authors"</span><p class="paragraph"/>fixture &#123;
   gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
-&#125;</pre></div><p class="paragraph"/>This will cause the <code>authors</code> fixtures file to be <em class="italic">executed</em> and <em class="italic">loaded_, with it then being the parent of the fixture defined in the file. In other words, the objects in the _inner</em> fixture (<code>authors</code> in this example) are instantiated and saved at the point where the <code>load()</code> call occurs.<p class="paragraph"/>The <code>load()</code> method in a fixture file can also define a fixture inline, which has the same effect.<p class="paragraph"/><div class="code"><pre>load &#123; 
+&#125;</pre></div><p class="paragraph"/>This will cause the <code>authors</code> fixtures file to be <em class="italic">executed</em> and <em class="italic">loaded_&#44; with it then being the parent of the fixture defined in the file. In other words, the objects in the _inner</em> fixture (<code>authors</code> in this example) are instantiated and saved at the point where the <code>load()</code> call occurs.<p class="paragraph"/>The <code>load()</code> method in a fixture file can also define a fixture inline, which has the same effect.<p class="paragraph"/><div class="code"><pre>load &#123; 
   guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
   dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
 &#125;<p class="paragraph"/>fixture &#123;
   gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
 &#125;</pre></div>
-	</body>
+
+    </body>
 </html>

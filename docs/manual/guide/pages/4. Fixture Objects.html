@@ -1,13 +1,13 @@
 <html>
-     <head>
-     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-     	<title>4. Fixture Objects</title>
-     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
-     </head>
-	<body class="body">
-		The <code>fixtureLoader.load()</code> methods (and <a href="../guide/single.html#2.2 Build-Test-Data Integration" class="guide">build-test-data <code>build()</code> methods</a>) return an object of type <code>Fixture</code>.<p class="paragraph"/>These objects hold all of the loaded domain objects which can then be referenced by name...<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>4. Fixture Objects</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    The <code>fixtureLoader.load()</code> methods (and <a href="../guide/single.html#2.2 Build-Test-Data Integration" class="guide">build-test-data <code>build()</code> methods</a>) return an object of type <code>Fixture</code>.<p class="paragraph"/>These objects hold all of the loaded domain objects which can then be referenced by name...<p class="paragraph"/><div class="code"><pre>def fixture = fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)
 assert fixture.gina.title == <span class="java&#45;quote">"Groovy In Action"</span></pre></div><p class="paragraph"/>A convenient pattern is to use Groovy's <code>with()</code> method on the <code>Fixture</code> object returned to allow a more convenient syntax...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"gina"</span>).with &#123;
   assert gina.title == <span class="java&#45;quote">"Groovy In Action"</span>
 &#125;</pre></div><p class="paragraph"/>The <code>fixtureLoader</code> <code>load()</code> and <code>build()</code> methods are also available on <code>Fixture</code> objects. This can be used to <em class="italic">stack</em> fixtures. See the section on <a href="../guide/single.html#5.2 Stacking" class="guide">stacking</a> for more info.
-	</body>
+    </body>
 </html>

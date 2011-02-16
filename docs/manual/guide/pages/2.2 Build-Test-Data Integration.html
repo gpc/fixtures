@@ -1,11 +1,11 @@
 <html>
-     <head>
-     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-     	<title>2.2 Build-Test-Data Integration</title>
-     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
-     </head>
-	<body class="body">
-		The <a href="http://www.grails.org/plugin/build-test-data" target="blank">build-test-data plugin</a> is a great plugin that simplifies specifying test data by populating required properties for you that you don't care about in your particular test.<p class="paragraph"/>Consider the following class...<p class="paragraph"/><div class="code"><pre>// Book.groovy
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>2.2 Build-Test-Data Integration</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    The <a href="http://www.grails.org/plugin/build-test-data" target="blank">build-test-data plugin</a> is a great plugin that simplifies specifying test data by populating required properties for you that you don't care about in your particular test.<p class="paragraph"/>Consider the following class...<p class="paragraph"/><div class="code"><pre>// Book.groovy
 class Book &#123;
   <span class="java&#45;object">String</span> title
   <span class="java&#45;object">String</span> isbn<p class="paragraph"/>  <span class="java&#45;keyword">static</span> constraints = &#123;
@@ -26,5 +26,5 @@ assert gina.isbn != <span class="java&#45;keyword">null</span></pre></div><p cla
   &#125;
 &#125;</pre></div><p class="paragraph"/><h4>Installing build-test-data</h4><p class="paragraph"/>Note that build-test-data integration only works if you have installed the build-test-data plugin yourself. The fixtures plugin does not attempt to install it for you.
 
-	</body>
+    </body>
 </html>

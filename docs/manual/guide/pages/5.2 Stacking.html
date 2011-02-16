@@ -1,11 +1,11 @@
 <html>
-     <head>
-     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-     	<title>5.2 Stacking</title>
-     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
-     </head>
-	<body class="body">
-		Fixtures can stack on each other which can be an effective technique for creating complex fixtures out of simpler building blocks. This is best illustrated by an example...<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>5.2 Stacking</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    Fixtures can stack on each other which can be an effective technique for creating complex fixtures out of simpler building blocks. This is best illustrated by an example...<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
 fixture &#123;
   guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
   dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
@@ -29,5 +29,5 @@ fixture &#123;
 &#125;<p class="paragraph"/>fixtureLoader.load(<span class="java&#45;quote">"authors"</span>).load &#123;
   gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
 &#125;</pre></div><p class="paragraph"/>In a real work scenario, <code>authors</code> could contain common bean definitions that are used across many tests. Using this technique, you can reuse these common definitions and then conveniently augment/extend them in individual tests.
-	</body>
+    </body>
 </html>

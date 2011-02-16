@@ -1,11 +1,11 @@
 <html>
-     <head>
-     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-     	<title>2. Defining The Data</title>
-     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
-     </head>
-	<body class="body">
-		<h1><a name="2. Defining The Data">2. Defining The Data</a></h1>Fixture data is defined using a simple DSL that expresses objects, their properties and their relationships. This is the same DSL used by Grails' <a href=":http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained">Spring BeanBuilder</a> as underneath the covers a BeanBuilder is being used to create the fixture data.<p class="paragraph"/>See the section on <a href="../guide/single.html#3. Loading Fixtures" class="guide">loading data</a> for information on how to load these definitions.<p class="paragraph"/>Here is an overview of the DSL, focussing on features useful for fixture definition.<h2><a name="2.1 Basics">2.1 Basics</a></h2>A single object is defined as follows...<p class="paragraph"/><div class="code"><pre>gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>)</pre></div><p class="paragraph"/>This is defining an object named <code>gina</code>, of type <code>Book</code> with the <code>title</code> property set to <code>"Groovy In Action"</code>.<p class="paragraph"/>An alternative syntax is...<p class="paragraph"/><div class="code"><pre>gina(Book) &#123;
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>2. Defining The Data</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    <h1><a name="2. Defining The Data">2. Defining The Data</a></h1>Fixture data is defined using a simple DSL that expresses objects, their properties and their relationships. This is the same DSL used by Grails' <a href=":http://grails.org/doc/latest/guide/14.%20Grails%20and%20Spring.html#14.4%20The%20BeanBuilder%20DSL%20Explained">Spring BeanBuilder</a> as underneath the covers a BeanBuilder is being used to create the fixture data.<p class="paragraph"/>See the section on <a href="../guide/single.html#3. Loading Fixtures" class="guide">loading data</a> for information on how to load these definitions.<p class="paragraph"/>Here is an overview of the DSL, focussing on features useful for fixture definition.<h2><a name="2.1 Basics">2.1 Basics</a></h2>A single object is defined as follows...<p class="paragraph"/><div class="code"><pre>gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>)</pre></div><p class="paragraph"/>This is defining an object named <code>gina</code>, of type <code>Book</code> with the <code>title</code> property set to <code>"Groovy In Action"</code>.<p class="paragraph"/>An alternative syntax is...<p class="paragraph"/><div class="code"><pre>gina(Book) &#123;
     title =  <span class="java&#45;quote">"Groovy In Action"</span>
 &#125;</pre></div><p class="paragraph"/>These two syntaxes effectively achieve the same thing. The difference is that the first example is equivalent to...<p class="paragraph"/><div class="code"><pre>def gina = <span class="java&#45;keyword">new</span> Book(title: <span class="java&#45;quote">"Groovy In Action"</span>)</pre></div><p class="paragraph"/>While the second (alternative) syntax is equivalent to...<p class="paragraph"/><div class="code"><pre>def gina = <span class="java&#45;keyword">new</span> Book()
 gina.title = <span class="java&#45;quote">"Groovy In Action"</span></pre></div><p class="paragraph"/>The two can even be mixed...<p class="paragraph"/><div class="code"><pre>gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>) &#123;
@@ -40,5 +40,5 @@ assert gina.isbn != <span class="java&#45;keyword">null</span></pre></div><p cla
   &#125;
 &#125;</pre></div><p class="paragraph"/><h4>Installing build-test-data</h4><p class="paragraph"/>Note that build-test-data integration only works if you have installed the build-test-data plugin yourself. The fixtures plugin does not attempt to install it for you.
 
-	</body>
+    </body>
 </html>

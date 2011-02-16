@@ -1,11 +1,11 @@
 <html>
-     <head>
-     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-     	<title>5. Advanced Techniques</title>
-     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
-     </head>
-	<body class="body">
-		<h1><a name="5. Advanced Techniques">5. Advanced Techniques</a></h1><h2><a name="5.1 Pre & Post Processing">5.1 Pre & Post Processing</a></h2>Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding <code>pre</code> and/or <code>post</code> handler in your fixture files.<p class="paragraph"/><div class="code"><pre>pre &#123;
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>5. Advanced Techniques</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    <h1><a name="5. Advanced Techniques">5. Advanced Techniques</a></h1><h2><a name="5.1 Pre & Post Processing">5.1 Pre & Post Processing</a></h2>Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding <code>pre</code> and/or <code>post</code> handler in your fixture files.<p class="paragraph"/><div class="code"><pre>pre &#123;
   /&#42; <span class="java&#45;keyword">do</span> things before loading fixture &#42;/
 &#125;<p class="paragraph"/>fixture &#123;
   /&#42; fixture definition &#42;/
@@ -22,7 +22,8 @@ post &#123;
   // change the creation date of the log message
   log.dateCreated &#45;= 1
   log.save()
-&#125;</pre></div><p class="paragraph"/>Pre process handlers are executed as soon as they are encountered. However, post processors are <strong class="bold">not</strong> executed until all fixtures have been loaded (e.g load patterns that match multiple files or fixtures with includes).<h2><a name="5.2 Stacking">5.2 Stacking</a></h2>Fixtures can stack on each other which can be an effective technique for creating complex fixtures out of simpler building blocks. This is best illustrated by an example...<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
+&#125;</pre></div><p class="paragraph"/>Pre process handlers are executed as soon as they are encountered. However, post processors are <strong class="bold">not</strong> executed until all fixtures have been loaded (e.g. load patterns that match multiple files or fixtures with includes).
+<h2><a name="5.2 Stacking">5.2 Stacking</a></h2>Fixtures can stack on each other which can be an effective technique for creating complex fixtures out of simpler building blocks. This is best illustrated by an example...<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
 fixture &#123;
   guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
   dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
@@ -51,5 +52,5 @@ fixture &#123;
         password = passwordEncodingService.encode('password')
     &#125;
 &#125;</pre></div><p class="paragraph"/>In this example, <code>passwordEncodingService</code> is a service defined in the application.
-	</body>
+    </body>
 </html>
