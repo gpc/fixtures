@@ -27,7 +27,6 @@ import org.apache.commons.logging.LogFactory
 class FixtureBeanPostProcessor implements BeanPostProcessor {
 	
 	def grailsApplication
-	def messageSource
 		
 	def postProcessBeforeInitialization(Object bean, String beanName) {
 		bean
@@ -87,17 +86,18 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 						}
 					}
 				}
+				
 				if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne) && (value || !p.optional)) {
 					log.info("not saving fixture bean $beanName")
 					shouldSave = false
 				}
-				
 			} 
 		}
 
 		if (domainClass && shouldSave) {
 			bean.save(flush: true, failOnError: true)
 		}
+		
 		bean
 	}
 	
@@ -110,10 +110,6 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 			def superDomainClass = getDomainClass(property.domainClass.clazz.superclass)
 			isOwningSide(superDomainClass.getPropertyByName(property.name))
 		}
-	}
-
-	def getErrorMessage(error) {
-		messageSource.getMessage(error, null)
 	}
 
 	def getDomainClass(clazz) {
