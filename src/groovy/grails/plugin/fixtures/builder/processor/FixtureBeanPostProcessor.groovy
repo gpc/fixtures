@@ -61,7 +61,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 							bean."addTo${MetaClassHelper.capitalize(p.name)}"(it)
 							if (!owningSide) {
 								log.debug("saving $it (owning side)")
-								it.save(flush: true)
+								it.save(flush: true, failOnError: true)
 								it.refresh()
 							}
 						}
