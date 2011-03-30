@@ -27,7 +27,10 @@ class FixtureBuildingShell extends GroovyShell {
 
 	private static final Log log = LogFactory.getLog(FixtureBuildingShell)
 	private static final String LOG_PREFIX = 'grails.app.fixtures'
-
+	
+	// Assuming that fixtures are stored in a dir named 'fixtures', see FixtureFilePatternResolver
+	private static final NAME_EXTRACTION_PATTERN = ~/(fixtures\/)+(.*).groovy$/
+	
 	static handlers = [
 		FixtureHandler, RequireHandler, RequireDefinitionsHandler, 
 		RequireBeansHandler, PreHandler, PostHandler, IncludeHandler,
@@ -39,19 +42,25 @@ class FixtureBuildingShell extends GroovyShell {
 		handlers*.newInstance(fileLoader)*.register(this)
 	}
 
-	def evaluate(Resource resource, String fileName ){
+	def evaluate(Resource resource, String fileName) {
 		addLogToBindings(resource)
 		evaluate(resource.URL.newReader(), fileName)
 	}
 
-	def addLogToBindings(Resource resource){
+	def addLogToBindings(Resource resource) {
 		try {  
 			log.debug "getting log name from ${resource.URL.toString()}" 
-			String logName = LOG_PREFIX + resource.URL.toString().find(~/(fixtures\/)+(.*).groovy$/){ exp, fix, path  -> return path }?.replaceAll('/','.')
-			this.setVariable( 'log', LogFactory.getLog( logName ) )
 			log.debug "log $logName added to fixture @ $resource"
 		} catch (e) {
 		   log.error "Unable to create the 'log' property for fixture at $resource"
 		}
+	}
+	
+	protected getLogger(Resource resource) {
+		this.setVariable('log', LogFactory.getLog(LOG_PREFIX + getFixturePathName(resource)))
+	}
+	
+	protected getFixturePathName(Resource resource) {
+		resource.URL.toString().find(NAME_EXTRACTION_PATTERN) { exp, fix, path -> path }?.replaceAll('/','.') ?: 'anonymous'
 	}
 }
