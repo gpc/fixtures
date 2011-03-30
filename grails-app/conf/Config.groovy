@@ -15,6 +15,7 @@
  */
 log4j = {
 	debug 'grails.plugin.fixtures'
+	debug 'grails.app.fixtures' //log added to fixtures
 }
 
 grails {
