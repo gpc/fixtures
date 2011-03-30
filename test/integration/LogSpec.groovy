@@ -12,13 +12,13 @@ class LogSpec extends IntegrationSpec {
 			log.info "Shouldn't fail"
 		}
 		then:
-		true //a log should be available
+		notThrown(Exception)
 	}
 	
 	def "log available in file"() {
 		when:
 		def f = fixtureLoader.load("log/**/*")
 		then:
-		true //a log should be available
+		notThrown(Exception)
 	}
 }
