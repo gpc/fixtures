@@ -26,7 +26,7 @@ import org.springframework.core.io.Resource
 class FixtureBuildingShell extends GroovyShell {
 
 	private static final Log log = LogFactory.getLog(FixtureBuildingShell)
-	private static final String LOG_PREFIX = 'grails.app.'
+	private static final String LOG_PREFIX = 'grails.app.fixtures'
 
 	static handlers = [
 		FixtureHandler, RequireHandler, RequireDefinitionsHandler, 
@@ -45,15 +45,13 @@ class FixtureBuildingShell extends GroovyShell {
 	}
 
 	def addLogToBindings(Resource resource){
-		if ( !this.getVariable('log') ){
-			try {  
-				log.debug "getting log name from ${resource.URL.toString()}" 
-				String logName = LOG_PREFIX + resource.URL.toString().find(~/(fixtures\/.*).groovy$/){ expression, path	 -> return path }?.replaceAll('/','.')
-				this.setVariable( 'log', LogFactory.getLog( logName ) )
-				log.debug "Log $logName added to fixture @ $resource"
-			} catch (e) {
-			   log.error "Unable to create the 'log' property for fixture at $resource"
-			}
+		try {  
+			log.debug "getting log name from ${resource.URL.toString()}" 
+			String logName = LOG_PREFIX + resource.URL.toString().find(~/(fixtures\/)+(.*).groovy$/){ exp, fix, path  -> return path }?.replaceAll('/','.')
+			this.setVariable( 'log', LogFactory.getLog( logName ) )
+			log.debug "log $logName added to fixture @ $resource"
+		} catch (e) {
+		   log.error "Unable to create the 'log' property for fixture at $resource"
 		}
 	}
 }
