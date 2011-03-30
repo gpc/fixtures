@@ -69,8 +69,6 @@ class FixtureFileLoader {
 				def fixtureName = fixtureResource.filename
 				fixtureNameStack.push(fixtureName)
 				try {
-					//Todo, add the log as an additional variables to the shell env.
-					//Per chat with Luke it should name the Log as grails.app.fixture<<.path.to.Fixture>>
 					shell.evaluate(fixtureResource.inputStream, fixtureName)
 				} catch (Throwable e) {
 					throw new FixtureException("Failed to evaluate ${fixtureName} (pattern: '$locationPattern')", e)

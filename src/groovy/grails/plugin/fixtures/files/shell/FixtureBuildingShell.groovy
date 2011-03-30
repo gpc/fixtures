@@ -17,7 +17,16 @@ package grails.plugin.fixtures.files.shell
 
 import grails.plugin.fixtures.files.shell.handler.*
 
+import org.apache.commons.logging.Log
+import org.apache.commons.logging.LogFactory
+
+import org.springframework.core.io.Resource 
+
+
 class FixtureBuildingShell extends GroovyShell {
+
+	private static final Log log = LogFactory.getLog(FixtureBuildingShell)
+	private static final String LOG_PREFIX = 'grails.app.'
 
 	static handlers = [
 		FixtureHandler, RequireHandler, RequireDefinitionsHandler, 
@@ -30,4 +39,21 @@ class FixtureBuildingShell extends GroovyShell {
 		handlers*.newInstance(fileLoader)*.register(this)
 	}
 
+	def evaluate(Resource resource, String fileName ){
+		addLogToBindings(resource)
+		evaluate(resource.URL.newReader(), fileName)
+	}
+
+	def addLogToBindings(Resource resource){
+		if ( !this.getVariable('log') ){
+			try {  
+				log.debug "getting log name from ${resource.URL.toString()}" 
+				String logName = LOG_PREFIX + resource.URL.toString().find(~/(fixtures\/.*).groovy$/){ expression, path	 -> return path }?.replaceAll('/','.')
+				this.setVariable( 'log', LogFactory.getLog( logName ) )
+				log.debug "Log $logName added to fixture @ $resource"
+			} catch (e) {
+			   log.error "Unable to create the 'log' property for fixture at $resource"
+			}
+		}
+	}
 }
