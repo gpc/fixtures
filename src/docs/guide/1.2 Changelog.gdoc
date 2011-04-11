@@ -50,3 +50,20 @@ h4. 1.0.2
 * Workaround for GRAILS-6714
 * Fixes for List types on the owned side of the relationship
 * Don't try and copy the fixtures dir to the war if it doesn't exist
+
+h4. 1.0.3
+
+* Fixed issue where objects weren't being saved if they had an optional owner that wasn't specified
+
+h4. 1.0.4 
+
+* Fixed bad dependency declarations that were leaking into client applications
+* Update to use @failOnError@ everywhere that @save()@ is called to get better error messages and to fail-fast
+
+h4. 1.0.5
+
+* Fixture files now have an implicit logger available
+
+h4. 1.0.6
+
+* Removed dependency on hibernate to be compatible with other GORM implementations 
