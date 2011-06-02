@@ -7,3 +7,4 @@ target
 docs
 *.iml
 .idea
+*.sha1
