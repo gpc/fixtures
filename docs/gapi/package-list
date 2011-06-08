@@ -1,5 +1,7 @@
 DefaultPackage
 collectiontypes.list
+grails.buildtestdata
+grails.buildtestdata.handler
 grails.plugin.fixtures
 grails.plugin.fixtures.builder
 grails.plugin.fixtures.builder.processor
@@ -7,5 +9,7 @@ grails.plugin.fixtures.buildtestdata
 grails.plugin.fixtures.exception
 grails.plugin.fixtures.files
 grails.plugin.fixtures.files.shell.handler
+grails.plugins.publish
+grails.plugins.publish.maven
 inheritance
 optionalowner
