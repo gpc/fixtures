@@ -1,3 +1,3 @@
 fixture {
-	log.info "Logging entry with ${log.name}"
+	assert log.name.startsWith("grails.app.fixture.a.b.c.testFixtureWithLog")
 }

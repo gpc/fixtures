@@ -47,16 +47,7 @@ class FixtureBuildingShell extends GroovyShell {
 		evaluate(resource.URL.newReader(), fileName)
 	}
 
-	def addLogToBindings(Resource resource) {
-		try {  
-			log.debug "getting log name from ${resource.URL.toString()}" 
-			log.debug "log $logName added to fixture @ $resource"
-		} catch (e) {
-		   log.error "Unable to create the 'log' property for fixture at $resource"
-		}
-	}
-	
-	protected getLogger(Resource resource) {
+	protected addLogToBindings(Resource resource) {
 		this.setVariable('log', LogFactory.getLog(LOG_PREFIX + getFixturePathName(resource)))
 	}
 	

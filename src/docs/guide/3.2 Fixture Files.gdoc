@@ -22,3 +22,7 @@ fixtureLoader.load("books/*")
 {code}
 
 This would load all the *.groovy files in the 'fixtures/books' directory.
+
+h4. Logging
+
+An implicit logger is available in all fixture files. It's name is @grails.app.fixture.inline.«file path»@, where «file path» is that path relative from the fixtures directory.

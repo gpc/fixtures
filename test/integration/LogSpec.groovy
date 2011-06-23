@@ -9,7 +9,7 @@ class LogSpec extends IntegrationSpec {
 	def "log available in the fixtureLoader"() {
 		when:
 		def f = fixtureLoader.load {
-			log.info "Shouldn't fail"
+			assert log.name.startsWith("grails.app.fixture.inline.")
 		}
 		then:
 		notThrown(Exception)
