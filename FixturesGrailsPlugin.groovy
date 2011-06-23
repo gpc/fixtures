@@ -18,7 +18,7 @@ import grails.plugin.fixtures.FixtureLoader
 class FixturesGrailsPlugin {
 	def version = "1.1-SNAPSHOT"
 	def dependsOn = [:]
-	def grailsVersion = "1.1 > *"
+	def grailsVersion = "1.2 > *"
 
 	def author = "Grails Plugin Collective"
 	def authorEmail = "grails.plugin.collective@gmail.com"
