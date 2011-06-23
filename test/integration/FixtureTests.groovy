@@ -96,6 +96,18 @@ class FixtureTests extends GroovyTestCase {
 		assertEquals(f.am.partner, "value")
 	}
 	
+    void testTemplating() {
+        def f = fixtureLoader.load {
+            c1(Child, name: "c1") { it.abstract = true }
+            u1(Uncle, name: "u1")
+            c2(Child, uncle: ref("u1")) { it.parent = c1 }
+            c3(Child, uncle: ref("u1")) { it.parent = c1 }
+        }
+
+        assertEquals "c1", f.c2.name
+        assertEquals "c1", f.c3.name
+    }
+
 	void testIncludes() {
 	   fixtureLoader.load("includeTest").with {
 		   assertNotNull(u1)

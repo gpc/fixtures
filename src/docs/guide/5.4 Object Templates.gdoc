@@ -1,0 +1,27 @@
+You can define an object template to define some common properties that will be replicated in all object instances
+based on that template.
+
+Consider the following GORM domain class:
+{code}
+class Flight {
+  String departure
+  String arrival
+  double price
+}
+{code}
+
+You define the template adding a closure that marks the object as an abstract bean (Warsaw - Szczecin flight in this
+example):
+{code}
+wawSzzFlight(Flight, departure: "WAW", arrival: "SZZ") { it.abstract = true }
+{code}
+
+Then you create concrete objects referencing the template through a closure that tells that the object definition
+should be based on the template:
+{code}
+wawSzzCheapFlight(Flight, price: 10.0) { it.parent = wawSzzFlight }
+wawSzzExpensiveFlight(Flight, price: 300.0) { it.parent = wawSzzFlight }
+// departure == "WAW" and arrival == "SZZ" of both cheap and expensive flights.
+{code}
+
+Note that you cannot reference the template object in your tests - a @BeanIsAbstractException@ will be raised.

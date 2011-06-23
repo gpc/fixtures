@@ -28,6 +28,7 @@ import org.codehaus.groovy.grails.commons.spring.BeanConfiguration
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 
 import grails.plugin.fixtures.buildtestdata.*
+import org.springframework.beans.factory.BeanIsAbstractException
 
 class FixtureBuilder extends BeanBuilder {
 		
@@ -147,7 +148,9 @@ class FixtureBuilder extends BeanBuilder {
 						bean.refresh()
 					}
 				}
-			} catch (Exception e) {
+			} catch (BeanIsAbstractException e) {
+                // template bean
+            } catch (Exception e) {
 				throw new FixtureException("Error refresh()ing bean '$it'", e)
 			}
 		}
