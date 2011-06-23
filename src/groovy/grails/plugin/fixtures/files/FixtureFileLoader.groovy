@@ -46,7 +46,7 @@ class FixtureFileLoader {
 	
 	ApplicationContext load(String[] patterns) {
 		loading = true
-		doLoad(*patterns)
+		doLoad(patterns)
 		loading = false
 		builder.createApplicationContext()
 	}
