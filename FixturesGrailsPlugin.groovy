@@ -29,7 +29,8 @@ class FixturesGrailsPlugin {
 		"grails-app/domain/**",
 		"grails-app/services/**",
 		"grails-app/i18n/*",
-		"fixtures"
+		"fixtures",
+		"src/*/grails/plugin/fixtures/test/**"
 	]
 
 	def doWithSpring = {
