@@ -17,6 +17,7 @@ package grails.plugin.fixtures.files
 
 import org.springframework.core.io.Resource
 import grails.plugin.fixtures.exception.UnknownFixtureException
+import org.springframework.web.context.support.ServletContextResourcePatternResolver
 
 class FixtureFilePatternResolver {
 	
@@ -32,8 +33,10 @@ class FixtureFilePatternResolver {
 
 	Resource[] resolve(String locationPattern) {
 		def resources
+		def resolver = new ServletContextResourcePatternResolver(grailsApplication.mainContext.servletContext)
+		
 		try {
-			resources = applicationContext.getResources("${prefix}fixtures/${locationPattern}.groovy")
+			resources = resolver.getResources("${prefix}fixtures/${locationPattern}.groovy")
 		} catch (Exception e) {
 			throw new UnknownFixtureException(locationPattern, e)
 		}
