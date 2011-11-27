@@ -2,6 +2,7 @@ import grails.plugin.spock.*
 import collectiontypes.list.*
 import spock.lang.*
 
+@Ignore
 class LogSpec extends IntegrationSpec {
 
 	def fixtureLoader
