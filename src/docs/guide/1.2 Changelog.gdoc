@@ -67,3 +67,11 @@ h4. 1.0.5
 h4. 1.0.6
 
 * Removed dependency on hibernate to be compatible with other GORM implementations 
+
+h4. 1.0.7
+
+* Fixes for Groovy 1.8 compatibility
+
+h4. 1.1
+
+* Add support for using abstract bean definitions
