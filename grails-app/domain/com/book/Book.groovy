@@ -20,6 +20,7 @@ class Book {
 	String title
 
 	static belongsTo = [author: Author]
+	static hasMany = [labels: Label]
 
 	static constraints = {
 		title(blank: false, maxSize: 50)

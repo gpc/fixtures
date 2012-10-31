@@ -140,9 +140,9 @@ class FixtureBuilder extends BeanBuilder {
 		def ctx = super.createApplicationContext()
 		def grailsApplication = ctx.getBean("grailsApplication")
 		
-		ctx.beanDefinitionNames.each {
+		for (name in ctx.beanDefinitionNames) {
 			try {
-				def bean = ctx.getBean(it)
+				def bean = ctx.getBean(name)
 				if (grailsApplication.isDomainClass(bean.class)) {
 					if (bean.ident() != null) {
 						bean.refresh()
@@ -151,7 +151,7 @@ class FixtureBuilder extends BeanBuilder {
 			} catch (BeanIsAbstractException e) {
 				// template bean
 			} catch (Exception e) {
-				throw new FixtureException("Error refresh()ing bean '$it'", e)
+				throw new FixtureException("Error refresh()ing bean '$name'", e)
 			}
 		}
 		
