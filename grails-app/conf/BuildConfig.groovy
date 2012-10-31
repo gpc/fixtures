@@ -14,25 +14,31 @@
  * limitations under the License.
  */
 grails.project.dependency.resolution = {
-	inherits("global")
+	inherits("global") {
+		excludes "xml-apis"
+	}
 	log "warn"
 	repositories {
 		grailsCentral()
 		grailsHome()
+		mavenLocal()
 		mavenCentral()
 		mavenRepo "http://download.java.net/maven/2/"
 	}
 	plugins {
-		build(":release:1.0.0.RC3") {
+		build(":release:2.0.4", ":rest-client-builder:1.0.2") {
 			export = false
 		}
 		compile (
 			":hibernate:$grailsVersion",
 			":build-test-data:0.2.3",
-			":spock:0.5-groovy-1.7"
+			":spock:0.7"
 		) {
 			export = false
 		}
+	}
+	dependencies {
+		test "hsqldb:hsqldb:1.8.0.10"
 	}
 }
 
