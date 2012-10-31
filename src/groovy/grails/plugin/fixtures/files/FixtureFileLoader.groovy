@@ -29,6 +29,7 @@ class FixtureFileLoader {
 	
 	final fileResolver
 	final shell
+	final fileEncoding
 	
 	def fixtureNameStack = []
 	def currentLoadPattern
@@ -42,6 +43,8 @@ class FixtureFileLoader {
 		
 		this.fileResolver = new FixtureFilePatternResolver(fixture.grailsApplication, fixture.applicationContext)
 		this.shell = new FixtureBuildingShell(this)
+
+		this.fileEncoding = fixture.grailsApplication.config.plugin.fixtures.file.encoding ?: "UTF-8"
 	}
 	
 	ApplicationContext load(String[] patterns) {
@@ -69,7 +72,7 @@ class FixtureFileLoader {
 				def fixtureName = fixtureResource.filename
 				fixtureNameStack.push(fixtureName)
 				try {
-					shell.evaluate(fixtureResource.inputStream, fixtureName)
+					shell.evaluate(fixtureResource.inputStream.newReader(fileEncoding), fixtureName)
 				} catch (Throwable e) {
 					throw new FixtureException("Failed to evaluate ${fixtureName} (pattern: '$locationPattern')", e)
 				}

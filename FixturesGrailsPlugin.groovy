@@ -36,4 +36,12 @@ class FixturesGrailsPlugin {
 	def doWithSpring = {
 		fixtureLoader(FixtureLoader, application)
 	}
+
+	/**
+	 * For Platform Core if and when this plugin depends on it.
+	 */
+	def doWithConfigOptions = {
+		'file.encoding' type: String, defaultValue: "UTF-8"
+	}
+	
 }
