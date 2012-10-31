@@ -19,6 +19,7 @@ import grails.plugin.fixtures.exception.UnsatisfiedFixtureRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanDefinitionRequirementException
 import org.springframework.beans.factory.BeanCreationException
+import com.book.*
 
 class FixtureTests extends GroovyTestCase {
 	
@@ -85,6 +86,19 @@ class FixtureTests extends GroovyTestCase {
 		assertEquals(2, f.c1.parents.size())
 		assertEquals(2, f.c2.parents.size())
 		assertNotNull(f.p1.parents.find { it.is(f.gp1) })
+	}
+	
+	void testNestedBidirectionalOneToMany() {
+		def f = fixtureLoader.load {
+			king(Author, name: "Stephen King", books: [
+					new Book(title: "Misery", labels: [
+							new Label(name: "a"),
+							new Label(name: "b") ]),
+					new Book(title: "Carrie", labels: [ new Label(name: "c") ])])
+		}
+		assertEquals(2, f.king.books.size())
+		assertEquals(2, f.king.books.find { it.title == "Misery" }.labels.size())
+		assertEquals(1, f.king.books.find { it.title == "Carrie" }.labels.size())
 	}
 
 	void testAutowiring() {
