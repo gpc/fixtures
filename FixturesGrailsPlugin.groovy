@@ -25,6 +25,11 @@ class FixturesGrailsPlugin {
 	def title = "Grails Fixtures Plugin"
 	def description = "Load complex domain data via a simple DSL"
 	def documentation = "http://gpc.github.com/grails-fixtures/"
+
+    def license = "APACHE"
+    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPFIXTURES" ]
+    def scm = [url: "https://github.com/gpc/grails-fixtures"]
+
 	def pluginExcludes = [
 		"grails-app/domain/**",
 		"grails-app/services/**",
