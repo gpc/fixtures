@@ -91,10 +91,10 @@ class FixtureTests extends GroovyTestCase {
 	void testNestedBidirectionalOneToMany() {
 		def f = fixtureLoader.load {
 			king(Author, name: "Stephen King", books: [
-					[title: "Misery", labels: [
-							[name: "a"],
-							[name: "b"] ] ],
-					[title: "Carrie", labels: [ [name: "c"] ] ] ])
+					new Book(title: "Misery", labels: [
+							new Label(name: "a"),
+							new Label(name: "b") ]),
+					new Book(title: "Carrie", labels: [ new Label(name: "c") ])])
 		}
 		assertEquals(2, f.king.books.size())
 		assertEquals(2, f.king.books.find { it.title == "Misery" }.labels.size())
