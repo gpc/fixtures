@@ -1,0 +1,28 @@
+You can pass parameters to named fixture files. This allows setting up a complex object graph
+in a named file, but allowing a caller to override specific properties if needed:
+
+{code}
+class Product {
+  String name
+}
+{code}
+
+{code}
+// productFixture.groovy
+fixture {
+    build {
+        product(Product, name: params.name ?: "BFG-9000 Coffee Maker Deluxe")
+    }
+}
+{code}
+
+Then you can call the fixture, passing in the parameters as a map:
+{code}
+// get default value if we don't pass in the parameter
+def product = fixtureLoader.load("productFixture").product
+assert product.name == "BFG-9000 Coffee Maker Deluxe"
+
+// now try passing the name as a parameter
+product = fixtureLoader.load("productFixture", [name: "A really long product name to test web page layout"]).product
+assert product.name == "A really long product name to test web page layout"
+{code}

@@ -33,25 +33,29 @@ class FixtureLoader implements ApplicationContextAware {
 	def createFixture() {
 		new Fixture(grailsApplication, applicationContext)
 	}
-	
+
 	def load(String[] fixtures) {
-		doLoad(*fixtures)
+		load(fixtures, [:])
 	}
-	
+
+    def load(String fixtures, Map params) {
+        load([fixtures] as String[], params)
+    }
+
+	def load(String[] fixtures, Map params) {
+        createFixture().load(fixtures, params)
+	}
+
 	def load(Closure fixture) {
-		doLoad(fixture)
+        createFixture().load(fixture)
 	}
 
 	def build(Closure fixture) {
 		createFixture().build(fixture)
 	}
-	
-	protected doLoad(Object[] fixtures) {
-		createFixture().load(*fixtures)
-	}
-	
+
 	def propertyMissing(String name) {
-		if (!namedFixtures.containsKey(name)) namedFixtures[name] = doLoad()
+		if (!namedFixtures.containsKey(name)) namedFixtures[name] = load(null as String[], null)
 		namedFixtures[name]
 	}
 }

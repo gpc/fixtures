@@ -46,8 +46,12 @@ class Fixture {
 	}
 
 	def load(String[] patterns) {
+        load(patterns, [:])
+    }
+
+	def load(String[] patterns, Map params) {
 		def fileLoader = new FixtureFileLoader(this, inners, createBuilder())
-		applicationContext = fileLoader.load(*patterns)
+		applicationContext = fileLoader.load(patterns, params)
 		fileLoader.posts*.call()
 		fileLoader.posts.clear()
 		this
