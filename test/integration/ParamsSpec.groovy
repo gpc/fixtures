@@ -10,6 +10,7 @@ class ParamsSpec extends IntegrationSpec {
 
 		then:
 		f.u.name == 'default name'
+		f.v.name == 'name'
 	}
 
 	def "params provided"() {
@@ -18,6 +19,7 @@ class ParamsSpec extends IntegrationSpec {
 
 		then:
 		f.u.name == "Uncle Sam"
+		f.v.name == "Uncle Sam"
 	}
 
 	def "params passed over include boundary"() {

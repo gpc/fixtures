@@ -30,8 +30,8 @@ class FixtureLoader implements ApplicationContextAware {
 		this.grailsApplication = grailsApplication
 	}
 
-	def createFixture() {
-		new Fixture(grailsApplication, applicationContext)
+	def createFixture(Map params = [:]) {
+		new Fixture(grailsApplication, applicationContext, params)
 	}
 
 	def load(String[] fixtures) {
@@ -43,7 +43,7 @@ class FixtureLoader implements ApplicationContextAware {
     }
 
 	def load(String[] fixtures, Map params) {
-        createFixture().load(fixtures, params)
+        createFixture(params).load(fixtures)
 	}
 
 	def load(Closure fixture) {
