@@ -59,7 +59,11 @@ class FixtureBuilder extends BeanBuilder {
 			fixtureBeanPostProcessor(FixtureBeanPostProcessor)
 		}
 	}
-	
+
+    Map getParams() {
+        fixture.params
+    }
+
 	def getProperty(String name) {
 		def parentCtx = getParentCtx()
 		if (parentCtx?.containsBean(name)) {
