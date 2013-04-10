@@ -47,9 +47,9 @@ class FixtureFileLoader {
 		this.fileEncoding = fixture.grailsApplication.config.plugin.fixtures.file.encoding ?: "UTF-8"
 	}
 	
-	ApplicationContext load(String[] patterns, Map params) {
+	ApplicationContext load(String[] patterns) {
 		loading = true
-		doLoad(patterns, params)
+		doLoad(patterns)
 		loading = false
 		builder.createApplicationContext()
 	}
@@ -58,17 +58,14 @@ class FixtureFileLoader {
 		if (!loading)
 			throw new IllegalStateException("Can not include unless loading")
 		
-		doLoad(includes, null)
+		doLoad(includes)
 	}
 	
 	void addPost(Closure post) {
 		posts << post
 	}
 	
-	protected doLoad(String[] locationPatterns, Map params) {
-        if (params != null) {
-            shell.setVariable('params', params)
-        }
+	protected doLoad(String[] locationPatterns) {
 		locationPatterns.each { locationPattern ->
 			currentLoadPattern = locationPattern
 			fileResolver.resolve(locationPattern).each { fixtureResource ->

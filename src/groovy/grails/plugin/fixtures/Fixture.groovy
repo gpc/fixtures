@@ -49,7 +49,7 @@ class Fixture {
 
 	def load(String[] patterns) {
 		def fileLoader = new FixtureFileLoader(this, inners, createBuilder())
-		applicationContext = fileLoader.load(patterns, params)
+		applicationContext = fileLoader.load(patterns)
 		fileLoader.posts*.call()
 		fileLoader.posts.clear()
 		this
