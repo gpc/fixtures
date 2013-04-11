@@ -16,6 +16,7 @@
 package grails.plugin.fixtures.exception
 
 class FixtureException extends Exception {
+    static final long serialVersionUID = 1L
 
 	FixtureException(message) {
 		super(message as String)
