@@ -82,7 +82,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 						if (associate instanceof Map) {
 							associate = associateType.newInstance(associate)
 						}
-						if (!sessionFactory.currentSession.contains(associate)) {
+						if (!sessionFactory?.currentSession?.contains(associate)) {
 							processDomainInstance(associate, log)
 						}
 						log.debug("adding value $associate (${associate.getClass()})")
