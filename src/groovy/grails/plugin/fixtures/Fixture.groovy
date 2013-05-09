@@ -70,19 +70,19 @@ class Fixture {
 			bean
 		}
 	}
+
+	Map toMap() {
+		def fixtureData = [:]
+		for (beanName in applicationContext.beanDefinitionNames) {
+			if (!(beanName in ["fixtureBeanPostProcessor", "autoAutoWirer"])) {
+				fixtureData[beanName] = applicationContext.getBean(beanName)
+			}
+		}
+		fixtureData
+	}
 	
 	protected createBuilder() {
 		new FixtureBuilder(this)
 	}
 
-
-    Map toMap() {
-        def fixtureData = [:]
-        applicationContext.beanDefinitionNames.each {
-            if (!(it in ["fixtureBeanPostProcessor", "autoAutoWirer"])) {
-                fixtureData[it] = applicationContext.getBean(it)
-            }
-        }
-        fixtureData
-    }
 }
