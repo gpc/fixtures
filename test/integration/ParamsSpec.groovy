@@ -27,7 +27,7 @@ class ParamsSpec extends IntegrationSpec {
 		fixtureLoader.load("params/includer", [name: "Uncle Sam"]).u.name == "Uncle Sam"
 
 		and:
-        fixtureLoader.load("params/includer").u.name == "default name"
-    }
+		fixtureLoader.load("params/includer").u.name == "default name"
+	}
 
 }

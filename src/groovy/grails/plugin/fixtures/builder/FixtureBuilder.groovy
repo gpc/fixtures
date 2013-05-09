@@ -60,9 +60,9 @@ class FixtureBuilder extends BeanBuilder {
 		}
 	}
 
-    Map getParams() {
-        fixture.params
-    }
+	Map getParams() {
+		fixture.params
+	}
 
 	def getProperty(String name) {
 		def parentCtx = getParentCtx()

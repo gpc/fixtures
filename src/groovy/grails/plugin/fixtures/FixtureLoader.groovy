@@ -38,16 +38,16 @@ class FixtureLoader implements ApplicationContextAware {
 		load(fixtures, [:])
 	}
 
-    def load(String fixtures, Map params) {
-        load([fixtures] as String[], params)
-    }
+	def load(String fixtures, Map params) {
+		load([fixtures] as String[], params)
+	}
 
 	def load(String[] fixtures, Map params) {
-        createFixture(params).load(fixtures)
+		createFixture(params).load(fixtures)
 	}
 
 	def load(Closure fixture) {
-        createFixture().load(fixture)
+		createFixture().load(fixture)
 	}
 
 	def build(Closure fixture) {

@@ -26,14 +26,14 @@ class Fixture {
 	
 	def grailsApplication
 	def applicationContext
-    Map params
+	Map params
 	
 	protected inners = []
 
 	Fixture(GrailsApplication grailsApplication, ApplicationContext applicationContext, Map params, inners = []) {
 		this.grailsApplication = grailsApplication
 		this.applicationContext = applicationContext
-        this.params = params
+		this.params = params
 		this.inners = inners
 	}
 
