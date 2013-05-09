@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2010 Grails Plugin Collective
  *
@@ -27,6 +26,8 @@ import org.apache.commons.logging.LogFactory
 class FixtureBeanPostProcessor implements BeanPostProcessor {
 	
 	def grailsApplication
+
+	// If Hibernate plugin is not installed, this may be null.
 	def sessionFactory
 		
 	def postProcessBeforeInitialization(Object bean, String beanName) {
