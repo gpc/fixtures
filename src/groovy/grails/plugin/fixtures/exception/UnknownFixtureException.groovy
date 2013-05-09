@@ -16,6 +16,7 @@
 package grails.plugin.fixtures.exception
 
 class UnknownFixtureException extends Exception {
+	static final long serialVersionUID = 1L
 
 	UnknownFixtureException(name) {
 		this(name, null)
