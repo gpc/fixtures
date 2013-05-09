@@ -40,6 +40,7 @@ class FixtureBuildingShell extends GroovyShell {
 	FixtureBuildingShell(fileLoader) {
 		super(fileLoader.fixture.grailsApplication.classLoader)
 		handlers*.newInstance(fileLoader)*.register(this)
+		setVariable("params", fileLoader.fixture.params)
 	}
 
 	def evaluate(Resource resource, String fileName) {

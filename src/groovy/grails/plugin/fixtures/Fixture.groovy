@@ -26,15 +26,17 @@ class Fixture {
 	
 	def grailsApplication
 	def applicationContext
+	Map params
 	
 	protected inners = []
 
-	Fixture(GrailsApplication grailsApplication, ApplicationContext applicationContext, inners = []) {
+	Fixture(GrailsApplication grailsApplication, ApplicationContext applicationContext, Map params, inners = []) {
 		this.grailsApplication = grailsApplication
 		this.applicationContext = applicationContext
+		this.params = params
 		this.inners = inners
 	}
-	
+
 	def load(Closure f) {
 		applicationContext = createBuilder().beans(f).createApplicationContext()
 		this
@@ -47,7 +49,7 @@ class Fixture {
 
 	def load(String[] patterns) {
 		def fileLoader = new FixtureFileLoader(this, inners, createBuilder())
-		applicationContext = fileLoader.load(*patterns)
+		applicationContext = fileLoader.load(patterns)
 		fileLoader.posts*.call()
 		fileLoader.posts.clear()
 		this
