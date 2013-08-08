@@ -26,3 +26,11 @@ This would load all the *.groovy files in the 'fixtures/books' directory.
 h4. Logging
 
 An implicit logger is available in all fixture files. It's name is @grails.app.fixture.inline.«file path»@, where «file path» is that path relative from the fixtures directory.
+
+h4. Changing the fixtures directory
+
+To change the path to your fixtures directory, e.g. to share fixtures between different projects, change @grails.plugin.fixtures.directory@:
+
+{code}
+grails.plugin.fixtures.directory = "path/to/fixtures" // defaults to "fixtures"
+{code}
