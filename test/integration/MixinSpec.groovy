@@ -1,10 +1,9 @@
-import grails.plugin.spock.*
-import spock.lang.*
+import grails.plugin.spock.IntegrationSpec
 
 class MixinSpec extends IntegrationSpec {
 
 	def fixtureLoader
-	
+
 	def "load object with mixin"() {
 		when:
 		def f = fixtureLoader.load {
@@ -12,9 +11,8 @@ class MixinSpec extends IntegrationSpec {
 				name = "foo"
 			}
 		}
-		
+
 		then:
 		f.m.name == "foo"
 	}
-
 }

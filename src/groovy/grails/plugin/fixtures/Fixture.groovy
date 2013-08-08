@@ -16,25 +16,29 @@
 package grails.plugin.fixtures
 
 import grails.plugin.fixtures.builder.FixtureBuilder
+import grails.plugin.fixtures.exception.UnknownFixtureBeanException
 import grails.plugin.fixtures.files.FixtureFileLoader
-import org.springframework.beans.factory.config.RuntimeBeanReference
+
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.context.ApplicationContext
-import grails.plugin.fixtures.exception.UnknownFixtureBeanException
 
 class Fixture {
-	
+
+	protected static final ignoredBeanNames = ["fixtureBeanPostProcessor", "autoAutoWirer"]
+
 	def grailsApplication
 	def applicationContext
-	
+	Map params
+
 	protected inners = []
 
-	Fixture(GrailsApplication grailsApplication, ApplicationContext applicationContext, inners = []) {
+	Fixture(GrailsApplication grailsApplication, ApplicationContext applicationContext, Map params, inners = []) {
 		this.grailsApplication = grailsApplication
 		this.applicationContext = applicationContext
+		this.params = params
 		this.inners = inners
 	}
-	
+
 	def load(Closure f) {
 		applicationContext = createBuilder().beans(f).createApplicationContext()
 		this
@@ -47,12 +51,12 @@ class Fixture {
 
 	def load(String[] patterns) {
 		def fileLoader = new FixtureFileLoader(this, inners, createBuilder())
-		applicationContext = fileLoader.load(*patterns)
+		applicationContext = fileLoader.load(patterns)
 		fileLoader.posts*.call()
 		fileLoader.posts.clear()
 		this
 	}
-	
+
 	def propertyMissing(name) {
 		def bean = getBean(name)
 		if (!bean) {
@@ -60,19 +64,28 @@ class Fixture {
 		}
 		bean
 	}
-		
+
 	def getBean(name) {
 		if (applicationContext.containsBean(name)) {
-		   applicationContext.getBean(name)
+			applicationContext.getBean(name)
 		} else {
 			def bean
 			inners.find { bean = it.getBean(name) }
 			bean
 		}
 	}
-	
+
+	Map toMap() {
+		def fixtureData = [:]
+		for (beanName in applicationContext.beanDefinitionNames) {
+			if (!(beanName in ignoredBeanNames)) {
+				fixtureData[beanName] = applicationContext.getBean(beanName)
+			}
+		}
+		fixtureData
+	}
+
 	protected createBuilder() {
 		new FixtureBuilder(this)
 	}
-	
 }

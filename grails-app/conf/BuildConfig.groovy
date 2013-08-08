@@ -13,27 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+grails.project.work.dir = 'target'
+
 grails.project.dependency.resolution = {
-	inherits("global")
-	log "warn"
+
+	inherits 'global'
+	log 'warn'
+
 	repositories {
 		grailsCentral()
-		grailsHome()
-		mavenCentral()
-		mavenRepo "http://download.java.net/maven/2/"
 	}
+
 	plugins {
-		build(":release:1.0.0.RC3") {
+		build ':release:2.2.1', ':rest-client-builder:1.0.3', {
 			export = false
 		}
-		compile (
-			":hibernate:$grailsVersion",
-			":build-test-data:0.2.3",
-			":spock:0.5-groovy-1.7"
-		) {
+
+		compile(":hibernate:$grailsVersion") {
+			export = false
+		}
+
+		compile(":build-test-data:0.2.3") {
+			export = false
+		}
+
+		test(":spock:0.7") {
 			export = false
 		}
 	}
 }
-
-grails.release.scm.enabled = false

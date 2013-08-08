@@ -13,50 +13,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import grails.plugin.fixtures.exception.UnknownFixtureException
 import grails.plugin.fixtures.exception.UnknownFixtureBeanException
-import grails.plugin.fixtures.exception.UnsatisfiedFixtureRequirementException
-import grails.plugin.fixtures.exception.UnsatisfiedBeanRequirementException
+import grails.plugin.fixtures.exception.UnknownFixtureException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanDefinitionRequirementException
+import grails.plugin.fixtures.exception.UnsatisfiedBeanRequirementException
+import grails.plugin.fixtures.exception.UnsatisfiedFixtureRequirementException
+
 import org.springframework.beans.factory.BeanCreationException
 
+import com.book.Author
+import com.book.Book
+import com.book.Label
+
 class FixtureTests extends GroovyTestCase {
-	
+
 	def fixtureLoader
 	def preProcessTestService
-	
+
 	void testPostProcess() {
 		fixtureLoader.load("postProcess").with {
 			assertEquals("changed", u.name)
 		}
 	}
-	
+
 	void testLoadFixtureFiles() {
 		fixtureLoader.load("testFixture1", "testFixture2")
 	}
-	
+
 	void testLoadClosures() {
 		fixtureLoader.load {
 			u2(Uncle, name: "2") {
 			}
 		}.load {
-			c2(Child, name: "2", uncle: u2) 
+			c2(Child, name: "2", uncle: u2)
 		}
 	}
-	
+
 	void testLoadPartial() {
 		fixtureLoader.load("books/*", "authors/*")
 	}
-	
+
 	void testLoadUnknownFixtures() {
 		["books", "xxx*"].each { pattern ->
 			shouldFail(UnknownFixtureException) {
 				fixtureLoader.load(pattern)
 			}
 		}
-		
 	}
-	
+
 	void testGetObjectsFromFixture() {
 		def f = fixtureLoader.load {
 			u3(Uncle, name: "u3")
@@ -64,7 +68,7 @@ class FixtureTests extends GroovyTestCase {
 		assertNotNull(f.u3)
 		assertEquals("u3", f.u3.name)
 	}
-	
+
 	void testBadFixture() {
 		shouldFail(BeanCreationException) {
 			fixtureLoader.load {
@@ -72,7 +76,7 @@ class FixtureTests extends GroovyTestCase {
 			}
 		}
 	}
-	
+
 	void testComplexFixture1() {
 		def f = fixtureLoader.load {
 			c1(Child, name: "c1", uncle: ref("u1"))
@@ -87,6 +91,19 @@ class FixtureTests extends GroovyTestCase {
 		assertNotNull(f.p1.parents.find { it.is(f.gp1) })
 	}
 
+	void testNestedBidirectionalOneToMany() {
+		def f = fixtureLoader.load {
+			king(Author, name: "Stephen King", books: [
+					new Book(title: "Misery", labels: [
+							new Label(name: "a"),
+							new Label(name: "b") ]),
+					new Book(title: "Carrie", labels: [ new Label(name: "c") ])])
+		}
+		assertEquals(2, f.king.books.size())
+		assertEquals(2, f.king.books.find { it.title == "Misery" }.labels.size())
+		assertEquals(1, f.king.books.find { it.title == "Carrie" }.labels.size())
+	}
+
 	void testAutowiring() {
 		def f = fixtureLoader.load {
 			partner(String, "value")
@@ -95,52 +112,52 @@ class FixtureTests extends GroovyTestCase {
 		assertNotNull(f.am)
 		assertEquals(f.am.partner, "value")
 	}
-	
-    void testTemplating() {
-        def f = fixtureLoader.load {
-            c1(Child, name: "c1") { it.abstract = true }
-            u1(Uncle, name: "u1")
-            c2(Child, uncle: ref("u1")) { it.parent = c1 }
-            c3(Child, uncle: ref("u1")) { it.parent = c1 }
-        }
 
-        assertEquals "c1", f.c2.name
-        assertEquals "c1", f.c3.name
-    }
+	void testTemplating() {
+		def f = fixtureLoader.load {
+			c1(Child, name: "c1") { it.abstract = true }
+			u1(Uncle, name: "u1")
+			c2(Child, uncle: ref("u1")) { it.parent = c1 }
+			c3(Child, uncle: ref("u1")) { it.parent = c1 }
+		}
+
+		assertEquals "c1", f.c2.name
+		assertEquals "c1", f.c3.name
+	}
 
 	void testIncludes() {
-	   fixtureLoader.load("includeTest").with {
-		   assertNotNull(u1)
-	   }
+		fixtureLoader.load("includeTest").with {
+			assertNotNull(u1)
+		}
 	}
-	
+
 	void testPreProcess() {
-	   fixtureLoader.load('preProcess')
-	   assertEquals("changed", preProcessTestService.v)
+		fixtureLoader.load('preProcess')
+		assertEquals("changed", preProcessTestService.v)
 	}
-	
+
 	void testNamed() {
 		fixtureLoader['test'].load("testFixture1", "testFixture2")
 		assertEquals('a', fixtureLoader['test'].u1.name)
-		
+
 		fixtureLoader.testClosure.load {
 			u(Uncle, name: "u")
 		}
 
 		assertEquals('u', fixtureLoader.testClosure.u.name)
 	}
-	
+
 	void testRequire() {
 		fixtureLoader.load "requireTest/good"
-		
+
 		shouldFailWithCause(UnsatisfiedFixtureRequirementException) {
 			fixtureLoader.load "requireTest/bad"
 		}
 	}
-	
+
 	void testRequireBeans() {
 		fixtureLoader.load "requireBeansTest/good"
-		
+
 		shouldFailWithCause(UnsatisfiedBeanRequirementException) {
 			fixtureLoader.load "requireBeansTest/bad"
 		}
@@ -148,12 +165,12 @@ class FixtureTests extends GroovyTestCase {
 
 	void testRequireDefinitions() {
 		fixtureLoader.load "requireDefinitionsTest/good"
-		
+
 		shouldFailWithCause(UnsatisfiedBeanDefinitionRequirementException) {
 			fixtureLoader.load "requireDefinitionsTest/bad"
 		}
 	}
-	
+
 	void testInnerLoad() {
 		fixtureLoader.load("innerLoadTest/outer").with {
 			assertNotNull(inner)
@@ -165,19 +182,19 @@ class FixtureTests extends GroovyTestCase {
 			assertNotNull(inner)
 		}
 	}
-	
+
 	void testBeanInFixture() {
 		fixtureLoader.load("beanTest/outer")
 	}
-	
+
 	void testSettingRelationshipsViaReverse() {
 		fixtureLoader.load("reverse/children")
 	}
-	
+
 	void testSettingRelationshipsViaReverse2() {
 		fixtureLoader.load("reverse2")
 	}
-	
+
 	void testRetrievingUnknownBeanShouldThrowUnknownFixtureBeanException() {
 		shouldFail(UnknownFixtureBeanException) {
 			fixtureLoader.load({}).someUnknownThing

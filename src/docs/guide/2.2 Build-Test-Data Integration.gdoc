@@ -27,7 +27,7 @@ def fixture = fixtureLoader.build {
 }
 assert fixture.gina.isbn != null
 {code}
- 
+
 And is equivalent to...
 
 {code}

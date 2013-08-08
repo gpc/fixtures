@@ -1,5 +1,5 @@
-import com.book.*
+import com.book.Author
 
 fixture {
-    grisham(Author, name: "John Grisham", books: [theAssociate])
+	grisham(Author, name: "John Grisham", books: [theAssociate])
 }

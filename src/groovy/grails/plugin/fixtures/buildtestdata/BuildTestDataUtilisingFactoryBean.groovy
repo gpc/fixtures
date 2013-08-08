@@ -23,7 +23,7 @@ class BuildTestDataUtilisingFactoryBean implements FactoryBean {
 
 	def domainClass
 	def overrideProperties
-	
+
 	def getObject() {
 		domainClass.buildWithoutSave(overrideProperties)
 	}
@@ -31,5 +31,4 @@ class BuildTestDataUtilisingFactoryBean implements FactoryBean {
 	Class getObjectType() {
 		domainClass
 	}
-
 }

@@ -1,12 +1,11 @@
-import grails.plugin.spock.*
-import collectiontypes.list.*
-import spock.lang.*
+import grails.plugin.spock.IntegrationSpec
+import spock.lang.Ignore
 
 @Ignore
 class LogSpec extends IntegrationSpec {
 
 	def fixtureLoader
-	
+
 	def "log available in the fixtureLoader"() {
 		when:
 		def f = fixtureLoader.load {
@@ -15,7 +14,7 @@ class LogSpec extends IntegrationSpec {
 		then:
 		notThrown(Exception)
 	}
-	
+
 	def "log available in file"() {
 		when:
 		def f = fixtureLoader.load("log/**/*")

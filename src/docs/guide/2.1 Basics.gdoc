@@ -72,3 +72,21 @@ a(Author, name: "J.R.R. Tolkien")
 b(Book, title: "The Fellowship of the Ring", author: a)
 {code}
 
+For one-to-many associations, you can also use a nested syntax with version 1.2 of the plugin and above that reduces the verbosity of the fixture data and improves readabililty. So the previous examples can now be written like:
+
+{code}
+a(Author, name: "J.R.R. Tolkien", books: [
+   new Book(title: "The Fellowship of the Ring") ])
+{code}
+
+You can nest to arbitrary depths too. Imagine that a book can have many @Label@ instances:
+
+{code}
+a(Author, name: "J.R.R. Tolkien", books: [
+   new Book(title: "The Fellowship of the Ring", labels: [
+      new Label(name: "fantasy"),
+      new Label(name: "classic") ]),
+   new Book(title: "The Two Towers")])
+{code}
+
+Simply nest new instances of the appropriate type for the collection, e.g. @Book@ for the @books@ property.

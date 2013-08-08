@@ -1,5 +1,5 @@
-import com.book.*
+import com.book.Book
 
 build {
-    b1(Book)
+	b1(Book)
 }

@@ -16,9 +16,10 @@
 package grails.plugin.fixtures.exception
 
 class UnknownFixtureBeanException extends Exception {
+ 	private static final long serialVersionUID = 1
 
 	UnknownFixtureBeanException(name) {
-		super("there is no bean named '${name}' in this fixture" as String)
+		super("there is no bean named '${name}' in this fixture")
 	}
 
 }

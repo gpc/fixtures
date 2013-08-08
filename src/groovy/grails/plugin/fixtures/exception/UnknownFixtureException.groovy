@@ -16,6 +16,7 @@
 package grails.plugin.fixtures.exception
 
 class UnknownFixtureException extends Exception {
+	private static final long serialVersionUID = 1
 
 	UnknownFixtureException(name) {
 		this(name, null)
@@ -24,5 +25,4 @@ class UnknownFixtureException extends Exception {
 	UnknownFixtureException(name, Throwable cause) {
 		super("could not load fixtures from pattern '${name}'" as String, cause)
 	}
-	
 }

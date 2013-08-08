@@ -1,6 +1,5 @@
 package circular
 
-class Account { 
-    BigDecimal balance 
-} 
-
+class Account {
+	BigDecimal balance
+}

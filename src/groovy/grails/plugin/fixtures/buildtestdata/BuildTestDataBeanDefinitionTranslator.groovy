@@ -18,17 +18,17 @@ package grails.plugin.fixtures.buildtestdata
 class BuildTestDataBeanDefinitionTranslator {
 
 	def grailsApplication
-	
-	static protected BEAN_DEFINING_NO_PROPERTIES_SIGNATURE = [Class]
-	static protected BEAN_DEFINING_CLOSURE_ONLY_SIGNATURE = [Class, Closure]
-	static protected BEAN_DEFINING_MAP_CONSTRUCTOR_ONLY_SIGNATURE = [Map, Class]
-	static protected BEAN_DEFINING_LITERAL_MAP_CONSTRUCTOR = [Class, Map]
-	static protected BEAN_DEFINING_MAP_CONSTRUCTOR_AND_CLOSURE_SIGNATURE = [Map, Class, Closure]
-	static protected BEAN_DEFINING_LITERAL_MAP_CONSTRUCTOR_AND_CLOSURE_SIGNATURE = [Class, Map, Closure]
-	 
+
+	protected static BEAN_DEFINING_NO_PROPERTIES_SIGNATURE = [Class]
+	protected static BEAN_DEFINING_CLOSURE_ONLY_SIGNATURE = [Class, Closure]
+	protected static BEAN_DEFINING_MAP_CONSTRUCTOR_ONLY_SIGNATURE = [Map, Class]
+	protected static BEAN_DEFINING_LITERAL_MAP_CONSTRUCTOR = [Class, Map]
+	protected static BEAN_DEFINING_MAP_CONSTRUCTOR_AND_CLOSURE_SIGNATURE = [Map, Class, Closure]
+	protected static BEAN_DEFINING_LITERAL_MAP_CONSTRUCTOR_AND_CLOSURE_SIGNATURE = [Class, Map, Closure]
+
 	def translate(builder, name, Object[] args) {
 		def signature = args*.getClass()
-		
+
 		def isSignature = { targetSignature ->
 			(signature.size() == targetSignature.size()) && (0..(targetSignature.size() - 1)).every { targetSignature[it].isAssignableFrom(signature[it]) }
 		}
@@ -51,24 +51,23 @@ class BuildTestDataBeanDefinitionTranslator {
 	}
 
 	protected translate(builder, name, domainClass, overridePropertiesMap, overridePropertiesClosure) {
-		if (grailsApplication.isDomainClass(domainClass)) {
-			
-			def overridePropertiesBuilder = new OverridePropertyMapBuilder(
-				builder, 
-				overridePropertiesMap, 
-				overridePropertiesClosure
-			)
-			
-			builder.with {
-				noBuild {
-					"$name"(BuildTestDataUtilisingFactoryBean) {
-						delegate.domainClass = domainClass
-						delegate.overrideProperties = overridePropertiesBuilder.build()
-					}
+		if (!grailsApplication.isDomainClass(domainClass)) {
+			return null
+		}
+
+		def overridePropertiesBuilder = new OverridePropertyMapBuilder(
+			builder,
+			overridePropertiesMap, 
+			overridePropertiesClosure
+		)
+		
+		builder.with {
+			noBuild {
+				"$name"(BuildTestDataUtilisingFactoryBean) {
+					delegate.domainClass = domainClass
+					delegate.overrideProperties = overridePropertiesBuilder.build()
 				}
 			}
-		} else {
-			null
 		}
 	}
 }

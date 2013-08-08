@@ -1,3 +1,3 @@
 fixture {
-    inner(String, "inner")
+	inner(String, "inner")
 }

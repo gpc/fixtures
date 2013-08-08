@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2010 Grails Plugin Collective
  *
@@ -16,91 +15,112 @@
  */
 package grails.plugin.fixtures.builder.processor
 
-import grails.plugin.fixtures.exception.*
-
+import org.apache.commons.logging.LogFactory
+import org.codehaus.groovy.runtime.MetaClassHelper
 import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.config.BeanPostProcessor
-import org.codehaus.groovy.runtime.MetaClassHelper
-
-import org.apache.commons.logging.LogFactory
 
 class FixtureBeanPostProcessor implements BeanPostProcessor {
-	
+
 	def grailsApplication
-		
-	def postProcessBeforeInitialization(Object bean, String beanName) {
+
+	// If Hibernate plugin is not installed, this may be null.
+	def sessionFactory
+
+	def postProcessBeforeInitialization(bean, String beanName) {
 		bean
 	}
 
-	def postProcessAfterInitialization(Object bean, String beanName) {
+	def postProcessAfterInitialization(bean, String beanName) {
 		if (bean instanceof FactoryBean) return bean
-		
-		def shouldSave = true
+
 		def log = LogFactory.getLog(FixtureBeanPostProcessor.name + '.' + beanName)
 		log.debug("processing bean $beanName of type ${bean.class.name}")
-		
+
 		def domainClass = getDomainClass(bean.class)
 		log.debug("domainClass: $domainClass")
-		
-		domainClass?.persistentProperties?.each { p ->
-			log.debug("inpecting property $p")
-	
-			if (p.association && p.referencedDomainClass != null) {
-				log.debug("is a domain association")
-				log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}, oneToMany = ${p.oneToMany}")
-				def owningSide = isOwningSide(p)
-				log.debug("${owningSide ? 'IS' : 'IS NOT'} owning side")
-				def value = bean."${p.name}"
-				if (value) {
-					if (p.oneToMany || p.manyToMany) {
-						log.debug("is to many")
-						value = value.toList()
-						bean."${p.name}".clear() 
-						value.each {
-							log.debug("adding value $it")
-							bean."addTo${MetaClassHelper.capitalize(p.name)}"(it)
-							if (!owningSide) {
-								log.debug("saving $it (owning side)")
-								it.save(flush: true, failOnError: true)
-								it.refresh()
-							}
-						}
-					} else {
-						log.debug('is not to many')
-						if (p.bidirectional && (!owningSide || p.manyToOne)) {
-							if (log.debugEnabled) {
-								def reason = !owningSide ? 'owning side' : 'is many side'
-								log.debug("setting this on $value ($reason)")
-							}
-							def otherSideName = p.otherSide.name
-							if (p.manyToOne) {
-								def addMethodName = "addTo${MetaClassHelper.capitalize(otherSideName)}"
-								log.debug("Calling $addMethodName on $value")
-								value."$addMethodName"(bean)
-							} else {
-								log.debug("Setting $otherSideName on $value")
-								value."$otherSideName" = bean
-							}
-							value.save(flush: true, failOnError: true)
-							value.refresh()
-						}
-					}
-				}
-				
-				if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne) && (value || !p.optional)) {
-					log.info("not saving fixture bean $beanName")
-					shouldSave = false
-				}
-			} 
-		}
+		def shouldSave = processDomainInstance(bean, log)
 
 		if (domainClass && shouldSave) {
 			bean.save(flush: true, failOnError: true)
 		}
-		
+		else {
+			log.info("not saving fixture bean $beanName")
+		}
+
 		bean
 	}
-	
+
+	private boolean processDomainInstance(instance, log) {
+		boolean shouldSave = true
+		def domainClass = getDomainClass(instance.getClass())
+		for (p in domainClass?.persistentProperties) {
+			log.debug("inpecting property $p")
+			shouldSave &= processDomainProperty(instance, p, log)
+		}
+
+		return shouldSave
+	}
+
+	private boolean processDomainProperty(instance, p, log) {
+		boolean shouldSave = true
+		if (p.association && p.referencedDomainClass != null) {
+			log.debug("is a domain association")
+			log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}, oneToMany = ${p.oneToMany}")
+			def owningSide = isOwningSide(p)
+			log.debug("${owningSide ? 'IS' : 'IS NOT'} owning side")
+			def value = instance."${p.name}"
+			if (value) {
+				if (p.oneToMany || p.manyToMany) {
+					log.debug("is to many")
+					def associateType = p.referencedPropertyType
+					def associates = new ArrayList(value)
+					value.clear()
+					for (associate in associates) {
+						if (associate instanceof Map) {
+							associate = associateType.newInstance(associate)
+						}
+						if (!sessionFactory?.currentSession?.contains(associate)) {
+							processDomainInstance(associate, log)
+						}
+						log.debug("adding value $associate (${associate.getClass()})")
+						instance."addTo${MetaClassHelper.capitalize(p.name)}"(associate)
+						if (!owningSide) {
+							log.debug("saving $associate (owning side)")
+							associate.save(flush: true, failOnError: true)
+							associate.refresh()
+						}
+					}
+				} else {
+					log.debug('is not to many')
+					if (p.bidirectional && (!owningSide || p.manyToOne)) {
+						if (log.debugEnabled) {
+							def reason = !owningSide ? 'owning side' : 'is many side'
+							log.debug("setting this on $value ($reason)")
+						}
+						def otherSideName = p.otherSide.name
+						if (p.manyToOne) {
+							def addMethodName = "addTo${MetaClassHelper.capitalize(otherSideName)}"
+							log.debug("Calling $addMethodName on $value")
+							value."$addMethodName"(instance)
+						} else {
+							log.debug("Setting $otherSideName on $value")
+							value."$otherSideName" = instance
+						}
+						value.save(flush: true, failOnError: true)
+						value.refresh()
+					}
+				}
+			}
+
+			if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne) && (value || !p.optional)) {
+				shouldSave = false
+			}
+		}
+
+		return shouldSave
+	}
+
 	// Workaround for GRAILS-6714
 	private isOwningSide(property) {
 		def isOwning = property.owningSide

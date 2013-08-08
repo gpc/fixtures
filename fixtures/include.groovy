@@ -1,5 +1,3 @@
 fixture {
-    
-    u1(Uncle, name: "included")
-    
+	u1(Uncle, name: "included")
 }

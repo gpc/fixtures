@@ -1,12 +1,11 @@
-import grails.plugin.spock.*
-
-import enums.*
-import spock.lang.*
+import enums.UsesEnum
+import enums.UsesEnumEnum
+import grails.plugin.spock.IntegrationSpec
 
 class EnumsSpec extends IntegrationSpec {
 
 	def fixtureLoader
-	
+
 	def "basic inheritance"() {
 		when:
 		def f = fixtureLoader.build {
@@ -15,5 +14,4 @@ class EnumsSpec extends IntegrationSpec {
 		then:
 		f.u.value == UsesEnumEnum.A
 	}
-
 }

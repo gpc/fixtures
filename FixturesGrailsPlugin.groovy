@@ -16,15 +16,19 @@
 import grails.plugin.fixtures.FixtureLoader
 
 class FixturesGrailsPlugin {
-	def version = "1.2-SNAPSHOT"
-	def dependsOn = [:]
-	def grailsVersion = "1.2 > *"
+	def version = "1.3-SNAPSHOT"
+	def grailsVersion = "1.3 > *"
 
 	def author = "Grails Plugin Collective"
 	def authorEmail = "grails.plugin.collective@gmail.com"
 	def title = "Grails Fixtures Plugin"
 	def description = "Load complex domain data via a simple DSL"
 	def documentation = "http://gpc.github.com/grails-fixtures/"
+
+	def license = "APACHE"
+	def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPFIXTURES" ]
+	def scm = [url: "https://github.com/gpc/grails-fixtures"]
+
 	def pluginExcludes = [
 		"grails-app/domain/**",
 		"grails-app/services/**",
@@ -35,5 +39,12 @@ class FixturesGrailsPlugin {
 
 	def doWithSpring = {
 		fixtureLoader(FixtureLoader, application)
+	}
+
+	/**
+	 * For Platform Core if and when this plugin depends on it.
+	 */
+	def doWithConfigOptions = {
+		'file.encoding' type: String, defaultValue: "UTF-8"
 	}
 }

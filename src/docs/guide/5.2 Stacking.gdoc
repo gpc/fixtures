@@ -31,12 +31,12 @@ fixture {
 
 fixtureLoader.load {
   guillaume(Author, name: "Guillaume Laforge")
-  dierk(Author, name: "Dierk Koenig")  
+  dierk(Author, name: "Dierk Koenig")
 }.load {
   gina(Book, title: "Groovy In Action", authors: [guillaume, dierk])
 }
 {code}
- 
+
 While this is possible, it's not overly useful. What can be useful however is to build on a fixture inline...
 
 {code}

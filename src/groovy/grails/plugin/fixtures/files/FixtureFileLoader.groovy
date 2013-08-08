@@ -15,53 +15,57 @@
  */
 package grails.plugin.fixtures.files
 
-import org.springframework.context.ApplicationContext
+import grails.plugin.fixtures.exception.FixtureException
 import grails.plugin.fixtures.files.shell.FixtureBuildingShell
-import grails.plugin.fixtures.exception.*
+
+import org.springframework.context.ApplicationContext
+import org.springframework.util.Assert;
 
 class FixtureFileLoader {
-	
+
 	protected loading = false
-	
-	final fixture 
+
+	final fixture
 	final inners
 	final builder
-	
+
 	final fileResolver
 	final shell
-	
+	final fileEncoding
+
 	def fixtureNameStack = []
 	def currentLoadPattern
-	
+
 	final posts = []
-	
+
 	FixtureFileLoader(fixture, inners, builder) {
 		this.fixture = fixture
 		this.inners = inners
 		this.builder = builder
-		
-		this.fileResolver = new FixtureFilePatternResolver(fixture.grailsApplication, fixture.applicationContext)
-		this.shell = new FixtureBuildingShell(this)
+
+		fileResolver = new FixtureFilePatternResolver(fixture.grailsApplication, fixture.applicationContext)
+		shell = new FixtureBuildingShell(this)
+
+		fileEncoding = fixture.grailsApplication.config.plugin.fixtures.file.encoding ?: "UTF-8"
 	}
-	
+
 	ApplicationContext load(String[] patterns) {
 		loading = true
 		doLoad(patterns)
 		loading = false
 		builder.createApplicationContext()
 	}
-	
+
 	void include(String[] includes) {
-		if (!loading)
-			throw new IllegalStateException("Can not include unless loading")
-		
+		Assert.state loading, "Can not include unless loading"
+
 		doLoad(includes)
 	}
-	
+
 	void addPost(Closure post) {
 		posts << post
 	}
-	
+
 	protected doLoad(String[] locationPatterns) {
 		locationPatterns.each { locationPattern ->
 			currentLoadPattern = locationPattern
@@ -69,7 +73,7 @@ class FixtureFileLoader {
 				def fixtureName = fixtureResource.filename
 				fixtureNameStack.push(fixtureName)
 				try {
-					shell.evaluate(fixtureResource.inputStream, fixtureName)
+					shell.evaluate(fixtureResource.inputStream.newReader(fileEncoding), fixtureName)
 				} catch (Throwable e) {
 					throw new FixtureException("Failed to evaluate ${fixtureName} (pattern: '$locationPattern')", e)
 				}
@@ -80,6 +84,6 @@ class FixtureFileLoader {
 	}
 
 	def getCurrentlyLoadingFixtureName() {
-		fixtureNameStack ? fixtureNameStack.last() : null
+		fixtureNameStack?.last()
 	}
 }

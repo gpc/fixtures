@@ -13,19 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.book.*
+
+import com.book.Author
+import com.book.Book
 
 class BuildTestDataTests extends GroovyTestCase {
 
 	def fixtureLoader
-	
+
 	void testSimpleInline() {
 		fixtureLoader.build {
 			u1(Uncle)
 			u2(Uncle)
 		}
 	}
-	
+
 	void testInlineInnerBuildBlock() {
 		fixtureLoader.load {
 			build {
@@ -34,7 +36,7 @@ class BuildTestDataTests extends GroovyTestCase {
 			}
 		}
 	}
-	
+
 	void testTurnBuildOff() {
 		shouldFail {
 			fixtureLoader.build {
@@ -55,7 +57,7 @@ class BuildTestDataTests extends GroovyTestCase {
 			assertEquals(2, a.books.size())
 		}
 	}
-	
+
 	void testSetAssociationViaClosure() {
 		fixtureLoader.build {
 			b1(Book, author: null)
@@ -67,7 +69,7 @@ class BuildTestDataTests extends GroovyTestCase {
 			assertEquals(2, a.books.size())
 		}
 	}
-	
+
 	void testLoadFile() {
 		fixtureLoader.load('buildtestdata/test')
 	}

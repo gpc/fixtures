@@ -1,6 +1,5 @@
 package circular
 
-class User { 
-    String fullName 
-} 
-        
+class User {
+	String fullName
+}
