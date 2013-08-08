@@ -1,3 +1,3 @@
 fixture {
-    f1(Face)
+	f1(Face)
 }

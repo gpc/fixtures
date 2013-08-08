@@ -17,8 +17,7 @@ import grails.plugin.fixtures.FixtureLoader
 
 class FixturesGrailsPlugin {
 	def version = "1.3-SNAPSHOT"
-	def dependsOn = [:]
-	def grailsVersion = "1.2 > *"
+	def grailsVersion = "1.3 > *"
 
 	def author = "Grails Plugin Collective"
 	def authorEmail = "grails.plugin.collective@gmail.com"
@@ -48,5 +47,4 @@ class FixturesGrailsPlugin {
 	def doWithConfigOptions = {
 		'file.encoding' type: String, defaultValue: "UTF-8"
 	}
-	
 }

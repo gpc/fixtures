@@ -2,7 +2,7 @@ import grails.plugin.spock.IntegrationSpec
 import m2m.A
 import m2m.B
 
-class MapSpec  extends IntegrationSpec {
+class MapSpec extends IntegrationSpec {
 
 	def fixtureLoader
 

@@ -25,12 +25,11 @@ abstract class ProcessorHandlerSupport extends FixtureBuildingShellHandler {
 		processor.delegate = new ProcessorDelegate(fixture)
 		processor
 	}
-
 }
- 
+
 class ProcessorDelegate {
 	final fixture
-	
+
 	ProcessorDelegate(fixture) {
 		this.fixture = fixture
 	}

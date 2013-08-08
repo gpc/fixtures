@@ -16,19 +16,19 @@
 package grails.plugin.fixtures.files.shell.handler
 
 import grails.plugin.fixtures.Fixture
-import grails.plugin.fixtures.exception.*
+import grails.plugin.fixtures.exception.FixtureException
 
 class LoadHandler extends FixtureBuildingShellHandler {
 
 	final name = 'load'
-	
+
 	LoadHandler(fileLoader) {
 		super(fileLoader)
 	}
-	
+
 	def doCall(patternsOrClosures) {
 		def inner = new Fixture(fixture.grailsApplication, fixture.applicationContext, fixture.params, inners.clone())
-		
+
 		if (patternsOrClosures instanceof Closure) {
 			inner.load(patternsOrClosures)
 		} else {
@@ -38,8 +38,7 @@ class LoadHandler extends FixtureBuildingShellHandler {
 				throw new FixtureException("Failed to load inner fixture with $patternsOrClosures", e)
 			}
 		}
-		
+
 		inners << inner
 	}
-
 }

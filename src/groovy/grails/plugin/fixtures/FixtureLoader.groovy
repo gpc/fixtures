@@ -23,9 +23,9 @@ class FixtureLoader implements ApplicationContextAware {
 
 	protected grailsApplication
 	protected namedFixtures = [:]
-	
+
 	ApplicationContext applicationContext
-	
+
 	FixtureLoader(GrailsApplication grailsApplication) {
 		this.grailsApplication = grailsApplication
 	}

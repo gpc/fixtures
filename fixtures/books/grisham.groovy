@@ -1,5 +1,5 @@
-import com.book.*
+import com.book.Book
 
 fixture {
-    theAssociate(Book, title: "The Associate")
+	theAssociate(Book, title: "The Associate")
 }

@@ -1,4 +1,4 @@
-The @fixtureLoader.load()@ methods (and [build-test-data @build()@ methods|guide:btd]) return an object of type @Fixture@. 
+The @fixtureLoader.load()@ methods (and [build-test-data @build()@ methods|guide:btd]) return an object of type @Fixture@.
 
 These objects hold all of the loaded domain objects which can then be referenced by name...
 

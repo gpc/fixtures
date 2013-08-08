@@ -1,5 +1,5 @@
 eventWarStart = { warName ->
-	
+
 	def stagingFixtures
 	if (grailsSettings.metaClass.hasProperty(grailsSettings, 'projectWarExplodedDir')) {
 		stagingFixtures = grailsSettings.projectWarExplodedDir.path
@@ -7,7 +7,7 @@ eventWarStart = { warName ->
 		stagingFixtures = grailsSettings.projectWorkDir.path + '/staging'
 	}
 	stagingFixtures += '/fixtures'
-	
+
 	def fixturesDir = new File(grailsSettings.baseDir, "fixtures")
 	if (fixturesDir.exists()) {
 		ant.mkdir(dir: stagingFixtures)

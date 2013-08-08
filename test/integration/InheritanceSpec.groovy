@@ -1,12 +1,13 @@
-import grails.plugin.spock.*
+import grails.plugin.spock.IntegrationSpec
+import inheritance.Sub
+import inheritance.Thing
 
-import inheritance.*
-import spock.lang.*
+import spock.lang.Issue
 
 class InheritanceSpec extends IntegrationSpec {
 
 	def fixtureLoader
-	
+
 	def "basic inheritance"() {
 		when:
 		def f = fixtureLoader.build {
@@ -27,6 +28,4 @@ class InheritanceSpec extends IntegrationSpec {
 		then:
 		f.t.parent.common == "p"
 	}
-	
-
 }

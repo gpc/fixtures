@@ -1,3 +1,3 @@
 fixture {
-    goodLoad(String, "blah")
+	goodLoad(String, "blah")
 }

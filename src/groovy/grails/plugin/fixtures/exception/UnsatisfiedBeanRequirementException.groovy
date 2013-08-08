@@ -16,7 +16,7 @@
 package grails.plugin.fixtures.exception
 
 class UnsatisfiedBeanRequirementException extends UnsatisfiedFixtureRequirementException {
-	static final long serialVersionUID = 1L
+	private static final long serialVersionUID = 1
 
 	UnsatisfiedBeanRequirementException(requirement, fixture, pattern) {
 		super(

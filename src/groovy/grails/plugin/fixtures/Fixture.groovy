@@ -16,18 +16,20 @@
 package grails.plugin.fixtures
 
 import grails.plugin.fixtures.builder.FixtureBuilder
+import grails.plugin.fixtures.exception.UnknownFixtureBeanException
 import grails.plugin.fixtures.files.FixtureFileLoader
-import org.springframework.beans.factory.config.RuntimeBeanReference
+
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.context.ApplicationContext
-import grails.plugin.fixtures.exception.UnknownFixtureBeanException
 
 class Fixture {
-	
+
+	protected static final ignoredBeanNames = ["fixtureBeanPostProcessor", "autoAutoWirer"]
+
 	def grailsApplication
 	def applicationContext
 	Map params
-	
+
 	protected inners = []
 
 	Fixture(GrailsApplication grailsApplication, ApplicationContext applicationContext, Map params, inners = []) {
@@ -54,7 +56,7 @@ class Fixture {
 		fileLoader.posts.clear()
 		this
 	}
-	
+
 	def propertyMissing(name) {
 		def bean = getBean(name)
 		if (!bean) {
@@ -62,10 +64,10 @@ class Fixture {
 		}
 		bean
 	}
-		
+
 	def getBean(name) {
 		if (applicationContext.containsBean(name)) {
-		   applicationContext.getBean(name)
+			applicationContext.getBean(name)
 		} else {
 			def bean
 			inners.find { bean = it.getBean(name) }
@@ -76,15 +78,14 @@ class Fixture {
 	Map toMap() {
 		def fixtureData = [:]
 		for (beanName in applicationContext.beanDefinitionNames) {
-			if (!(beanName in ["fixtureBeanPostProcessor", "autoAutoWirer"])) {
+			if (!(beanName in ignoredBeanNames)) {
 				fixtureData[beanName] = applicationContext.getBean(beanName)
 			}
 		}
 		fixtureData
 	}
-	
+
 	protected createBuilder() {
 		new FixtureBuilder(this)
 	}
-
 }

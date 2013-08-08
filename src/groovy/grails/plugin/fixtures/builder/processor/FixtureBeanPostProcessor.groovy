@@ -15,31 +15,28 @@
  */
 package grails.plugin.fixtures.builder.processor
 
-import grails.plugin.fixtures.exception.*
-
+import org.apache.commons.logging.LogFactory
+import org.codehaus.groovy.runtime.MetaClassHelper
 import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.config.BeanPostProcessor
-import org.codehaus.groovy.runtime.MetaClassHelper
-
-import org.apache.commons.logging.LogFactory
 
 class FixtureBeanPostProcessor implements BeanPostProcessor {
-	
+
 	def grailsApplication
 
 	// If Hibernate plugin is not installed, this may be null.
 	def sessionFactory
-		
-	def postProcessBeforeInitialization(Object bean, String beanName) {
+
+	def postProcessBeforeInitialization(bean, String beanName) {
 		bean
 	}
 
-	def postProcessAfterInitialization(Object bean, String beanName) {
+	def postProcessAfterInitialization(bean, String beanName) {
 		if (bean instanceof FactoryBean) return bean
-		
+
 		def log = LogFactory.getLog(FixtureBeanPostProcessor.name + '.' + beanName)
 		log.debug("processing bean $beanName of type ${bean.class.name}")
-		
+
 		def domainClass = getDomainClass(bean.class)
 		log.debug("domainClass: $domainClass")
 		def shouldSave = processDomainInstance(bean, log)
@@ -50,12 +47,12 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		else {
 			log.info("not saving fixture bean $beanName")
 		}
-		
+
 		bean
 	}
 
 	private boolean processDomainInstance(instance, log) {
-		def shouldSave = true
+		boolean shouldSave = true
 		def domainClass = getDomainClass(instance.getClass())
 		for (p in domainClass?.persistentProperties) {
 			log.debug("inpecting property $p")
@@ -66,7 +63,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 	}
 
 	private boolean processDomainProperty(instance, p, log) {
-		def shouldSave = true
+		boolean shouldSave = true
 		if (p.association && p.referencedDomainClass != null) {
 			log.debug("is a domain association")
 			log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}, oneToMany = ${p.oneToMany}")
@@ -78,7 +75,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 					log.debug("is to many")
 					def associateType = p.referencedPropertyType
 					def associates = new ArrayList(value)
-					value.clear() 
+					value.clear()
 					for (associate in associates) {
 						if (associate instanceof Map) {
 							associate = associateType.newInstance(associate)
@@ -115,15 +112,15 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 					}
 				}
 			}
-			
+
 			if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne) && (value || !p.optional)) {
 				shouldSave = false
 			}
-		} 
+		}
 
 		return shouldSave
 	}
-	
+
 	// Workaround for GRAILS-6714
 	private isOwningSide(property) {
 		def isOwning = property.owningSide

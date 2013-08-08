@@ -13,7 +13,7 @@ This will cause the @authors@ fixtures file to be _executed_ and _loaded_\, with
 The @load()@ method in a fixture file can also define a fixture inline, which has the same effect.
 
 {code}
-load { 
+load {
   guillaume(Author, name: "Guillaume Laforge")
   dierk(Author, name: "Dierk Koenig")
 }

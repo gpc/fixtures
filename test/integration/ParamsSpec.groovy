@@ -3,7 +3,7 @@ import grails.plugin.spock.IntegrationSpec
 class ParamsSpec extends IntegrationSpec {
 
 	def fixtureLoader
-	
+
 	def "params not provided"() {
 		when:
 		def f = fixtureLoader.load("params/basic")
@@ -29,5 +29,4 @@ class ParamsSpec extends IntegrationSpec {
 		and:
 		fixtureLoader.load("params/includer").u.name == "default name"
 	}
-
 }

@@ -16,18 +16,17 @@
 package grails.plugin.fixtures.exception
 
 class UnsatisfiedFixtureRequirementException extends FixtureException {
-	static final long serialVersionUID = 1L
+	private static final long serialVersionUID = 1
 
 	String requirement
 	String fixture
 	String pattern
-	
+
 	UnsatisfiedFixtureRequirementException(message, requirement, fixture, pattern) {
 		super(message)
 		this.requirement = requirement
 		this.fixture = fixture
 		this.pattern = pattern
 	}
-	
 }
 

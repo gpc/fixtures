@@ -16,35 +16,31 @@
 package grails.plugin.fixtures.builder
 
 import grails.plugin.fixtures.Fixture
+import grails.plugin.fixtures.builder.processor.FixtureBeanAutoAutowireConfigurer
+import grails.plugin.fixtures.builder.processor.FixtureBeanPostProcessor
+import grails.plugin.fixtures.buildtestdata.BuildTestDataBeanDefinitionTranslator
 import grails.plugin.fixtures.exception.FixtureException
-import grails.plugin.fixtures.builder.processor.*
-
-import org.springframework.context.ApplicationContext
-import org.springframework.beans.factory.config.RuntimeBeanReference
-
 import grails.spring.BeanBuilder
 
-import org.codehaus.groovy.grails.commons.spring.BeanConfiguration
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
-
-import grails.plugin.fixtures.buildtestdata.*
 import org.springframework.beans.factory.BeanIsAbstractException
+import org.springframework.context.ApplicationContext
 
 class FixtureBuilder extends BeanBuilder {
-		
+
 	def build = false // controls whether build-test-data is used
 
 	protected fixture
-	
+
 	protected buildTestDataTranslator
 	protected buildTestDataPluginInstalled
-	
+
 	protected definining = false // are we in the middle of a call to beans() ?
-	
+
 	FixtureBuilder(Fixture fixture) {
 		super(fixture.applicationContext, fixture.class.classLoader)
 		this.fixture = fixture
-		this.buildTestDataTranslator = new BuildTestDataBeanDefinitionTranslator(grailsApplication: fixture.grailsApplication)
+		buildTestDataTranslator = new BuildTestDataBeanDefinitionTranslator(grailsApplication: fixture.grailsApplication)
 		registerPostProcessors()
 		lookForBuildTestDataPlugin()
 	}
@@ -52,7 +48,7 @@ class FixtureBuilder extends BeanBuilder {
 	protected lookForBuildTestDataPlugin() {
 		buildTestDataPluginInstalled = PluginManagerHolder.pluginManager.hasGrailsPlugin('build-test-data')
 	}
-	
+
 	protected registerPostProcessors() {
 		beans {
 			autoAutoWirer(FixtureBeanAutoAutowireConfigurer)
@@ -79,7 +75,7 @@ class FixtureBuilder extends BeanBuilder {
 			}
 		}
 	}
-	
+
 	def build(Closure definitions) {
 		def previousBuild = this.build
 		build = true
@@ -87,7 +83,7 @@ class FixtureBuilder extends BeanBuilder {
 		build = previousBuild
 		this
 	}
-	
+
 	def noBuild(Closure definitions) {
 		def previousBuild = this.build
 		build = false
@@ -95,12 +91,12 @@ class FixtureBuilder extends BeanBuilder {
 		build = previousBuild
 		this
 	}
-	
+
 	def bean(String name) {
 		def bean = fixture.getBean(name)
 		if (!bean) {
 			throw new IllegalArgumentException("Fixture does not have bean '$name'")
-		} 
+		}
 		bean
 	}
 
@@ -116,34 +112,34 @@ class FixtureBuilder extends BeanBuilder {
 		}
 		this
 	}
-	
+
 	def invokeMethod(String name, args) {
-		def mm = this.metaClass.getMetaMethod(name, *args)
+		def mm = metaClass.getMetaMethod(name, *args)
 		if (mm) {
 			mm.invoke(this, *args)
 		} else {
 			translateToBuild(name, *args) ?: super.invokeMethod(name, args)
 		}
-	}	 
-	
+	}
+
 	protected translateToBuild(String name, Object[] args) {
 		isBuildTestDataActive() ? buildTestDataTranslator.translate(this, name, *args) : null
 	}
-	
+
 	protected boolean isBuildTestDataActive() {
-		this.build
+		build
 	}
-	
+
 	protected assertBuildTestDataPluginInstalledIfNeeded() {
 		if (isBuildTestDataActive() && !buildTestDataPluginInstalled) {
 			throw new FixtureException("build feature is unavailable as build-test-data plugin is not installed")
 		}
 	}
-	
-	def ApplicationContext createApplicationContext() {
+
+	ApplicationContext createApplicationContext() {
 		def ctx = super.createApplicationContext()
 		def grailsApplication = ctx.getBean("grailsApplication")
-		
+
 		for (name in ctx.beanDefinitionNames) {
 			try {
 				def bean = ctx.getBean(name)
@@ -158,7 +154,7 @@ class FixtureBuilder extends BeanBuilder {
 				throw new FixtureException("Error refresh()ing bean '$name'", e)
 			}
 		}
-		
+
 		ctx
-	} 
+	}
 }

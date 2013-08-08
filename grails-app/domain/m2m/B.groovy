@@ -1,3 +1,5 @@
 package m2m
 
-class B { static hasMany = [cs: C] }
+class B {
+	static hasMany = [cs: C]
+}

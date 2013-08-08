@@ -1,5 +1,5 @@
 load "beanTest/inner"
 
 fixture {
-    assert bean("inner") == "inner" 
+	assert bean("inner") == "inner"
 }

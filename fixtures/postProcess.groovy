@@ -1,8 +1,8 @@
 fixture {
-    u(Uncle, name: "a")
+	u(Uncle, name: "a")
 }
 
 post {
-    u.name = "changed"
-    u.save()
+	u.name = "changed"
+	u.save()
 }

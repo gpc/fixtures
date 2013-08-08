@@ -1,3 +1,3 @@
 fixture {
-    goodInclude(String, "blah")
+	goodInclude(String, "blah")
 }
