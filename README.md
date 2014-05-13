@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gpc/grails-fixtures.svg)](https://travis-ci.org/gpc/grails-fixtures)
+[![Build Status](https://travis-ci.org/gpc/grails-fixtures.svg?branch=master)](https://travis-ci.org/gpc/grails-fixtures)
 
 Grails Fixtures Plugin
 ===
