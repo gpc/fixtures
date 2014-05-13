@@ -7,8 +7,10 @@ eventWarStart = { warName ->
 		stagingFixtures = grailsSettings.projectWorkDir.path + '/staging'
 	}
 	stagingFixtures += '/fixtures'
+    createConfig()
 
-	def fixturesDir = new File(grailsSettings.baseDir, "fixtures")
+    def fixturesDir = new File(grailsSettings.baseDir, (config.grails.plugin.fixtures.directory) ?: "fixtures")
+
 	if (fixturesDir.exists()) {
 		ant.mkdir(dir: stagingFixtures)
 		ant.copy(todir: stagingFixtures) {
