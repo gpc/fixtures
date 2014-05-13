@@ -50,8 +50,8 @@ class BuildTestDataTests extends GroovyTestCase {
 
 	void testSetAssociationViaConstructor() {
 		fixtureLoader.build {
-			b1(Book, author: null)
-			b2(Book, author: null)
+			b1(Book)
+			b2(Book)
 			a(Author, books: [b1, b2])
 		}.with {
 			assertEquals(2, a.books.size())
@@ -60,8 +60,8 @@ class BuildTestDataTests extends GroovyTestCase {
 
 	void testSetAssociationViaClosure() {
 		fixtureLoader.build {
-			b1(Book, author: null)
-			b2(Book, author: null)
+			b1(Book)
+			b2(Book)
 			a(Author) {
 				books = [b1, b2]
 			}

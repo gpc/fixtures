@@ -1,10 +1,14 @@
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 import inheritance.Sub
 import inheritance.Thing
 
 import spock.lang.Issue
 
-class InheritanceSpec extends IntegrationSpec {
+
+@TestMixin(IntegrationTestMixin)
+class InheritanceSpec extends Specification {
 
 	def fixtureLoader
 

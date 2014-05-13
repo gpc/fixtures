@@ -15,6 +15,7 @@
  */
 grails.project.work.dir = 'target'
 
+grails.project.dependency.resolver = "maven"
 grails.project.dependency.resolution = {
 
 	inherits 'global'
@@ -22,22 +23,19 @@ grails.project.dependency.resolution = {
 
 	repositories {
 		grailsCentral()
+		mavenCentral()
 	}
 
 	plugins {
-		build ':release:2.2.1', ':rest-client-builder:1.0.3', {
+		build ':release:3.0.1', ':rest-client-builder:2.0.1', {
 			export = false
 		}
 
-		compile(":hibernate:$grailsVersion") {
+		compile(":hibernate:3.6.10.14") {
 			export = false
 		}
 
-		compile(":build-test-data:0.2.3") {
-			export = false
-		}
-
-		test(":spock:0.7") {
+		compile(":build-test-data:2.1.2") {
 			export = false
 		}
 	}

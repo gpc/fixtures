@@ -1,8 +1,11 @@
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 import m2m.A
 import m2m.B
 
-class MapSpec extends IntegrationSpec {
+@TestMixin(IntegrationTestMixin)
+class MapSpec extends Specification {
 
 	def fixtureLoader
 

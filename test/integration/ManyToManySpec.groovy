@@ -1,9 +1,12 @@
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 import m2m.A
 import m2m.B
 import m2m.C
 
-class ManyToManySpec extends IntegrationSpec {
+@TestMixin(IntegrationTestMixin)
+class ManyToManySpec extends Specification {
 
 	def fixtureLoader
 

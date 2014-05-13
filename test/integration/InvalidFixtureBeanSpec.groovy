@@ -1,9 +1,13 @@
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 import grails.validation.ValidationException
 
 import org.springframework.beans.factory.BeanCreationException
 
-class InvalidFixtureBeanSpec extends IntegrationSpec {
+
+@TestMixin(IntegrationTestMixin)
+class InvalidFixtureBeanSpec extends Specification {
 
 	def fixtureLoader
 

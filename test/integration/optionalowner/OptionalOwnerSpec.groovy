@@ -1,8 +1,11 @@
 package optionalowner
 
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 
-class OptionalOwnerSpec extends IntegrationSpec {
+@TestMixin(IntegrationTestMixin)
+class OptionalOwnerSpec extends Specification {
 
 	def fixtureLoader
 

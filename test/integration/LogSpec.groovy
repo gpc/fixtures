@@ -1,8 +1,10 @@
-import grails.plugin.spock.IntegrationSpec
-import spock.lang.Ignore
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 
+@TestMixin(IntegrationTestMixin)
 @Ignore
-class LogSpec extends IntegrationSpec {
+class LogSpec extends Specification {
 
 	def fixtureLoader
 

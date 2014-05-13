@@ -1,8 +1,11 @@
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 import collectiontypes.list.InList
 import collectiontypes.list.ListUsing
 
-class ListsSpec extends IntegrationSpec {
+@TestMixin(IntegrationTestMixin)
+class ListsSpec extends Specification {
 
 	def fixtureLoader
 

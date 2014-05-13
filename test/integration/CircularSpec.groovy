@@ -1,9 +1,12 @@
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 
 import circular.Buyer
 import circular.BuyerAccount
 
-class CircularSpec extends IntegrationSpec {
+@TestMixin(IntegrationTestMixin)
+class CircularSpec extends Specification {
 
 	def fixtureLoader
 

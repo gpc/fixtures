@@ -22,7 +22,7 @@ import grails.plugin.fixtures.buildtestdata.BuildTestDataBeanDefinitionTranslato
 import grails.plugin.fixtures.exception.FixtureException
 import grails.spring.BeanBuilder
 
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+import grails.util.Holders
 import org.springframework.beans.factory.BeanIsAbstractException
 import org.springframework.context.ApplicationContext
 
@@ -46,7 +46,7 @@ class FixtureBuilder extends BeanBuilder {
 	}
 
 	protected lookForBuildTestDataPlugin() {
-		buildTestDataPluginInstalled = PluginManagerHolder.pluginManager.hasGrailsPlugin('build-test-data')
+		buildTestDataPluginInstalled = Holders.pluginManager.hasGrailsPlugin('build-test-data')
 	}
 
 	protected registerPostProcessors() {

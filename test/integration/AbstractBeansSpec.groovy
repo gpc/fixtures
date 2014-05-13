@@ -1,6 +1,9 @@
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 
-class AbstractBeansSpec extends IntegrationSpec {
+@TestMixin(IntegrationTestMixin)
+class AbstractBeansSpec extends Specification {
 
 	def fixtureLoader
 
