@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>3.2 Fixture Files 1.3</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/1.%20Introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/2.%20Defining%20The%20Data.html"><strong>2</strong><span>Defining The Data</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/3.%20Loading%20Fixtures.html"><strong>3</strong><span>Loading Fixtures</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/4.%20Fixture%20Objects.html"><strong>4</strong><span>Fixture Objects</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/5.%20Advanced%20Techniques.html"><strong>5</strong><span>Advanced Techniques</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Load complex domain data via a convenient DSL</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../../guide/2.%20Defining%20The%20Data.html">&lt;&lt; <strong>2</strong><span>Defining The Data</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../../guide/4.%20Fixture%20Objects.html"><strong>4</strong><span>Fixture Objects</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>3.2 Fixture Files - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Grails Plugin Collective</p>
+
+                    <p><strong>Version:</strong> 1.3</p>
+
+                    
+                </div>
+
+                
+                <div id="table-of-content">
+                    <h2>Table of Contents</h2>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#3.2.1%20Includes"><strong>3.1</strong><span>Includes</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#3.2.2%20Inners"><strong>3.2</strong><span>Inners</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#3.2.3%20Includes%20vs%20Inners"><strong>3.3</strong><span>Includes vs Inners</span></a>
+                    </div>
+                    
+                </div>
+                
+
+                
+
+<h2 id="3.2 Fixture Files">3.2 Fixture Files</h2>
+Fixture files can be loaded from your project's 'fixtures' directory. So
+<div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"gina"</span>)</pre></div><p class="paragraph"/>will load fixtures from the file 'fixtures/gina.groovy'.<p class="paragraph"/>You can load multiple fixtures at once by passing more than one fixture file name...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"gina"</span>, <span class="java&#45;quote">"otherfixture"</span>)</pre></div><p class="paragraph"/>Beans in different fixture files can reference each other. As long as the necessary fixtures are loaded, the references will resolve.<p class="paragraph"/><h4>Loading via patterns</h4><p class="paragraph"/>Ant style path patterns are supported...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load(<span class="java&#45;quote">"books/&#42;"</span>)</pre></div><p class="paragraph"/>This would load all the *.groovy files in the 'fixtures/books' directory.<p class="paragraph"/><h4>Logging</h4><p class="paragraph"/>An implicit logger is available in all fixture files. It's name is <code>grails.app.fixture.inline.«file path»</code>, where «file path» is that path relative from the fixtures directory.<p class="paragraph"/><h4>Changing the fixtures directory</h4><p class="paragraph"/>To change the path to your fixtures directory, e.g. to share fixtures between different projects, change <code>grails.plugin.fixtures.directory</code>:<p class="paragraph"/><div class="code"><pre>grails.plugin.fixtures.directory = <span class="java&#45;quote">"path/to/fixtures"</span> // defaults to <span class="java&#45;quote">"fixtures"</span></pre></div>
+
+
+<h2 id="3.2.1 Includes">3.2.1 Includes</h2>
+Fixture files can include other fixture files via the <code>include()</code> method that takes one or more file patterns like the <code>fixtureLoader.load()</code> method.<p class="paragraph"/><div class="code"><pre>include <span class="java&#45;quote">"authors"</span><p class="paragraph"/>fixture &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;</pre></div><p class="paragraph"/>This will cause the <code>authors</code> fixtures file to be  <em class="italic">executed</em>  and  <em class="italic">merged</em>  into the current fixture.
+
+
+<h2 id="3.2.2 Inners">3.2.2 Inners</h2>
+Fixture files can load other fixture files as  <em class="italic">parents</em>  via the <code>load()</code> method that takes one or more file patterns like the <code>fixtureLoader.load()</code> method.<p class="paragraph"/><div class="code"><pre>load <span class="java&#45;quote">"authors"</span><p class="paragraph"/>fixture &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;</pre></div><p class="paragraph"/>This will cause the <code>authors</code> fixtures file to be  <em class="italic">executed</em>  and  <em class="italic">loaded</em> &#44; with it then being the parent of the fixture defined in the file. In other words, the objects in the  <em class="italic">inner</em>  fixture (<code>authors</code> in this example) are instantiated and saved at the point where the <code>load()</code> call occurs.<p class="paragraph"/>The <code>load()</code> method in a fixture file can also define a fixture inline, which has the same effect.<p class="paragraph"/><div class="code"><pre>load &#123;
+  guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
+  dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
+&#125;<p class="paragraph"/>fixture &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;</pre></div>
+
+
+
+<h2 id="3.2.3 Includes vs Inners">3.2.3 Includes vs Inners</h2>
+The use of <code>load()</code> vs. <code>include()</code> in a fixture file may seem confusing and it may not be clear when to use one over the other.<p class="paragraph"/>The use of <code>include()</code> is generally preferred as it avoids the creation and processing overhead of another Spring application context. All including fixtures are merged into on fixture definition and the processed. However some domain models and object graphs cannot be saved atomically, and therefore require a subset of domain objects to be persisted before other objects can be defined.<p class="paragraph"/>If you are experiencing <code>TransientObjectException</code>s occurring when you try to load a fixture file, you may be in a situation where your fixture cannot be saved in one go. This can often be resolved by loading the  <em class="italic">owning</em>  objects in your fixture first via a <code>load()</code> call, and then building the  <em class="italic">owned</em>  objects on top of that inner fixture.
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../../guide/2.%20Defining%20The%20Data.html">&lt;&lt; <strong>2</strong><span>Defining The Data</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../../guide/4.%20Fixture%20Objects.html"><strong>4</strong><span>Fixture Objects</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.
+    Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

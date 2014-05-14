@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>5 Advanced Techniques 1.3</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/1.%20Introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/2.%20Defining%20The%20Data.html"><strong>2</strong><span>Defining The Data</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/3.%20Loading%20Fixtures.html"><strong>3</strong><span>Loading Fixtures</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/4.%20Fixture%20Objects.html"><strong>4</strong><span>Fixture Objects</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/5.%20Advanced%20Techniques.html"><strong>5</strong><span>Advanced Techniques</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Load complex domain data via a convenient DSL</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/4.%20Fixture%20Objects.html">&lt;&lt; <strong>4</strong><span>Fixture Objects</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+
+
+                <div class="project">
+                    <h1>5 Advanced Techniques - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Grails Plugin Collective</p>
+
+                    <p><strong>Version:</strong> 1.3</p>
+
+                    
+                </div>
+
+                
+                <div id="table-of-content">
+                    <h2>Table of Contents</h2>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#5.1%20Pre%20&amp;%20Post%20Processing"><strong>5.1</strong><span>Pre &amp; Post Processing</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#5.2%20Stacking"><strong>5.2</strong><span>Stacking</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#5.3%20Executing%20Code%20In%20Fixture%20Definitions"><strong>5.3</strong><span>Executing Code In Fixture Definitions</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#5.4%20Object%20Templates"><strong>5.4</strong><span>Object Templates</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#5.5%20Parameters"><strong>5.5</strong><span>Parameters</span></a>
+                    </div>
+                    
+                </div>
+                
+
+                
+
+<h1 id="5. Advanced Techniques">5 Advanced Techniques</h1>
+
+
+
+<h2 id="5.1 Pre &amp; Post Processing">5.1 Pre & Post Processing</h2>
+Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding <code>pre</code> and/or <code>post</code> handler in your fixture files.<p class="paragraph"/><div class="code"><pre>pre &#123;
+  /&#42; <span class="java&#45;keyword">do</span> things before loading fixture &#42;/
+&#125;<p class="paragraph"/>fixture &#123;
+  /&#42; fixture definition &#42;/
+&#125;<p class="paragraph"/>post &#123;
+  /&#42; <span class="java&#45;keyword">do</span> things after loading fixture &#42;/
+&#125;</pre></div><p class="paragraph"/>All beans in your application (and any parent fixtures, see <a href="../guide/single.html#5.2%20Stacking" class="guide">stacking</a>) are available in both pre and post processors...<p class="paragraph"/><div class="code"><pre>pre &#123;
+  someService.someMethod()
+&#125;</pre></div><p class="paragraph"/>Additionally, any object loaded in the fixture is available in the  <em class="italic">post</em>  processor by name...<p class="paragraph"/><div class="code"><pre>fixture &#123;
+  log(LogMessage) &#123;
+    message = <span class="java&#45;quote">"something happened"</span>
+  &#125;
+&#125;
+post &#123;
+  // change the creation date of the log message
+  log.dateCreated &#45;= 1
+  log.save()
+&#125;</pre></div><p class="paragraph"/>Pre process handlers are executed as soon as they are encountered. However, post processors are <strong class="bold">not</strong> executed until all fixtures have been loaded (e.g. load patterns that match multiple files or fixtures with includes).
+
+
+
+<h2 id="5.2 Stacking">5.2 Stacking</h2>
+Fixtures can stack on each other which can be an effective technique for creating complex fixtures out of simpler building blocks. This is best illustrated by an example...<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
+fixture &#123;
+  guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
+  dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
+&#125;<p class="paragraph"/>// fixtures/books.groovy
+fixture &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;<p class="paragraph"/>fixtureLoader.load(<span class="java&#45;quote">"authors"</span>).load(<span class="java&#45;quote">"books"</span>)</pre></div><p class="paragraph"/>The fixture contained in <code>authors</code> is created and persisted, then the fixture in <code>books</code> is created and persisted independently. Note that the <code>books</code> fixture can refer to any objects loaded in a  <em class="italic">parent</em>  fixture by name.<p class="paragraph"/>This can also be done with inline fixtures...<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
+fixture &#123;
+&#125;<p class="paragraph"/>// fixtures/books.groovy
+fixture &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;<p class="paragraph"/>fixtureLoader.load &#123;
+  guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
+  dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
+&#125;.load &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;</pre></div><p class="paragraph"/>While this is possible, it's not overly useful. What can be useful however is to build on a fixture inline...<p class="paragraph"/><div class="code"><pre>// fixtures/authors.groovy
+fixture &#123;
+  guillaume(Author, name: <span class="java&#45;quote">"Guillaume Laforge"</span>)
+  dierk(Author, name: <span class="java&#45;quote">"Dierk Koenig"</span>)
+&#125;<p class="paragraph"/>fixtureLoader.load(<span class="java&#45;quote">"authors"</span>).load &#123;
+  gina(Book, title: <span class="java&#45;quote">"Groovy In Action"</span>, authors: &#91;guillaume, dierk&#93;)
+&#125;</pre></div><p class="paragraph"/>In a real work scenario, <code>authors</code> could contain common bean definitions that are used across many tests. Using this technique, you can reuse these common definitions and then conveniently augment/extend them in individual tests.
+
+
+<h2 id="5.3 Executing Code In Fixture Definitions">5.3 Executing Code In Fixture Definitions</h2>
+You may need to execute a piece of code in a fixture definition. The most common use case for this is encoding some piece of data, e.g. a password.<p class="paragraph"/>Any bean defined in your application can be accessed by name...<p class="paragraph"/><div class="code"><pre>fixtureLoader.load &#123;
+    user(User) &#123;
+        username = 'username'
+        password = passwordEncodingService.encode('password')
+    &#125;
+&#125;</pre></div><p class="paragraph"/>In this example, <code>passwordEncodingService</code> is a service defined in the application.
+
+
+<h2 id="5.4 Object Templates">5.4 Object Templates</h2>
+You can define an object template to define some common properties that will be replicated in all object instances
+based on that template.<p class="paragraph"/>Consider the following GORM domain class:
+<div class="code"><pre>class Flight &#123;
+  <span class="java&#45;object">String</span> departure
+  <span class="java&#45;object">String</span> arrival
+  <span class="java&#45;object">double</span> price
+&#125;</pre></div><p class="paragraph"/>You define the template adding a closure that marks the object as an abstract bean (Warsaw - Szczecin flight in this
+example):
+<div class="code"><pre>wawSzzFlight(Flight, departure: <span class="java&#45;quote">"WAW"</span>, arrival: <span class="java&#45;quote">"SZZ"</span>) &#123; it.<span class="java&#45;keyword">abstract</span> = <span class="java&#45;keyword">true</span> &#125;</pre></div><p class="paragraph"/>Then you create concrete objects referencing the template through a closure that tells that the object definition
+should be based on the template:
+<div class="code"><pre>wawSzzCheapFlight(Flight, price: 10.0) &#123; it.parent = wawSzzFlight &#125;
+wawSzzExpensiveFlight(Flight, price: 300.0) &#123; it.parent = wawSzzFlight &#125;
+// departure == <span class="java&#45;quote">"WAW"</span> and arrival == <span class="java&#45;quote">"SZZ"</span> of both cheap and expensive flights.</pre></div><p class="paragraph"/>Note that you cannot reference the template object in your tests - a <code>BeanIsAbstractException</code> will be raised.
+
+
+<h2 id="5.5 Parameters">5.5 Parameters</h2>
+You can pass parameters to named fixture files. This allows setting up a complex object graph
+in a named file, but allowing a caller to override specific properties if needed:<p class="paragraph"/><div class="code"><pre>class Product &#123;
+  <span class="java&#45;object">String</span> name
+&#125;</pre></div><p class="paragraph"/><div class="code"><pre>// productFixture.groovy
+fixture &#123;
+    build &#123;
+        product(Product, name: params.name ?: <span class="java&#45;quote">"BFG&#45;9000 Coffee Maker Deluxe"</span>)
+    &#125;
+&#125;</pre></div><p class="paragraph"/>Then you can call the fixture, passing in the parameters as a map:
+<div class="code"><pre>// get <span class="java&#45;keyword">default</span> value <span class="java&#45;keyword">if</span> we don't pass in the parameter
+def product = fixtureLoader.load(<span class="java&#45;quote">"productFixture"</span>).product
+assert product.name == <span class="java&#45;quote">"BFG&#45;9000 Coffee Maker Deluxe"</span><p class="paragraph"/>// now <span class="java&#45;keyword">try</span> passing the name as a parameter
+product = fixtureLoader.load(<span class="java&#45;quote">"productFixture"</span>, &#91;name: <span class="java&#45;quote">"A really <span class="java&#45;object">long</span> product name to test web page layout"</span>&#93;).product
+assert product.name == <span class="java&#45;quote">"A really <span class="java&#45;object">long</span> product name to test web page layout"</span></pre></div>
+
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/4.%20Fixture%20Objects.html">&lt;&lt; <strong>4</strong><span>Fixture Objects</span></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.
+    Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

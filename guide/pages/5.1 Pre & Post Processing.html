@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>5.1 Pre &amp; Post Processing 1.3</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/1.%20Introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/2.%20Defining%20The%20Data.html"><strong>2</strong><span>Defining The Data</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/3.%20Loading%20Fixtures.html"><strong>3</strong><span>Loading Fixtures</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/4.%20Fixture%20Objects.html"><strong>4</strong><span>Fixture Objects</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/5.%20Advanced%20Techniques.html"><strong>5</strong><span>Advanced Techniques</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Load complex domain data via a convenient DSL</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../../guide/4.%20Fixture%20Objects.html">&lt;&lt; <strong>4</strong><span>Fixture Objects</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+
+
+                <div class="project">
+                    <h1>5.1 Pre &amp; Post Processing - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Grails Plugin Collective</p>
+
+                    <p><strong>Version:</strong> 1.3</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h2 id="5.1 Pre &amp; Post Processing">5.1 Pre & Post Processing</h2>
+Sometimes it's necessary to do something before or after your fixture is loaded. You can do this by adding <code>pre</code> and/or <code>post</code> handler in your fixture files.<p class="paragraph"/><div class="code"><pre>pre &#123;
+  /&#42; <span class="java&#45;keyword">do</span> things before loading fixture &#42;/
+&#125;<p class="paragraph"/>fixture &#123;
+  /&#42; fixture definition &#42;/
+&#125;<p class="paragraph"/>post &#123;
+  /&#42; <span class="java&#45;keyword">do</span> things after loading fixture &#42;/
+&#125;</pre></div><p class="paragraph"/>All beans in your application (and any parent fixtures, see <a href="../guide/single.html#5.2%20Stacking" class="guide">stacking</a>) are available in both pre and post processors...<p class="paragraph"/><div class="code"><pre>pre &#123;
+  someService.someMethod()
+&#125;</pre></div><p class="paragraph"/>Additionally, any object loaded in the fixture is available in the  <em class="italic">post</em>  processor by name...<p class="paragraph"/><div class="code"><pre>fixture &#123;
+  log(LogMessage) &#123;
+    message = <span class="java&#45;quote">"something happened"</span>
+  &#125;
+&#125;
+post &#123;
+  // change the creation date of the log message
+  log.dateCreated &#45;= 1
+  log.save()
+&#125;</pre></div><p class="paragraph"/>Pre process handlers are executed as soon as they are encountered. However, post processors are <strong class="bold">not</strong> executed until all fixtures have been loaded (e.g. load patterns that match multiple files or fixtures with includes).
+
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../../guide/4.%20Fixture%20Objects.html">&lt;&lt; <strong>4</strong><span>Fixture Objects</span></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.
+    Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

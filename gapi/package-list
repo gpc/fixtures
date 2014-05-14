@@ -1,0 +1,17 @@
+DefaultPackage
+circular
+collectiontypes.list
+com.book
+enums
+grails.plugin.fixtures
+grails.plugin.fixtures.builder
+grails.plugin.fixtures.builder.processor
+grails.plugin.fixtures.buildtestdata
+grails.plugin.fixtures.exception
+grails.plugin.fixtures.files
+grails.plugin.fixtures.files.shell
+grails.plugin.fixtures.files.shell.handler
+grails.plugin.fixtures.test
+inheritance
+m2m
+optionalowner
