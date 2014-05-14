@@ -16,7 +16,7 @@
 import grails.plugin.fixtures.FixtureLoader
 
 class FixturesGrailsPlugin {
-	def version = "1.3"
+	def version = "1.3.1-SNAPSHOT"
 	def grailsVersion = "1.3 > *"
 
 	def author = "Grails Plugin Collective"
