@@ -12,8 +12,8 @@ buildscript {
     }
 }
 
-version "2.0"
-group "fixtures"
+version "2.0.F"
+group "org.grails.plugins"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
@@ -80,13 +80,11 @@ grailsPublish {
     portalPassword = ""    
 }
 
-//jar {
-//    exclude "grails-app/domain/**"
-//    exclude "grails-app/services/**"
-//    exclude "grails-app/i18n/*"
+jar {
 //    exclude "fixtures"
-//    exclude "src/*/grails/plugin/fixtures/test/**"
-//}
+    exclude "grails/plugin/fixtures/test/**"
+    exclude "test/**"
+}
 
 //def version = "1.3.1-SNAPSHOT"
 //def grailsVersion = "1.3 > *"

@@ -9,6 +9,7 @@ class FixturesGrailsPlugin extends Plugin {
     def grailsVersion = "3.1.0 > *"
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
+        "test/**",
         "grails-app/domain/**",
         "grails-app/services/**",
         "grails-app/i18n/*",
