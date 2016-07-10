@@ -1,4 +1,4 @@
-package fixtures
+package grails.plugin.fixtures
 
 import grails.plugin.fixtures.FixtureLoader
 import grails.plugins.*
@@ -9,25 +9,28 @@ class FixturesGrailsPlugin extends Plugin {
     def grailsVersion = "3.1.0 > *"
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-        "grails-app/views/error.gsp"
+        "grails-app/domain/**",
+        "grails-app/services/**",
+        "grails-app/i18n/*",
+        "fixtures",
+        "src/*/grails/plugin/fixtures/test/**"
     ]
 
-    // TODO Fill in these fields
-    def title = "Fixtures New" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
+    def title = "Grails Fixtures Plugin"
+    def author = "Grails Plugin Collective"
+    def authorEmail = "grails.plugin.collective@gmail.com"
     def description = '''\
-Brief summary/description of the plugin.
+Load complex domain data via a simple DSL
 '''
     def profiles = ['web']
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/fixtures-new"
+    def documentation = "http://gpc.github.com/grails-fixtures/"
 
     // Extra (optional) plugin metadata
 
     // License: one of 'APACHE', 'GPL2', 'GPL3'
-//    def license = "APACHE"
+    def license = "APACHE"
 
     // Details of company behind the plugin (if there is one)
 //    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
@@ -36,13 +39,14 @@ Brief summary/description of the plugin.
 //    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
 
     // Location of the plugin's issue tracker.
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
+    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPFIXTURES" ]
 
     // Online location of the plugin's browseable source code.
 //    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
 
     Closure doWithSpring() { {->
-           fixtureLoader(FixtureLoader, application)
+
+           fixtureLoader(FixtureLoader, grailsApplication)
             // TODO Implement runtime spring config (optional)
         }
     }

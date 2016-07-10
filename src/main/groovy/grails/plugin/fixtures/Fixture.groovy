@@ -15,18 +15,18 @@
  */
 package grails.plugin.fixtures
 
+import grails.core.GrailsApplication
 import grails.plugin.fixtures.builder.FixtureBuilder
 import grails.plugin.fixtures.exception.UnknownFixtureBeanException
 import grails.plugin.fixtures.files.FixtureFileLoader
 
-import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.context.ApplicationContext
 
 class Fixture {
 
 	protected static final ignoredBeanNames = ["fixtureBeanPostProcessor", "autoAutoWirer"]
 
-	def grailsApplication
+	def GrailsApplication grailsApplication
 	def applicationContext
 	Map params
 

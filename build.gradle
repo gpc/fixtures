@@ -59,9 +59,7 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
-    compile ("org.grails.plugins:build-test-data:2.1.2") {
-        export = false
-    }
+    provided "org.grails.plugins:build-test-data:3.0.0"
 }
 
 task wrapper(type: Wrapper) {
@@ -71,16 +69,33 @@ grailsPublish {
     // TODO: Provide values here
     user = 'user'
     key = 'key'
-    githubSlug = 'foo/bar'
+    githubSlug = 'gpc/grails-fixtures'
     license {
-        name = 'Apache-2.0'
+        name = 'APACHE'
     }
-    title = "My Plugin"
-    desc = "Full plugin description"
-    developers = [johndoe:"John Doe"]
+    title = "Grails Fixtures Plugin"
+    desc = "Load complex domain data via a simple DSL"
+    developers = ["Grails Plugin Collective":"grails.plugin.collective@gmail.com"]
     portalUser = ""
     portalPassword = ""    
 }
+
+//jar {
+//    exclude "grails-app/domain/**"
+//    exclude "grails-app/services/**"
+//    exclude "grails-app/i18n/*"
+//    exclude "fixtures"
+//    exclude "src/*/grails/plugin/fixtures/test/**"
+//}
+
+//def version = "1.3.1-SNAPSHOT"
+//def grailsVersion = "1.3 > *"
+
+//def documentation = "http://gpc.github.com/grails-fixtures/"
+
+//def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPFIXTURES" ]
+//def scm = [url: "https://github.com/gpc/grails-fixtures"]
+
 //
 //assets {
 //    packagePlugin = true

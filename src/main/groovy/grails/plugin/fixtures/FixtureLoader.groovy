@@ -15,13 +15,13 @@
  */
 package grails.plugin.fixtures
 
-import org.codehaus.groovy.grails.commons.GrailsApplication
+import grails.core.GrailsApplication
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 
 class FixtureLoader implements ApplicationContextAware {
 
-	protected grailsApplication
+	protected GrailsApplication grailsApplication
 	protected namedFixtures = [:]
 
 	ApplicationContext applicationContext
