@@ -12,7 +12,7 @@ buildscript {
     }
 }
 
-version "2.0.F"
+version "2.0"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -66,12 +66,9 @@ task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
 }
 grailsPublish {
-    // TODO: Provide values here
-    user = 'user'
-    key = 'key'
     githubSlug = 'gpc/grails-fixtures'
     license {
-        name = 'APACHE'
+        name = 'Apache-2.0'
     }
     title = "Grails Fixtures Plugin"
     desc = "Load complex domain data via a simple DSL"
