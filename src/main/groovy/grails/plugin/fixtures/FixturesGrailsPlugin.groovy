@@ -74,4 +74,11 @@ Load complex domain data via a simple DSL
     void onShutdown(Map<String, Object> event) {
         // TODO Implement code that is executed when the application shuts down (optional)
     }
+
+    /**
+     * For Platform Core if and when this plugin depends on it.
+     */
+//    def doWithConfigOptions = {
+//        'file.encoding' type: String, defaultValue: "UTF-8" //todo
+//    }
 }
