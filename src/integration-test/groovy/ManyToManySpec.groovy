@@ -1,11 +1,12 @@
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.*
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.test.mixin.*
-import m2m.A
-import m2m.B
-import m2m.C
+import test.m2m.A
+import test.m2m.B
+import test.m2m.C
 
-@TestMixin(IntegrationTestMixin)
+@Integration
+@Rollback
 class ManyToManySpec extends Specification {
 
 	def fixtureLoader

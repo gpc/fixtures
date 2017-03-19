@@ -1,10 +1,12 @@
 package optionalowner
 
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.*
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.test.mixin.*
+import test.optionalowner.OptionallyOwnedThing
 
-@TestMixin(IntegrationTestMixin)
+@Integration
+@Rollback
 class OptionalOwnerSpec extends Specification {
 
 	def fixtureLoader

@@ -1,3 +1,5 @@
+import test.Uncle
+
 // make sure we can access from the script outside the fixture block
 assert params instanceof Map
 

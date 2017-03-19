@@ -1,11 +1,12 @@
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.*
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.test.mixin.*
 
-import circular.Buyer
-import circular.BuyerAccount
+import test.circular.Buyer
+import test.circular.BuyerAccount
 
-@TestMixin(IntegrationTestMixin)
+@Integration
+@Rollback
 class CircularSpec extends Specification {
 
 	def fixtureLoader

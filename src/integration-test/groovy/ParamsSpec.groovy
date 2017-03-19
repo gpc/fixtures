@@ -1,8 +1,11 @@
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.*
 import grails.test.mixin.integration.IntegrationTestMixin
 import grails.test.mixin.*
 
-@TestMixin(IntegrationTestMixin)
+@Integration
+@Rollback
 class ParamsSpec extends Specification {
 
 	def fixtureLoader
