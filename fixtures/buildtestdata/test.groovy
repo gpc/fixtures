@@ -1,4 +1,4 @@
-import com.book.Book
+import test.book.Book
 
 build {
 	b1(Book)

@@ -14,22 +14,29 @@
  * limitations under the License.
  */
 
-import com.book.Author
-import com.book.Book
+import test.book.Author
+import test.book.Book
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
+import spock.lang.Specification
 
-class BuildTestDataTests extends GroovyTestCase {
+import test.Uncle
+
+@Integration
+@Rollback
+class BuildTestDataTests extends Specification {
 
 	def fixtureLoader
 
 	void testSimpleInline() {
-		fixtureLoader.build {
+		expect:	fixtureLoader.build {
 			u1(Uncle)
 			u2(Uncle)
 		}
 	}
 
 	void testInlineInnerBuildBlock() {
-		fixtureLoader.load {
+		expect:	fixtureLoader.load {
 			build {
 				u1(Uncle)
 				u2(Uncle)
@@ -39,7 +46,7 @@ class BuildTestDataTests extends GroovyTestCase {
 
 	void testTurnBuildOff() {
 		shouldFail {
-			fixtureLoader.build {
+			expect:	fixtureLoader.build {
 				noBuild {
 					u1(Uncle)
 					u2(Uncle)
@@ -49,28 +56,28 @@ class BuildTestDataTests extends GroovyTestCase {
 	}
 
 	void testSetAssociationViaConstructor() {
-		fixtureLoader.build {
+		expect:	fixtureLoader.build {
 			b1(Book)
 			b2(Book)
 			a(Author, books: [b1, b2])
 		}.with {
-			assertEquals(2, a.books.size())
+			2== a.books.size()
 		}
 	}
 
 	void testSetAssociationViaClosure() {
-		fixtureLoader.build {
+		expect:	fixtureLoader.build {
 			b1(Book)
 			b2(Book)
 			a(Author) {
 				books = [b1, b2]
 			}
 		}.with {
-			assertEquals(2, a.books.size())
+			2== a.books.size()
 		}
 	}
 
 	void testLoadFile() {
-		fixtureLoader.load('buildtestdata/test')
+		expect:	fixtureLoader.load('buildtestdata/test')
 	}
 }

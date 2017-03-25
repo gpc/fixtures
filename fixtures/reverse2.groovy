@@ -1,3 +1,9 @@
+import test.Face
+import test.Nose
+import test.Eye
+
+
+
 fixture {
 	f1(Face)
 	n1(Nose, face: f1)

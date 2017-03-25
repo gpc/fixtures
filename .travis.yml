@@ -1,6 +1,7 @@
 language: groovy
+sudo: false
 jdk:
-- openjdk7
+- oraclejdk8
 before_script:
 - rm -rf target
 script: ./travis-build.sh

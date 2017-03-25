@@ -1,8 +1,11 @@
+import grails.test.mixin.integration.Integration
+import grails.transaction.*
 import spock.lang.*
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.test.mixin.*
 
-@TestMixin(IntegrationTestMixin)
+import test.Post
+
+@Integration
+@Rollback
 class AbstractBeansSpec extends Specification {
 
 	def fixtureLoader

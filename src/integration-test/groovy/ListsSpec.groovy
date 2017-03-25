@@ -1,10 +1,11 @@
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.*
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.test.mixin.*
-import collectiontypes.list.InList
-import collectiontypes.list.ListUsing
+import test.list.InList
+import test.list.ListUsing
 
-@TestMixin(IntegrationTestMixin)
+@Integration
+@Rollback
 class ListsSpec extends Specification {
 
 	def fixtureLoader

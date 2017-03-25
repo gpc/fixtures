@@ -1,13 +1,14 @@
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.*
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.test.mixin.*
-import inheritance.Sub
-import inheritance.Thing
+import test.inheritance.Sub
+import test.inheritance.Thing
 
 import spock.lang.Issue
 
 
-@TestMixin(IntegrationTestMixin)
+@Integration
+@Rollback
 class InheritanceSpec extends Specification {
 
 	def fixtureLoader

@@ -1,12 +1,13 @@
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.*
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.test.mixin.*
 import grails.validation.ValidationException
-
+import test.Post
 import org.springframework.beans.factory.BeanCreationException
 
 
-@TestMixin(IntegrationTestMixin)
+@Integration
+@Rollback
 class InvalidFixtureBeanSpec extends Specification {
 
 	def fixtureLoader

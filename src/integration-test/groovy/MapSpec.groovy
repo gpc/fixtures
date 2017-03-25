@@ -1,10 +1,11 @@
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.*
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.test.mixin.*
-import m2m.A
-import m2m.B
+import test.m2m.A
+import test.m2m.B
 
-@TestMixin(IntegrationTestMixin)
+@Integration
+@Rollback
 class MapSpec extends Specification {
 
 	def fixtureLoader

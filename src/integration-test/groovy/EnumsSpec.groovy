@@ -1,10 +1,11 @@
-import enums.UsesEnum
-import enums.UsesEnumEnum
+import test.enums.UsesEnum
+import test.enums.UsesEnumEnum
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import spock.lang.*
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.test.mixin.*
 
-@TestMixin(IntegrationTestMixin)
+@Integration
+@Rollback
 class EnumsSpec extends Specification {
 
 	def fixtureLoader

@@ -1,3 +1,6 @@
+import test.Nose
+import test.Eye
+
 load "reverse/face"
 
 fixture {
