@@ -20,6 +20,8 @@ import org.codehaus.groovy.runtime.MetaClassHelper
 import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.config.BeanPostProcessor
 
+import javax.persistence.CascadeType
+
 class FixtureBeanPostProcessor implements BeanPostProcessor {
 
 	def grailsApplication
@@ -85,7 +87,11 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 						if (!owningSide) {
 							log.debug("saving $associate (owning side)")
 							associate.save(flush: true, failOnError: true)
-							associate.refresh()
+							try {
+								associate.refresh()
+							} catch (UnsupportedOperationException e) {
+								// not all Datastores support refresh, i.e. MongoDB with 'codec' mapping
+							}
 						}
 					}
 				} else {
@@ -105,12 +111,16 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 							value."$otherSideName" = instance
 						}
 						value.save(flush: true, failOnError: true)
-						value.refresh()
+						try {
+							value.refresh()
+						} catch (UnsupportedOperationException e) {
+							// not all Datastores support refresh, i.e. MongoDB with 'codec' mapping
+						}
 					}
 				}
 			}
 
-			if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne) && (value || !p.optional)) {
+			if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne) && (instance.ident() != null) && (value || !p.optional)) {
 				shouldSave = false
 			}
 		}

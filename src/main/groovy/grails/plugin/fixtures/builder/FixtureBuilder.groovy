@@ -150,6 +150,8 @@ class FixtureBuilder extends BeanBuilder {
 				}
 			} catch (BeanIsAbstractException e) {
 				// template bean
+			} catch (UnsupportedOperationException e) {
+				// not all Datastores support refresh, i.e. MongoDB with 'codec' mapping
 			} catch (Exception e) {
 				throw new FixtureException("Error refresh()ing bean '$name'", e)
 			}
