@@ -4,7 +4,7 @@ if(System.getenv('TRAVIS_BRANCH')) {
 }
 
 
-log4j = { //tooo
+log4j = { //todo
   debug 'grails.plugin.fixtures'
   debug 'grails.app.fixtures' //log added to fixtures
 }
