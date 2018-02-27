@@ -5,7 +5,6 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
     }
 }
 
@@ -31,8 +30,7 @@ dependencies {
     provided "org.grails:grails-plugin-domain-class"
     runtime "com.h2database:h2"
 
-    testCompile 'org.grails.plugins:hibernate5'
-    testCompile "org.hibernate:hibernate-core:5.1.5.Final"
+    testCompile "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
     testCompile "org.hibernate:hibernate-ehcache"
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails:grails-plugin-testing"

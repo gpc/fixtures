@@ -9,3 +9,4 @@ docs
 .idea
 *.sha1
 build/
+.gradle/
