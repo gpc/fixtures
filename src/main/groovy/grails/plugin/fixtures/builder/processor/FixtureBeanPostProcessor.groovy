@@ -46,6 +46,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		log.debug("processing bean $beanName of type ${bean.class.name}")
 
 		def domainClass = getDomainClass(bean.class)
+		// PersistentEntity domainClass = getPersistentEntity(bean.class)
 		log.debug("domainClass: $domainClass")
 		def shouldSave = processDomainInstance(bean, log)
 
@@ -134,15 +135,21 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		return shouldSave
 	}
 
-	// Workaround for GRAILS-6714
+	// Workaround for GRAILS-6714 - still needed?
 	private isOwningSide(property) {
 		def isOwning = property.owningSide
 		if (isOwning || !property.inherited) {
 			isOwning
 		} else {
+			// PersistentEntity superDomainClass = getPersistentEntity(property.domainClass.clazz.superclass)
+			// return PersistentEntity.isOwningEntity(superDomainClass)
 			def superDomainClass = getDomainClass(property.domainClass.clazz.superclass)
-			isOwningSide(superDomainClass.getPropertyByName(property.name))
+			return isOwningSide(superDomainClass.getPropertyByName(property.name))
 		}
+	}
+
+	PersistentEntity getPersistentEntity(clazz) {
+		grailsDomainClassMappingContext.getPersistentEntity(clazz.name)
 	}
 
 	def getDomainClass(clazz) {
