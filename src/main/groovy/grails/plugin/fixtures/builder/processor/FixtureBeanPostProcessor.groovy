@@ -17,10 +17,15 @@ package grails.plugin.fixtures.builder.processor
 
 import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.runtime.MetaClassHelper
+import org.grails.datastore.mapping.model.PersistentEntity
+import org.grails.datastore.mapping.model.PersistentProperty
+import org.grails.datastore.mapping.model.types.Association
+import org.grails.datastore.mapping.model.types.ManyToMany
+import org.grails.datastore.mapping.model.types.ManyToOne
+import org.grails.datastore.mapping.model.types.OneToMany
+import org.grails.datastore.mapping.model.types.OneToOne
 import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.config.BeanPostProcessor
-
-import javax.persistence.CascadeType
 
 class FixtureBeanPostProcessor implements BeanPostProcessor {
 
@@ -67,16 +72,16 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 
 	private boolean processDomainProperty(instance, p, log) {
 		boolean shouldSave = true
-		if (p.association && p.referencedDomainClass != null) {
+		if (p instanceof Association && p.associatedEntity != null) {
 			log.debug("is a domain association")
-			log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}, oneToMany = ${p.oneToMany}")
+			log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p instanceof OneToOne}, manyToOne = ${p instanceof ManyToOne}, oneToMany = ${p instanceof OneToMany}")
 			def owningSide = isOwningSide(p)
 			log.debug("${owningSide ? 'IS' : 'IS NOT'} owning side")
 			def value = instance."${p.name}"
 			if (value) {
-				if (p.oneToMany || p.manyToMany) {
+				if (p instanceof OneToOne || p instanceof ManyToMany) {
 					log.debug("is to many")
-					def associateType = p.referencedPropertyType
+					def associateType = p.type
 					def associates = new ArrayList(value)
 					value.clear()
 					for (associate in associates) {
@@ -97,13 +102,13 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 					}
 				} else {
 					log.debug('is not to many')
-					if (p.bidirectional && (!owningSide || p.manyToOne)) {
+					if (p.bidirectional && (!owningSide || p instanceof ManyToOne)) {
 						if (log.debugEnabled) {
 							def reason = !owningSide ? 'owning side' : 'is many side'
 							log.debug("setting this on $value ($reason)")
 						}
-						def otherSideName = p.otherSide.name
-						if (p.manyToOne) {
+						def otherSideName = p.associatedEntity.name
+						if (p instanceof ManyToOne) {
 							def addMethodName = "addTo${MetaClassHelper.capitalize(otherSideName)}"
 							log.debug("Calling $addMethodName on $value")
 							value."$addMethodName"(instance)
@@ -121,7 +126,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 				}
 			}
 
-			if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne) && (instance.ident() != null) && (value || !p.optional)) {
+			if (!owningSide && p.bidirectional && (p instanceof OneToOne || p instanceof ManyToOne) && (instance.ident() != null) && (value || !p.optional)) {
 				shouldSave = false
 			}
 		}
