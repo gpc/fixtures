@@ -25,6 +25,7 @@ import javax.persistence.CascadeType
 class FixtureBeanPostProcessor implements BeanPostProcessor {
 
 	def grailsApplication
+	def grailsDomainClassMappingContext
 
 	// If Hibernate plugin is not installed, this may be null.
 	def sessionFactory
@@ -55,8 +56,8 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 
 	private boolean processDomainInstance(instance, log) {
 		boolean shouldSave = true
-		def domainClass = getDomainClass(instance.getClass())
-		for (p in domainClass?.persistentProperties) {
+		PersistentEntity entityClass = grailsDomainClassMappingContext.getPersistentEntity(instance.getClass().name)
+		for (p in entityClass?.persistentProperties) {
 			log.debug("inpecting property $p")
 			shouldSave &= processDomainProperty(instance, p, log)
 		}
