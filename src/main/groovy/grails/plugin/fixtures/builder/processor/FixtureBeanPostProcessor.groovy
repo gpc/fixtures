@@ -79,7 +79,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 			log.debug("${owningSide ? 'IS' : 'IS NOT'} owning side")
 			def value = instance."${p.name}"
 			if (value) {
-				if (p instanceof OneToOne || p instanceof ManyToMany) {
+				if (p instanceof OneToMany || p instanceof ManyToMany) {
 					log.debug("is to many")
 					def associateType = p.type
 					def associates = new ArrayList(value)
