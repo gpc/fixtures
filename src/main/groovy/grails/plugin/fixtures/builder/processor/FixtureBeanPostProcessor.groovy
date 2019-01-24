@@ -97,6 +97,8 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 								associate.refresh()
 							} catch (UnsupportedOperationException e) {
 								// not all Datastores support refresh, i.e. MongoDB with 'codec' mapping
+							} catch (err) {
+								log.info "unexpected error with refresh : $err"
 							}
 						}
 					}
@@ -122,6 +124,8 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 							value.refresh()
 						} catch (UnsupportedOperationException e) {
 							// not all Datastores support refresh, i.e. MongoDB with 'codec' mapping
+						} catch (err) {
+							log.info "unexpected error with refresh : $err"
 						}
 					}
 				}
