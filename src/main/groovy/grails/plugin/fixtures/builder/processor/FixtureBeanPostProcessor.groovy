@@ -139,9 +139,8 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 	// Workaround for GRAILS-6714 - still needed?
 	private boolean isOwningSide(PersistentProperty property) {
 		// property will be an instance of Association
-		boolean isOwning = property.isOwningSide()
-		if (isOwning || !property.isInherited()) {
-			return isOwning
+		if (property.isOwningSide() || !property.isInherited()) {
+			return true
 		} else {
 			// PersistentEntity superDomainClass = getPersistentEntity(property.domainClass.clazz.superclass)
 			// return PersistentEntity.isOwningEntity(superDomainClass)
