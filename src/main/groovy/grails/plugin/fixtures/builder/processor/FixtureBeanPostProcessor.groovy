@@ -29,7 +29,6 @@ import org.springframework.beans.factory.config.BeanPostProcessor
 
 class FixtureBeanPostProcessor implements BeanPostProcessor {
 
-	def grailsApplication
 	def grailsDomainClassMappingContext
 
 	// If Hibernate plugin is not installed, this may be null.
@@ -45,7 +44,6 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		def log = LogFactory.getLog(FixtureBeanPostProcessor.name + '.' + beanName)
 		log.debug("processing bean $beanName of type ${bean.class.name}")
 
-		// def domainClass = getDomainClass(bean.class)
 		PersistentEntity domainClass = getPersistentEntity(bean.class)
 		log.debug("domainClass: $domainClass")
 		def shouldSave = processDomainInstance(bean, log)
@@ -109,7 +107,8 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 							String reason = !owningSide ? 'owning side' : 'is many side'
 							log.debug("setting this on $value ($reason)")
 						}
-						def otherSideName = p.associatedEntity.name
+						String otherSideName = p.getReferencedPropertyName()
+						// String otherSideName = p.getInverseSide().name
 						if (p instanceof ManyToOne) {
 							def addMethodName = "addTo${MetaClassHelper.capitalize(otherSideName)}"
 							log.debug("Calling $addMethodName on $value")
@@ -142,18 +141,12 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		if (property.isOwningSide() || !property.isInherited()) {
 			return true
 		} else {
-			// PersistentEntity superDomainClass = getPersistentEntity(property.domainClass.clazz.superclass)
-			// return PersistentEntity.isOwningEntity(superDomainClass)
-			PersistentEntity superDomainClass = property.getOwner().getParentEntity()
+			PersistentEntity superDomainClass = property.owner.getParentEntity()
 			return isOwningSide(superDomainClass.getPropertyByName(property.name))
 		}
 	}
 
 	PersistentEntity getPersistentEntity(clazz) {
 		grailsDomainClassMappingContext.getPersistentEntity(clazz.name)
-	}
-
-	def getDomainClass(clazz) {
-		grailsApplication.getDomainClass(clazz.name)
 	}
 }
