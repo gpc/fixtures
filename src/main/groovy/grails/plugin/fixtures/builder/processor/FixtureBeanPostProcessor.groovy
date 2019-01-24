@@ -76,6 +76,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		if (p instanceof Association && p.associatedEntity != null) {
 			log.debug("is a domain association")
 			log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p instanceof OneToOne}, manyToOne = ${p instanceof ManyToOne}, oneToMany = ${p instanceof OneToMany}")
+			// boolean owningSide = p.isOwningSide()
 			boolean owningSide = isOwningSide(p)
 			log.debug("${owningSide ? 'IS' : 'IS NOT'} owning side")
 			def value = instance."${p.name}"
@@ -137,9 +138,10 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 
 	// Workaround for GRAILS-6714 - still needed?
 	private boolean isOwningSide(PersistentProperty property) {
-		def isOwning = property.owningSide
-		if (isOwning || !property.inherited) {
-			isOwning
+		// property will be an instance of Association
+		boolean isOwning = property.isOwningSide()
+		if (isOwning || !property.isInherited()) {
+			return isOwning
 		} else {
 			// PersistentEntity superDomainClass = getPersistentEntity(property.domainClass.clazz.superclass)
 			// return PersistentEntity.isOwningEntity(superDomainClass)
