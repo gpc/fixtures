@@ -45,8 +45,8 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		def log = LogFactory.getLog(FixtureBeanPostProcessor.name + '.' + beanName)
 		log.debug("processing bean $beanName of type ${bean.class.name}")
 
-		def domainClass = getDomainClass(bean.class)
-		// PersistentEntity domainClass = getPersistentEntity(bean.class)
+		// def domainClass = getDomainClass(bean.class)
+		PersistentEntity domainClass = getPersistentEntity(bean.class)
 		log.debug("domainClass: $domainClass")
 		def shouldSave = processDomainInstance(bean, log)
 
@@ -71,12 +71,12 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		return shouldSave
 	}
 
-	private boolean processDomainProperty(instance, p, log) {
+	private boolean processDomainProperty(instance, PersistentProperty p, log) {
 		boolean shouldSave = true
 		if (p instanceof Association && p.associatedEntity != null) {
 			log.debug("is a domain association")
 			log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p instanceof OneToOne}, manyToOne = ${p instanceof ManyToOne}, oneToMany = ${p instanceof OneToMany}")
-			def owningSide = isOwningSide(p)
+			boolean owningSide = isOwningSide(p)
 			log.debug("${owningSide ? 'IS' : 'IS NOT'} owning side")
 			def value = instance."${p.name}"
 			if (value) {
@@ -105,7 +105,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 					log.debug('is not to many')
 					if (p.bidirectional && (!owningSide || p instanceof ManyToOne)) {
 						if (log.debugEnabled) {
-							def reason = !owningSide ? 'owning side' : 'is many side'
+							String reason = !owningSide ? 'owning side' : 'is many side'
 							log.debug("setting this on $value ($reason)")
 						}
 						def otherSideName = p.associatedEntity.name
@@ -136,14 +136,14 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 	}
 
 	// Workaround for GRAILS-6714 - still needed?
-	private isOwningSide(property) {
+	private boolean isOwningSide(PersistentProperty property) {
 		def isOwning = property.owningSide
 		if (isOwning || !property.inherited) {
 			isOwning
 		} else {
 			// PersistentEntity superDomainClass = getPersistentEntity(property.domainClass.clazz.superclass)
 			// return PersistentEntity.isOwningEntity(superDomainClass)
-			def superDomainClass = getDomainClass(property.domainClass.clazz.superclass)
+			PersistentEntity superDomainClass = property.getOwner().getParentEntity()
 			return isOwningSide(superDomainClass.getPropertyByName(property.name))
 		}
 	}
