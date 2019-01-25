@@ -17,14 +17,19 @@ package grails.plugin.fixtures.builder.processor
 
 import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.runtime.MetaClassHelper
+import org.grails.datastore.mapping.model.PersistentEntity
+import org.grails.datastore.mapping.model.PersistentProperty
+import org.grails.datastore.mapping.model.types.Association
+import org.grails.datastore.mapping.model.types.ManyToMany
+import org.grails.datastore.mapping.model.types.ManyToOne
+import org.grails.datastore.mapping.model.types.OneToMany
+import org.grails.datastore.mapping.model.types.OneToOne
 import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.config.BeanPostProcessor
 
-import javax.persistence.CascadeType
-
 class FixtureBeanPostProcessor implements BeanPostProcessor {
 
-	def grailsApplication
+	def grailsDomainClassMappingContext
 
 	// If Hibernate plugin is not installed, this may be null.
 	def sessionFactory
@@ -39,7 +44,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		def log = LogFactory.getLog(FixtureBeanPostProcessor.name + '.' + beanName)
 		log.debug("processing bean $beanName of type ${bean.class.name}")
 
-		def domainClass = getDomainClass(bean.class)
+		PersistentEntity domainClass = getPersistentEntity(bean.class)
 		log.debug("domainClass: $domainClass")
 		def shouldSave = processDomainInstance(bean, log)
 
@@ -55,8 +60,8 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 
 	private boolean processDomainInstance(instance, log) {
 		boolean shouldSave = true
-		def domainClass = getDomainClass(instance.getClass())
-		for (p in domainClass?.persistentProperties) {
+		PersistentEntity entityClass = grailsDomainClassMappingContext.getPersistentEntity(instance.getClass().name)
+		for (p in entityClass?.persistentProperties) {
 			log.debug("inpecting property $p")
 			shouldSave &= processDomainProperty(instance, p, log)
 		}
@@ -64,18 +69,19 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		return shouldSave
 	}
 
-	private boolean processDomainProperty(instance, p, log) {
+	private boolean processDomainProperty(instance, PersistentProperty p, log) {
 		boolean shouldSave = true
-		if (p.association && p.referencedDomainClass != null) {
+		if (p instanceof Association && p.associatedEntity != null) {
 			log.debug("is a domain association")
-			log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p.oneToOne}, manyToOne = ${p.manyToOne}, oneToMany = ${p.oneToMany}")
-			def owningSide = isOwningSide(p)
+			log.debug("bidirectional = ${p.bidirectional}, oneToOne = ${p instanceof OneToOne}, manyToOne = ${p instanceof ManyToOne}, oneToMany = ${p instanceof OneToMany}")
+			// boolean owningSide = p.isOwningSide()
+			boolean owningSide = isOwningSide(p)
 			log.debug("${owningSide ? 'IS' : 'IS NOT'} owning side")
 			def value = instance."${p.name}"
 			if (value) {
-				if (p.oneToMany || p.manyToMany) {
+				if (p instanceof OneToMany || p instanceof ManyToMany) {
 					log.debug("is to many")
-					def associateType = p.referencedPropertyType
+					def associateType = p.type
 					def associates = new ArrayList(value)
 					value.clear()
 					for (associate in associates) {
@@ -91,18 +97,21 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 								associate.refresh()
 							} catch (UnsupportedOperationException e) {
 								// not all Datastores support refresh, i.e. MongoDB with 'codec' mapping
+							} catch (err) {
+								log.info "unexpected error with refresh : $err"
 							}
 						}
 					}
 				} else {
 					log.debug('is not to many')
-					if (p.bidirectional && (!owningSide || p.manyToOne)) {
+					if (p.bidirectional && (!owningSide || p instanceof ManyToOne)) {
 						if (log.debugEnabled) {
-							def reason = !owningSide ? 'owning side' : 'is many side'
+							String reason = !owningSide ? 'owning side' : 'is many side'
 							log.debug("setting this on $value ($reason)")
 						}
-						def otherSideName = p.otherSide.name
-						if (p.manyToOne) {
+						String otherSideName = p.getReferencedPropertyName()
+						// String otherSideName = p.getInverseSide().name
+						if (p instanceof ManyToOne) {
 							def addMethodName = "addTo${MetaClassHelper.capitalize(otherSideName)}"
 							log.debug("Calling $addMethodName on $value")
 							value."$addMethodName"(instance)
@@ -115,12 +124,14 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 							value.refresh()
 						} catch (UnsupportedOperationException e) {
 							// not all Datastores support refresh, i.e. MongoDB with 'codec' mapping
+						} catch (err) {
+							log.info "unexpected error with refresh : $err"
 						}
 					}
 				}
 			}
 
-			if (!owningSide && p.bidirectional && (p.oneToOne || p.manyToOne) && (instance.ident() != null) && (value || !p.optional)) {
+			if (!owningSide && p.bidirectional && (p instanceof OneToOne || p instanceof ManyToOne) && (instance.ident() != null) && (value || !p.optional)) {
 				shouldSave = false
 			}
 		}
@@ -128,18 +139,18 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 		return shouldSave
 	}
 
-	// Workaround for GRAILS-6714
-	private isOwningSide(property) {
-		def isOwning = property.owningSide
-		if (isOwning || !property.inherited) {
-			isOwning
+	// Workaround for GRAILS-6714 - still needed?
+	private boolean isOwningSide(PersistentProperty property) {
+		// property will be an instance of Association
+		if (property.isOwningSide() || !property.isInherited()) {
+			return true
 		} else {
-			def superDomainClass = getDomainClass(property.domainClass.clazz.superclass)
-			isOwningSide(superDomainClass.getPropertyByName(property.name))
+			PersistentEntity superDomainClass = property.owner.getParentEntity()
+			return isOwningSide(superDomainClass.getPropertyByName(property.name))
 		}
 	}
 
-	def getDomainClass(clazz) {
-		grailsApplication.getDomainClass(clazz.name)
+	PersistentEntity getPersistentEntity(clazz) {
+		grailsDomainClassMappingContext.getPersistentEntity(clazz.name)
 	}
 }

@@ -153,7 +153,10 @@ class FixtureBuilder extends BeanBuilder {
 			} catch (UnsupportedOperationException e) {
 				// not all Datastores support refresh, i.e. MongoDB with 'codec' mapping
 			} catch (Exception e) {
-				throw new FixtureException("Error refresh()ing bean '$name'", e)
+				// for mongo refresh can fail, but it doesn't seem to really matter.
+				// so rather than throw we just log it out
+				// throw new FixtureException("Error refresh()ing bean '$name'", e)
+				log.error "Error refresh()ing bean '$name' : $e"
 			}
 		}
 
