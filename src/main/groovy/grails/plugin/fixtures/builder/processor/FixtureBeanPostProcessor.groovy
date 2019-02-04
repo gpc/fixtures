@@ -46,21 +46,23 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 
 		PersistentEntity domainClass = getPersistentEntity(bean.class)
 		log.debug("domainClass: $domainClass")
-		def shouldSave = processDomainInstance(bean, log)
+		def shouldSave = processDomainInstance(bean, domainClass, log)
 
 		if (domainClass && shouldSave) {
 			bean.save(flush: true, failOnError: true)
 		}
 		else {
-			log.info("not saving fixture bean $beanName")
+			if (!domainClass) log.info("not saving fixture bean $beanName because domain class can be determined")
+			else {
+				log.info("not saving fixture bean $beanName yet - need to persist associations first")
+			}
 		}
 
 		bean
 	}
 
-	private boolean processDomainInstance(instance, log) {
+	private boolean processDomainInstance(instance, PersistentEntity entityClass, log) {
 		boolean shouldSave = true
-		PersistentEntity entityClass = grailsDomainClassMappingContext.getPersistentEntity(instance.getClass().name)
 		for (p in entityClass?.persistentProperties) {
 			log.debug("inpecting property $p")
 			shouldSave &= processDomainProperty(instance, p, log)
