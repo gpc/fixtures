@@ -29,10 +29,11 @@ import org.springframework.beans.factory.config.BeanPostProcessor
 
 class FixtureBeanPostProcessor implements BeanPostProcessor {
 
+	def grailsApplication
 	def grailsDomainClassMappingContext
 
 	// If Hibernate plugin is not installed, this may be null.
-	def sessionFactory
+	// def sessionFactory
 
 	def postProcessBeforeInitialization(bean, String beanName) {
 		bean
@@ -46,22 +47,31 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 
 		PersistentEntity domainClass = getPersistentEntity(bean.class)
 		log.debug("domainClass: $domainClass")
-		def shouldSave = processDomainInstance(bean, log)
-
-		if (domainClass && shouldSave) {
-			bean.save(flush: true, failOnError: true)
+		boolean shouldSave = false
+		if (domainClass) {
+			shouldSave = processDomainInstance(bean, domainClass, log)
+			if (shouldSave) {
+				bean.save(flush: true, failOnError: true)
+			} else {
+				log.info("not saving fixture bean $beanName yet - need to persist associations first")
+			}
 		}
 		else {
-			log.info("not saving fixture bean $beanName")
+			def nonHibernateDomainClass = grailsApplication.isDomainClass(bean.class)
+			// just going to completely ignore associations for non-hibernate domains for the short term
+			if (nonHibernateDomainClass) {
+				bean.save(failOnError:true)
+			} else {
+				log.info("not saving fixture bean $beanName because domain class can be determined")
+			}
 		}
 
 		bean
 	}
 
-	private boolean processDomainInstance(instance, log) {
+	private boolean processDomainInstance(instance, PersistentEntity entityClass, log) {
 		boolean shouldSave = true
-		PersistentEntity entityClass = grailsDomainClassMappingContext.getPersistentEntity(instance.getClass().name)
-		for (p in entityClass?.persistentProperties) {
+		for (p in entityClass.persistentProperties) {
 			log.debug("inpecting property $p")
 			shouldSave &= processDomainProperty(instance, p, log)
 		}
