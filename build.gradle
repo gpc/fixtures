@@ -8,8 +8,7 @@ buildscript {
     }
 }
 
-//version "3.0-SNAPSHOT"
-version "3.0.0.RC2"
+version "3.0.0.RC5"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -51,7 +50,7 @@ grailsPublish {
     desc = "Load complex domain data via a simple DSL"
     developers = ["Grails Plugin Collective":"grails.plugin.collective@gmail.com"]
     portalUser = ""
-    portalPassword = ""    
+    portalPassword = ""
 }
 
 jar {
