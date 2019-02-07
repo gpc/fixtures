@@ -1,5 +1,5 @@
-import grails.test.mixin.integration.Integration
-import grails.transaction.Rollback
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.Rollback
 import spock.lang.*
 import grails.validation.ValidationException
 import test.Post

@@ -138,20 +138,28 @@ class FixtureBuilder extends BeanBuilder {
 
 	ApplicationContext createApplicationContext() {
 		def ctx = super.createApplicationContext()
-		def grailsApplication = ctx.getBean("grailsApplication")
+		// def grailsApplication = ctx.getBean("grailsApplication")
+		def grailsDomainClassMappingContext = ctx.getBean("grailsDomainClassMappingContext")
 
 		for (name in ctx.beanDefinitionNames) {
 			try {
 				def bean = ctx.getBean(name)
-				if (grailsApplication.isDomainClass(bean.class)) {
+				// TODO: in theory this would only attempt .refesh() on hibernate domains
+				if (grailsDomainClassMappingContext.isPersistentEntity(bean.class)) {
+					// if (grailsApplication.isDomainClass(bean.class)) {
 					if (bean.ident() != null) {
 						bean.refresh()
 					}
 				}
 			} catch (BeanIsAbstractException e) {
 				// template bean
+			} catch (UnsupportedOperationException e) {
+				// not all Datastores support refresh, i.e. MongoDB with 'codec' mapping
 			} catch (Exception e) {
-				throw new FixtureException("Error refresh()ing bean '$name'", e)
+				// for mongo refresh can fail, but it doesn't seem to really matter.
+				// so rather than throw we just log it out
+				// throw new FixtureException("Error refresh()ing bean '$name'", e)
+				log.error "Error refresh()ing bean '$name' : $e"
 			}
 		}
 

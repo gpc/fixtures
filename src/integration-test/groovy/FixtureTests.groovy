@@ -19,8 +19,8 @@ import grails.plugin.fixtures.exception.UnknownFixtureException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanDefinitionRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedBeanRequirementException
 import grails.plugin.fixtures.exception.UnsatisfiedFixtureRequirementException
-import grails.test.mixin.integration.Integration
-import grails.transaction.Rollback
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.Rollback
 import org.springframework.beans.factory.BeanCreationException
 import spock.lang.Specification
 
