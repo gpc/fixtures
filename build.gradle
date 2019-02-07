@@ -35,7 +35,7 @@ dependencies {
     testCompile "org.grails:grails-plugin-testing"
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
 
-    provided "org.grails.plugins:build-test-data:3.3.0.RC2"
+    provided "org.grails.plugins:build-test-data:3.3.1"
 }
 
 task wrapper(type: Wrapper) {
