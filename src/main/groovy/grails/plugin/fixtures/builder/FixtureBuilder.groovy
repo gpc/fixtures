@@ -138,12 +138,15 @@ class FixtureBuilder extends BeanBuilder {
 
 	ApplicationContext createApplicationContext() {
 		def ctx = super.createApplicationContext()
-		def grailsApplication = ctx.getBean("grailsApplication")
+		// def grailsApplication = ctx.getBean("grailsApplication")
+		def grailsDomainClassMappingContext = ctx.getBean("grailsDomainClassMappingContext")
 
 		for (name in ctx.beanDefinitionNames) {
 			try {
 				def bean = ctx.getBean(name)
-				if (grailsApplication.isDomainClass(bean.class)) {
+				// TODO: in theory this would only attempt .refesh() on hibernate domains
+				if (grailsDomainClassMappingContext.isPersistentEntity(bean.class)) {
+					// if (grailsApplication.isDomainClass(bean.class)) {
 					if (bean.ident() != null) {
 						bean.refresh()
 					}

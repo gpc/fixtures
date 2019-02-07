@@ -47,11 +47,10 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 
 		PersistentEntity domainClass = getPersistentEntity(bean.class)
 		log.debug("domainClass: $domainClass")
-		boolean shouldSave = false
 		if (domainClass) {
-			shouldSave = processDomainInstance(bean, domainClass, log)
+			boolean shouldSave = processDomainInstance(bean, domainClass, log)
 			if (shouldSave) {
-				bean.save(flush: true, failOnError: true)
+				bean.save(flush: true, failOnError: true, deepValidate: false)
 			} else {
 				log.info("not saving fixture bean $beanName yet - need to persist associations first")
 			}
@@ -102,7 +101,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 						instance."addTo${MetaClassHelper.capitalize(p.name)}"(associate)
 						if (!owningSide) {
 							log.debug("saving $associate (owning side)")
-							associate.save(flush: true, failOnError: true)
+							associate.save(flush: true, failOnError: true, deepValidate: false)
 							try {
 								associate.refresh()
 							} catch (UnsupportedOperationException e) {
@@ -129,7 +128,7 @@ class FixtureBeanPostProcessor implements BeanPostProcessor {
 							log.debug("Setting $otherSideName on $value")
 							value."$otherSideName" = instance
 						}
-						value.save(flush: true, failOnError: true)
+						value.save(flush: true, failOnError: true, deepValidate: false)
 						try {
 							value.refresh()
 						} catch (UnsupportedOperationException e) {
